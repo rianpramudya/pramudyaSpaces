@@ -1,0 +1,103 @@
+{
+  "pages": {
+    "/": 200,
+    "/projects": 200,
+    "/projects/6d722c65-42af-4aaf-a43f-279ca6e99079": 200,
+    "/projects/f6806b74-1c21-4fad-b3ae-7ac68f89438c": 200,
+    "/projects/5066b251-8e86-4445-92e7-0bb5208b8ea8": 200,
+    "/projects/d22b5385-68d8-4cc6-9ee8-3be9899bce00": 200,
+    "/projects/3b24468b-a3a8-47ef-9f82-9b9520d13a87": 200
+  },
+  "assets_checked": 25,
+  "issues": [],
+  "result_todos": [
+    {
+      "id": "6d722c65-42af-4aaf-a43f-279ca6e99079",
+      "title": "Government Portal — 30 Kecamatan & 30 OPD",
+      "todo": "TODO: isi hasil terverifikasi"
+    },
+    {
+      "id": "f6806b74-1c21-4fad-b3ae-7ac68f89438c",
+      "title": "Astra Logistic & Asset Tracking System",
+      "todo": "TODO: isi hasil terverifikasi"
+    },
+    {
+      "id": "5066b251-8e86-4445-92e7-0bb5208b8ea8",
+      "title": "Amazon Electronics Recommendation System",
+      "todo": "TODO: isi hasil terverifikasi"
+    },
+    {
+      "id": "d22b5385-68d8-4cc6-9ee8-3be9899bce00",
+      "title": "AcneScan: YOLOv11 Acne Lesion Detection & Counting System",
+      "todo": "TODO: isi hasil terverifikasi"
+    },
+    {
+      "id": "3b24468b-a3a8-47ef-9f82-9b9520d13a87",
+      "title": "Real-Time Stock Monitoring Dashboard & Data Visualization",
+      "todo": "TODO: isi hasil terverifikasi"
+    }
+  ],
+  "external_links": [
+    "https://github.com/rianpramudya",
+    "https://github.com/rianpramudya/AcneScan?tab=readme-ov-file",
+    "https://github.com/rianpramudya/Astra-Project",
+    "https://github.com/rianpramudya/DashboardSahamIDX",
+    "https://github.com/rianpramudya/SistemRekomendasiAmazon",
+    "https://github.com/rianpramudya/WebsiteKabupatenSubang",
+    "https://rianpramudya.github.io/pramudyaprofile",
+    "https://toefltestcc.com/certificate/2609312828",
+    "https://www.linkedin.com/in/rianpramudyaamanda"
+  ],
+  "visual_viewports": {
+    "375": "unverified: no browser",
+    "768": "unverified: no browser",
+    "1280": "unverified: no browser"
+  },
+  "external_checks": [
+    {
+      "url": "https://github.com/rianpramudya",
+      "status": "200",
+      "exit_code": 0
+    },
+    {
+      "url": "https://github.com/rianpramudya/AcneScan?tab=readme-ov-file",
+      "status": "200",
+      "exit_code": 0
+    },
+    {
+      "url": "https://github.com/rianpramudya/Astra-Project",
+      "status": "200",
+      "exit_code": 0
+    },
+    {
+      "url": "https://github.com/rianpramudya/DashboardSahamIDX",
+      "status": "200",
+      "exit_code": 0
+    },
+    {
+      "url": "https://github.com/rianpramudya/SistemRekomendasiAmazon",
+      "status": "200",
+      "exit_code": 0
+    },
+    {
+      "url": "https://github.com/rianpramudya/WebsiteKabupatenSubang",
+      "status": "200",
+      "exit_code": 0
+    },
+    {
+      "url": "https://rianpramudya.github.io/pramudyaprofile",
+      "status": "200",
+      "exit_code": 0
+    },
+    {
+      "url": "https://toefltestcc.com/certificate/2609312828",
+      "status": "403",
+      "exit_code": 0
+    },
+    {
+      "url": "https://www.linkedin.com/in/rianpramudyaamanda",
+      "status": "999",
+      "exit_code": 0
+    }
+  ]
+}

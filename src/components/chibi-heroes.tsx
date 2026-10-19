@@ -1,4 +1,4 @@
-import {sceneTheme,sceneAlpha} from '@/lib/visual-theme';
+import {sceneTheme} from '@/lib/visual-theme';
 export function ChibiHero({character}:{character:'spider'|'gwen'}){
  const red=character==='spider';
  return <svg className="chibi-art" viewBox="0 0 64 76" aria-hidden="true" focusable="false">

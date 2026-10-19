@@ -1,4 +1,4 @@
-import {sceneTheme,sceneAlpha} from './visual-theme';
+import {sceneTheme} from './visual-theme';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {sculptureModel} from './sculpture-model';

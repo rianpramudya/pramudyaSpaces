@@ -18,7 +18,7 @@ export function SiteHeader({profile,nav,en,away,activeSection,theme,onLanguage,o
   return()=>{document.removeEventListener('keydown',escape);document.removeEventListener('pointerdown',outside);desktop.removeEventListener('change',resize);};
  },[menu]);
  const current=(id:string)=>!away&&activeSection===id?'location' as const:undefined;
- return <><header className="site-header" data-experience="sage-navigation">
+ return <><header className="site-header" data-experience="monochrome-navigation">
   <Link href="/" className="wordmark chrome-wordmark" aria-label={profile.wordmark||profile.name||'Portfolio'}><span className="chrome-monogram" aria-hidden="true">{heroIdentity(profile.name).initials}</span><span className="chrome-brand-name">{profile.wordmark||profile.name||'Portfolio'}</span></Link>
   <nav id="public-navigation" aria-label={en?'Main navigation':'Navigasi utama'} className={menu?'main-nav open':'main-nav'}>
    {nav.map(([id,label])=><a key={id} className={primarySections.has(id)?'nav-primary-link':'nav-secondary-link'} href={href(id)} title={label} aria-current={current(id)} onClick={close}>{label}</a>)}

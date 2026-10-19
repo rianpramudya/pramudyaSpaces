@@ -1,4 +1,4 @@
-import {sceneTheme,sceneAlpha} from './visual-theme';
+import {sceneTheme} from './visual-theme';
 import * as THREE from 'three';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
 /** Geometry is separate from the GPU renderer so framing can be verified on the CPU. */

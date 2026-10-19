@@ -226,11 +226,11 @@ html[data-theme=dark] .portfolio {
   justify-content: space-between;
   gap: 15px;
   min-height: 38px;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted)
 }
 .block-instructions .text-button {
-  font-size: 11px
+  font-size: 12px
 }
 .page-section {
   border-top: 1px solid var(--border);
@@ -633,7 +633,7 @@ html[data-theme=dark] .portfolio {
   font-size: 12px
 }
 .rail-cell>span:not(.rail-led) {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted)
 }
 .rail-cell strong {
@@ -706,7 +706,7 @@ html[data-theme=dark] .portfolio {
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 3px 12px;
-  font-size: 11px
+  font-size: 12px
 }
 .project-detail {
   padding-block: 50px 80px

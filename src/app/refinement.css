@@ -28,7 +28,7 @@
 #projects .project-theatre-tools{margin-top:24px;margin-bottom:0;font-size:12px;}
 .project-evidence{display:grid;gap:24px;min-width:0;}
 .project-evidence>section{border-left:2px solid var(--border);padding-left:20px;min-width:0;}
-.project-evidence h4{font:600 12px/1.5 var(--mono);margin:0 0 10px;text-transform:uppercase;letter-spacing:.06em;}
+.project-evidence :is(h3,h4){font:600 12px/1.5 var(--mono);margin:0 0 10px;text-transform:uppercase;letter-spacing:.06em;}
 .project-evidence p,.project-evidence li{font-size:16px;line-height:1.8;color:var(--muted);overflow-wrap:anywhere;}
 .project-evidence p{margin-bottom:0;}
 .project-evidence ul{padding-left:18px;margin:0;display:grid;gap:8px;}
@@ -126,3 +126,30 @@
 .portfolio .site-footer[data-experience=signature-footer]{padding-bottom:calc(104px + env(safe-area-inset-bottom));}
 @media(max-width:767px){.portfolio .visitor-dock{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));max-width:calc(100vw - 24px);}.visitor-dock .dock-quick-actions{display:none;}.visitor-dock .dock-content{max-width:calc(100vw - 24px);width:320px;}.visitor-dock>details>summary{min-height:48px;padding:10px 14px;}.visitor-dock .dock-panel-actions>button{font-size:14px;}}
 @media(prefers-reduced-transparency:reduce){.portfolio .visitor-dock{background:var(--black);backdrop-filter:none;}}
+/* Reading and input accessibility; supporting labels never shrink below 12px. */
+.portfolio :is(.icon-button,.text-button,.button,summary){min-height:44px;min-width:44px;}
+.portfolio .site-header[data-experience=monochrome-navigation] .header-tools :is(.icon-button,.language-button){min-width:44px;min-height:44px;}
+.portfolio :is(.footer-navigation a,.footer-socials a,.contact-links a,.main-nav a){min-height:44px;}
+.portfolio :is(.hero-baseline a,.project-source-links a,.footer-colophon a){min-height:44px;display:inline-flex;align-items:center;}
+.portfolio :is(input,textarea,select),.drawer :is(input,textarea,select){font-size:16px;}
+.drawer :is(.panel-intro,.guest-message>p,.chat-bubble p,.guest-login>p,.chat-welcome>p){font-size:14px;line-height:1.8;}
+.portfolio :is(.project-evidence,.archive-story,.timeline-content,.atelier-biography){overflow-wrap:anywhere;}
+.portfolio :is(.skill-block,.certificate-preview){min-width:44px;min-height:44px;}
+.portfolio :is(.hero-photo-note,.portrait-stage){filter:grayscale(1);}
+.portfolio main>.supplementary-section{scroll-margin-top:96px;}
+.portfolio .footer-navigation a:hover,.portfolio .footer-socials a:hover{text-decoration:underline;text-underline-offset:5px;}
+.portfolio :is(.site-header .main-nav a[aria-current=location],.header-overflow[data-active=true]>summary){text-decoration:underline;text-underline-offset:8px;text-decoration-thickness:2px;}
+@media(max-width:767px){.portfolio .site-header[data-experience=monochrome-navigation]{gap:8px;padding-inline:16px;}.portfolio .site-header[data-experience=monochrome-navigation] .header-tools{gap:0;}.portfolio .chrome-brand-name{font-size:14px;}.portfolio .site-header[data-experience=monochrome-navigation] .language-button{font-size:12px;}.portfolio .page-width{max-width:100%;}.portfolio .contact-section{padding-bottom:100px;}}
+@media(prefers-reduced-motion:reduce){.portfolio .competence-section .depth-surface{animation:none!important;translate:none!important;}}
+
+.portfolio input::placeholder,.portfolio textarea::placeholder,.drawer input::placeholder,.drawer textarea::placeholder{opacity:1;}
+.portfolio .site-header[data-experience=monochrome-navigation] .main-nav a[aria-current=location]{text-decoration:underline;text-underline-offset:8px;text-decoration-thickness:2px;}
+
+/* Mobile reading order keeps evidence before technology and destination links. */
+#projects .project-theatre-reading{grid-template-areas:"identity story" "resources story";grid-template-rows:auto 1fr;row-gap:20px;align-items:start;}
+#projects .project-theatre-identity{grid-area:identity;}
+#projects .project-theatre-story{grid-area:story;min-width:0;}
+#projects .project-theatre-resources{grid-area:resources;min-width:0;}
+#projects .project-theatre-resources .project-theatre-tools{margin-top:0;}
+#projects .project-theatre-resources>.button{margin-top:20px;min-height:50px;font-size:14px;}
+@media(max-width:767px){#projects .project-theatre-reading{grid-template-areas:"identity" "story" "resources";grid-template-rows:auto;gap:24px;}}
