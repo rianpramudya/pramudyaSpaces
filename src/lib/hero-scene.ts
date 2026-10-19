@@ -1,5 +1,5 @@
-/** Tune the atmosphere here. Palette is inherited from the public sage/off-white system. */
-export const heroSceneConfig={glowIntensity:.78,parallaxStrength:1,particleCount:24} as const;
+/** Tune the atmosphere here. Palette comes from visual-theme and shared neutral CSS tokens. */
+export const heroSceneConfig={glowIntensity:.35,parallaxStrength:.45,particleCount:12} as const;
 import {type Profile,type Entry,listValue} from './model';
 export function heroPointer(x:number,y:number,strength:number=heroSceneConfig.parallaxStrength){const limit=Math.PI/15;const clamp=(n:number)=>Math.max(-1,Math.min(1,n));return {x:clamp(y*strength)*limit,y:clamp(x*strength)*limit};}
 export function heroQuality(width:number,memory?:number,reduced=false,cores?:number){const webgl=width>=768&&!reduced&&(memory===undefined||memory>=4)&&(cores===undefined||cores>2);return {webgl,animate:webgl};}
