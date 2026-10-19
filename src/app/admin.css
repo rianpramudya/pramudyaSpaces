@@ -68,7 +68,7 @@
   white-space: nowrap
 }
 .danger-button {
-  color: #BE3545
+  color: var(--gray3)
 }
 .status-tag.published {
   color: var(--positive);
@@ -122,7 +122,7 @@
   display: none
 }
 .admin-modal::backdrop {
-  background: #11182770
+  background: rgb(var(--gray1-rgb) / 0.4392)
 }
 .inline-list {
   display: flex;
@@ -188,24 +188,24 @@
 .admin-shell {
   display: grid;
   min-height: 100dvh;
-  --background: #f7f8fa;
-  --surface: #fff;
-  --surface-muted: #edf0f5;
-  --border: #dedede;
-  --text: #20252e;
-  --muted: #586478;
+  --background: var(--white);
+  --surface: var(--white);
+  --surface-muted: var(--white);
+  --border: var(--gray5);
+  --text: var(--gray1);
+  --muted: var(--gray3);
   font-size: 15px;
   grid-template-columns: 244px minmax(0,1fr);
   background: var(--background);
   color: var(--text)
 }
 html[data-theme=dark] .admin-shell {
-  --background: #15181d;
-  --surface: #1c2027;
-  --surface-muted: #272d36;
-  --border: #343c48;
-  --text: #f0f2f5;
-  --muted: #a5afbe
+  --background: var(--gray1);
+  --surface: var(--gray1);
+  --surface-muted: var(--gray2);
+  --border: var(--gray2);
+  --text: var(--white);
+  --muted: var(--gray4)
 }
 .admin-sidebar {
   position: sticky;
@@ -393,7 +393,7 @@ html[data-theme=dark] .admin-shell {
 .admin-shell .publish-bar,.admin-modal .publish-bar {
   background: var(--surface);
   border-radius: 10px;
-  box-shadow: 0 4px 20px #00000008;
+  box-shadow: 0 4px 20px rgb(var(--black-rgb) / 0.0314);
   bottom: 16px;
   padding: 16px 20px
 }
@@ -657,7 +657,7 @@ html[data-theme=dark] .admin-shell {
   width: min(300px,85vw);
   height: calc(100dvh - 72px);
   z-index: 40;
-  box-shadow: 12px 0 40px #00000018;
+  box-shadow: 12px 0 40px rgb(var(--black-rgb) / 0.0941);
   border-right: 1px solid var(--border)
 }
 .navigation-open .admin-sidebar {
@@ -934,7 +934,7 @@ html[data-theme=dark] .admin-shell {
   position: fixed;
   inset: 72px 0 0;
   border: 0;
-  background: #00000045;
+  background: rgb(var(--black-rgb) / 0.2706);
   z-index: 35
 }
 .admin-shell .admin-sidebar {

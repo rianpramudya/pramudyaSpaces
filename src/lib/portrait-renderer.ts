@@ -1,3 +1,4 @@
+import {sceneTheme,sceneAlpha} from './visual-theme';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {portraitModel,portraitPose,portraitFit,portraitCameraDistance} from './portrait-model';
@@ -8,7 +9,7 @@ export function createPortrait(canvas:HTMLCanvasElement,context:WebGL2RenderingC
  const renderer=new THREE.WebGLRenderer({canvas,context,alpha:true,antialias:true});renderer.setClearColor(0,0);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;
  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(38,1,.1,60),model=portraitModel();scene.add(model);
  const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment(),environment=pmrem.fromScene(room,.05);scene.environment=environment.texture;room.dispose();pmrem.dispose();
- const key=new THREE.DirectionalLight(0xffffff,3);key.position.set(-4,5,6);scene.add(key);const rim=new THREE.DirectionalLight(0xb8f0d0,3);rim.position.set(5,2,-2);scene.add(rim);scene.add(new THREE.HemisphereLight(0xe4f1e8,0x15231a,1.4));
+ const key=new THREE.DirectionalLight(sceneTheme.white,3);key.position.set(-4,5,6);scene.add(key);const rim=new THREE.DirectionalLight(sceneTheme.gray5,3);rim.position.set(5,2,-2);scene.add(rim);scene.add(new THREE.HemisphereLight(sceneTheme.gray5,sceneTheme.gray1,1.4));
  let frame=0,disposed=false,motion=false,texture:THREE.Texture|undefined,loaded=false,announced=false;const pointer={x:0,y:0},rotation={yaw:0,pitch:0};
  const image=model.getObjectByName('portrait-image') as THREE.Mesh<THREE.PlaneGeometry,THREE.MeshBasicMaterial>;
  function request(){if(!frame&&!disposed)frame=requestAnimationFrame(draw);}

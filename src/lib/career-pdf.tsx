@@ -1,3 +1,4 @@
+import {sceneTheme,sceneAlpha} from './visual-theme';
 import React from 'react';
 import path from 'node:path';
 import { Document,Page,Text,View,StyleSheet,Font,renderToBuffer,Link } from '@react-pdf/renderer';
@@ -5,7 +6,7 @@ import { buildCareerSections } from './career-data';
 import type { Profile,Entry } from './model';
 Font.register({family:'Inter',fonts:[{src:path.join(process.cwd(),'public/fonts/inter-regular.ttf'),fontWeight:400},{src:path.join(process.cwd(),'public/fonts/inter-semibold.ttf'),fontWeight:600}]});
 Font.registerHyphenationCallback(word=>[word]);
-const styles=StyleSheet.create({page:{padding:40,fontFamily:'Inter',fontSize:9,lineHeight:1.5,color:'#18191B'},name:{fontSize:21,fontWeight:600,textAlign:'center',marginBottom:8},headline:{fontSize:11,textAlign:'center',marginTop:3},contact:{fontSize:8,textAlign:'center',marginTop:5,marginBottom:12},heading:{fontSize:11,fontWeight:600,borderBottomWidth:0.7,borderBottomColor:'#555',paddingBottom:3,marginTop:12,marginBottom:6},title:{fontSize:10,fontWeight:600,marginBottom:2},meta:{fontSize:8,marginBottom:3,color:'#555'},item:{marginBottom:7},line:{marginBottom:2},link:{fontSize:8,color:'#3156B8',marginBottom:3},footer:{position:'absolute',bottom:20,right:40,fontSize:7,color:'#666'},creative:{borderLeftWidth:5,borderLeftColor:'#3156B8',paddingLeft:13},letter:{fontSize:10,lineHeight:1.8,marginTop:20}});
+const styles=StyleSheet.create({page:{padding:40,fontFamily:'Inter',fontSize:9,lineHeight:1.5,color:sceneTheme.gray1},name:{fontSize:21,fontWeight:600,textAlign:'center',marginBottom:8},headline:{fontSize:11,textAlign:'center',marginTop:3},contact:{fontSize:8,textAlign:'center',marginTop:5,marginBottom:12},heading:{fontSize:11,fontWeight:600,borderBottomWidth:0.7,borderBottomColor:sceneTheme.gray3,paddingBottom:3,marginTop:12,marginBottom:6},title:{fontSize:10,fontWeight:600,marginBottom:2},meta:{fontSize:8,marginBottom:3,color:sceneTheme.gray3},item:{marginBottom:7},line:{marginBottom:2},link:{fontSize:8,color:sceneTheme.gray3,marginBottom:3},footer:{position:'absolute',bottom:20,right:40,fontSize:7,color:sceneTheme.gray3},creative:{borderLeftWidth:5,borderLeftColor:sceneTheme.gray3,paddingLeft:13},letter:{fontSize:10,lineHeight:1.8,marginTop:20}});
 export function CareerPDF({profile,records,format}:{profile:Profile;records:Entry[];format:'ats'|'creative'|'letter'}){
  const sections=buildCareerSections(profile,records);
  const contacts=[profile.phone,profile.email,...profile.socials.map(s=>s.url)].filter(Boolean).join(' | ');

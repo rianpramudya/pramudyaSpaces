@@ -1,11 +1,12 @@
+import {sceneTheme,sceneAlpha} from './visual-theme';
 import * as THREE from 'three';
 import {FontLoader} from 'three/addons/loaders/FontLoader.js';
 import {TextGeometry} from 'three/addons/geometries/TextGeometry.js';
 import fontData from '../assets/helvetiker-bold.json';
 /** Procedural, testable assets with no DOM, downloads or renderer dependency. */
 export function sculptureModel(variant:'hero'|'contact',segments=160,monogram='RP'){
- const chrome=new THREE.MeshPhysicalMaterial({color:0xd9e4df,metalness:1,roughness:.19,clearcoat:1,clearcoatRoughness:.14,envMapIntensity:2.2});
- const paper=new THREE.MeshStandardMaterial({color:0xe1eee5,metalness:.35,roughness:.35,envMapIntensity:1.4});const dark=new THREE.MeshStandardMaterial({color:0x476555,metalness:.5,roughness:.4});
+ const chrome=new THREE.MeshPhysicalMaterial({color:sceneTheme.gray5,metalness:1,roughness:.19,clearcoat:1,clearcoatRoughness:.14,envMapIntensity:2.2});
+ const paper=new THREE.MeshStandardMaterial({color:sceneTheme.gray5,metalness:.35,roughness:.35,envMapIntensity:1.4});const dark=new THREE.MeshStandardMaterial({color:sceneTheme.gray3,metalness:.5,roughness:.4});
  const assembly=new THREE.Group();
  function mesh(geometry:THREE.BufferGeometry,material:THREE.Material|THREE.Material[],parent:THREE.Object3D=assembly){const result=new THREE.Mesh(geometry,material);parent.add(result);return result;}
  if(variant==='hero'){

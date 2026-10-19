@@ -54,7 +54,7 @@
 .admin-shell .checkbox-label,.admin-modal .checkbox-label{display:flex;flex-direction:row;font-size:14px;min-height:44px;}
 .admin-shell .checkbox-label input,.admin-modal .checkbox-label input{width:18px;height:18px;min-height:0;padding:0;}
 .profile-edit-note{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;margin-bottom:8px;}
-.admin-shell .publish-bar,.admin-modal .publish-bar{border-radius:16px;box-shadow:0 8px 30px #0000000c;padding:16px 20px;background:var(--surface);}
+.admin-shell .publish-bar,.admin-modal .publish-bar{border-radius:16px;box-shadow:0 8px 30px rgb(var(--black-rgb) / 0.0471);padding:16px 20px;background:var(--surface);}
 .admin-shell .publish-bar{bottom:16px;}
 .admin-modal{border-radius:24px;width:min(820px,calc(100% - 32px));}
 .admin-modal .modal-title{padding:22px 28px;}

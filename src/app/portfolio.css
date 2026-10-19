@@ -1,23 +1,23 @@
 /* Public portfolio: one layout system, independent from admin forms. */
 .portfolio {
-  --background: #fff;
-  --surface: #fff;
-  --surface-muted: #f3f3f3;
-  --text: #111111;
-  --muted: #626262;
-  --border: #e3e3e3;
+  --background: var(--white);
+  --surface: var(--white);
+  --surface-muted: var(--white);
+  --text: var(--gray1);
+  --muted: var(--gray3);
+  --border: var(--gray5);
   background: var(--background);
   color: var(--text);
   padding-bottom: calc(120px + env(safe-area-inset-bottom));
   font-family: Barlow,Arial,sans-serif
 }
 html[data-theme=dark] .portfolio {
-  --background: #131416;
-  --surface: #1d1f22;
-  --surface-muted: #272a2e;
-  --text: #f0f1f2;
-  --muted: #b0b4ba;
-  --border: #393c41
+  --background: var(--gray1);
+  --surface: var(--gray1);
+  --surface-muted: var(--gray2);
+  --text: var(--white);
+  --muted: var(--gray4);
+  --border: var(--gray2)
 }
 .page-width {
   width: min(1160px,calc(100% - 96px));
@@ -1255,7 +1255,7 @@ html {
   position: fixed;
   inset: 72px 0 0;
   border: 0;
-  background: #00000024;
+  background: rgb(var(--black-rgb) / 0.1412);
   z-index: 18
 }
 .main-nav.open {
