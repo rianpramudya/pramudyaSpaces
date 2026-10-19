@@ -58,7 +58,7 @@ h1,h2,h3 {
   line-height: 1.15
 }
 h3 {
-  font-weight: 600
+  font-weight: var(--weight-control)
 }
 p {
   white-space: pre-line
@@ -102,7 +102,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   color: var(--muted)
 }
 .small {
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .page-width {
   width: min(1180px,calc(100% - 96px));
@@ -123,8 +123,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: var(--radius);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--type-small);
+  font-weight: var(--weight-control);
   line-height: 1.3;
   transition: background .2s
 }
@@ -137,7 +137,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   border-color: var(--text)
 }
 .button-meta {
-  font-size: 12px;
+  font-size: var(--type-label);
   opacity: .8;
   border-left: 1px solid currentColor;
   padding-left: 10px
@@ -172,7 +172,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   gap: 7px;
   padding: 8px 0;
   color: var(--muted);
-  font-size: 13px
+  font-size: var(--type-small)
 }
 .text-button:hover {
   color: var(--text)
@@ -187,7 +187,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   width: 100%
 }
 .pill {
-  font-size: 12px;
+  font-size: var(--type-label);
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
@@ -225,14 +225,14 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   margin: 4px 0 0
 }
 .drawer-heading p {
-  font-size: 12px;
+  font-size: var(--type-label);
   margin: 0
 }
 .panel-content {
   padding: 28px
 }
 .panel-intro {
-  font-size: 13px
+  font-size: var(--type-small)
 }
 .guest-login {
   padding: 20px;
@@ -241,16 +241,16 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   border-radius: 8px
 }
 .guest-login>p {
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .google-g {
-  font-weight: 600;
+  font-weight: var(--weight-control);
   color: var(--accent)
 }
 .guest-count {
   border-bottom: 1px solid var(--border);
   padding: 25px 0 12px;
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .guest-message {
   padding: 22px 0;
@@ -269,18 +269,18 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .guest-message strong {
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .guest-message time {
   display: block;
-  font-size: 12px;
+  font-size: var(--type-label);
   color: var(--muted)
 }
 .guest-message>p {
-  font-size: 13px;
+  font-size: var(--type-small);
   margin: 12px 0;
   overflow-wrap: anywhere
 }
@@ -291,7 +291,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   border-radius: 0 6px 6px 0
 }
 .owner-reply p {
-  font-size: 12px;
+  font-size: var(--type-label);
   margin: 7px 0
 }
 .ai-notice {
@@ -303,7 +303,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   border-radius: 6px
 }
 .ai-notice p {
-  font-size: 12px;
+  font-size: var(--type-label);
   margin: 0
 }
 .chat-panel {
@@ -330,7 +330,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   font-size: 21px
 }
 .chat-welcome>p {
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .suggestions {
   display: flex;
@@ -344,7 +344,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--surface);
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .chat-messages {
   flex: 1;
@@ -365,7 +365,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   background: var(--surface-muted)
 }
 .chat-bubble p {
-  font-size: 13px;
+  font-size: var(--type-small);
   margin: 5px 0;
   overflow-wrap: anywhere
 }
@@ -398,7 +398,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible {
   overflow: hidden
 }
 .auth-art>p {
-  font-size: 12px;
+  font-size: var(--type-label);
   color: var(--gray4)
 }
 .auth-art-line {
@@ -423,10 +423,10 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--text);
-  font-size: 14px;
-  line-height: 1.65;
+  font-size: var(--type-small);
+  line-height: var(--leading-body);
   transition: background-color .2s,color .2s;
-  font-family: Barlow,Arial,sans-serif
+  font-family: var(--font-body)
 }
 @media(max-width:900px){
 .auth-art {
@@ -475,7 +475,7 @@ label {
   display: flex;
   flex-direction: column;
   gap: 7px;
-  font-size: 12px;
+  font-size: var(--type-label);
   color: var(--muted)
 }
 input,textarea,select {
@@ -487,11 +487,11 @@ input,textarea,select {
   color: var(--text);
   padding: 11px 12px;
   font: inherit;
-  font-size: 13px
+  font-size: var(--type-small)
 }
 textarea {
   resize: vertical;
-  line-height: 1.7
+  line-height: var(--leading-body)
 }
 input::placeholder,textarea::placeholder {
   color: var(--muted);
@@ -510,12 +510,12 @@ input::placeholder,textarea::placeholder {
   overflow: hidden
 }
 .form-status {
-  font-size: 12px;
+  font-size: var(--type-label);
   color: var(--muted);
   padding: 12px;
   background: var(--surface-muted);
   border-radius: 5px;
-  line-height: 1.7;
+  line-height: var(--leading-body);
   margin: 8px 0
 }
 .form-status.success {
@@ -551,14 +551,14 @@ input::placeholder,textarea::placeholder {
 .auth-form p {
   color: var(--muted);
   margin: 0;
-  font-size: 14px;
-  line-height: 1.65
+  font-size: var(--type-small);
+  line-height: var(--leading-body)
 }
 .auth-form label {
-  font-size: 14px
+  font-size: var(--type-small)
 }
 .auth-form :is(input,button) {
-  font-size: 16px
+  font-size: var(--type-body)
 }
 .auth-form input {
   min-height: 48px
@@ -566,7 +566,7 @@ input::placeholder,textarea::placeholder {
 .auth-form h2 {
   letter-spacing: -1px;
   margin-bottom: 6px;
-  font-size: 32px;
+  font-size: var(--type-title);
   line-height: 1.15
 }
 .auth-form>.button {
@@ -575,8 +575,8 @@ input::placeholder,textarea::placeholder {
   border-radius: 10px
 }
 .auth-art h1 {
-  font-family: Barlow,Arial,sans-serif;
-  font-weight: 900;
+  font-family: var(--font-body);
+  font-weight: var(--weight-display);
   font-size: clamp(64px,7.5vw,108px);
   line-height: .95;
   letter-spacing: -2px;
@@ -592,12 +592,12 @@ input::placeholder,textarea::placeholder {
   padding: 48px
 }
 .auth-art .wordmark {
-  font-size: 20px;
-  font-weight: 700
+  font-size: var(--type-lead);
+  font-weight: var(--weight-strong)
 }
 .auth-foot .text-button {
   min-height: 44px;
-  font-size: 13px
+  font-size: var(--type-small)
 }@media(max-width:650px){
 .auth-form-side {
   padding: 32px 24px

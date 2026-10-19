@@ -1,12 +1,12 @@
 /* A suspended portrait display. The same dark monochrome room as the hero,
    with calmer reading and no gallery pedestal or heavy photographic mat. */
-.portfolio main>.about-section[data-experience=portrait-atelier]{--background:var(--gray1);--surface:var(--gray1);--surface-muted:var(--gray2);--text:var(--white);--muted:var(--gray4);--border:var(--gray2);--accent:var(--gray5);--about-mono:ui-monospace,SFMono-Regular,Consolas,monospace;position:relative;isolation:isolate;padding-block:84px 96px;overflow:hidden;background:var(--background);color:var(--text);color-scheme:dark;border-top:1px solid rgb(var(--gray3-rgb) / 0.2314);}
+.portfolio main>.about-section[data-experience=portrait-atelier]{--background:var(--gray1);--surface:var(--gray1);--surface-muted:var(--gray2);--text:var(--white);--muted:var(--gray4);--border:var(--gray2);--accent:var(--gray5);position:relative;isolation:isolate;padding-block:84px 96px;overflow:hidden;background:var(--background);color:var(--text);color-scheme:dark;border-top:1px solid rgb(var(--gray3-rgb) / 0.2314);}
 #about[data-experience=portrait-atelier]::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 23% 48%,rgb(var(--gray3-rgb) / 0.1412),transparent 49%),radial-gradient(ellipse at 95% 70%,rgb(var(--gray3-rgb) / 0.0706),transparent 40%);}
 .about-masthead{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;padding-bottom:28px;border-bottom:1px solid rgb(var(--gray4-rgb) / 0.2314);}
-.about-kicker{font:12px/1.8 var(--about-mono);color:var(--muted);margin:0 0 20px;}
-.portfolio .about-masthead h2{font-size:clamp(50px,6.5vw,94px);letter-spacing:-.055em;line-height:1.05;font-weight:500;margin:0;}
+.about-kicker{font:var(--type-label)/var(--leading-label) var(--font-mono);color:var(--muted);margin:0 0 20px;}
+.portfolio .about-masthead h2{font-size:clamp(50px,6.5vw,94px);letter-spacing:-.055em;line-height:1.05;font-weight:var(--weight-heading);margin:0;}
 .about-masthead h2>span{display:inline;margin-left:.2em;color:var(--gray5);}
-#about .about-work-link{font-size:13px;min-height:46px;margin-bottom:4px;padding:11px 17px;border:1px solid rgb(var(--gray4-rgb) / 0.3216);border-radius:999px;background:rgb(var(--gray5-rgb) / 0.0431);flex-shrink:0;}
+#about .about-work-link{font-size:var(--type-small);min-height:46px;margin-bottom:4px;padding:11px 17px;border:1px solid rgb(var(--gray4-rgb) / 0.3216);border-radius:999px;background:rgb(var(--gray5-rgb) / 0.0431);flex-shrink:0;}
 .about-composition{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(32px,6vw,86px);align-items:center;}
 .portrait-atelier{min-width:0;margin:0;position:relative;align-self:start;}
 .portrait-stage{position:relative;height:clamp(420px,43vw,610px);isolation:isolate;touch-action:pan-y pinch-zoom;cursor:grab;}
@@ -14,7 +14,7 @@
 .portrait-stage::after{content:'';position:absolute;inset:66% -8% -9%;background-image:linear-gradient(rgb(var(--gray5-rgb) / 0.1373) 1px,transparent 1px),linear-gradient(90deg,rgb(var(--gray5-rgb) / 0.1373) 1px,transparent 1px);background-size:58px 58px;transform:perspective(500px) rotateX(64deg);mask-image:linear-gradient(transparent,var(--black) 45%,transparent);opacity:.45;pointer-events:none;z-index:-1;}
 .portrait-stage canvas{pointer-events:none;display:block;width:100%;height:100%;opacity:0;transition:opacity .35s;}
 .portrait-stage[data-renderer=webgl] canvas{opacity:1;}
-.portrait-object-label{position:absolute;left:3%;top:22px;font:12px/1.7 var(--about-mono);letter-spacing:.04em;color:var(--muted);pointer-events:none;}
+.portrait-object-label{position:absolute;left:3%;top:22px;font:var(--type-label)/var(--leading-label) var(--font-mono);letter-spacing:.04em;color:var(--muted);pointer-events:none;}
 .atelier-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;perspective:1000px;pointer-events:none;transition:opacity .3s;}
 .portrait-stage[data-renderer=webgl] .atelier-fallback{opacity:0;visibility:hidden;}
 .atelier-print{position:relative;width:min(70%,340px);aspect-ratio:4/6;height:auto;padding:0;background:var(--gray1);border:0;outline:1px solid var(--gray4);border-radius:14px;box-shadow:3px 3px 0 var(--gray3),12px 22px 34px rgb(var(--black-rgb) / 0.3333);transform-style:preserve-3d;transform:rotateX(var(--portrait-rx,-.04rad)) rotateY(var(--portrait-ry,-.16rad)) rotateZ(-.018rad);}
@@ -25,20 +25,20 @@
 .corner-top-left{top:-12px;left:-12px;border-top-width:1px;border-left-width:1px;}.corner-top-right{top:-12px;right:-12px;border-top-width:1px;border-right-width:1px;}.corner-bottom-left{bottom:-12px;left:-12px;border-bottom-width:1px;border-left-width:1px;}.corner-bottom-right{bottom:-12px;right:-12px;border-bottom-width:1px;border-right-width:1px;}
 .portrait-ground-shadow{position:absolute;bottom:8%;left:20%;right:20%;height:22px;border-radius:50%;background:rgb(var(--black-rgb) / 0.5020);filter:blur(15px);}
 .portrait-atelier figcaption{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:6px;border-top:1px solid rgb(var(--gray4-rgb) / 0.2314);padding-top:14px;min-height:80px;}
-.atelier-owner{font:12px/1.7 var(--about-mono);overflow-wrap:anywhere;color:var(--text);}
-.portrait-interaction-hint{font:12px/1.7 var(--about-mono);color:var(--muted);max-width:48ch;}
+.atelier-owner{font:var(--type-label)/var(--leading-label) var(--font-mono);overflow-wrap:anywhere;color:var(--text);}
+.portrait-interaction-hint{font:var(--type-label)/var(--leading-label) var(--font-mono);color:var(--muted);max-width:48ch;}
 .portrait-stage[data-dragging=true]{cursor:grabbing;}
 .portrait-atelier-empty .portrait-stage{cursor:default;touch-action:auto;}
 .about-reading{padding-block:38px 24px;min-width:0;}
-.portfolio .about-focus{font-size:clamp(26px,2.6vw,38px);font-weight:500;line-height:1.25;letter-spacing:-.035em;margin:0 0 28px;max-width:24ch;color:var(--text);}
-.about-biography p{font-size:17px;line-height:1.9;color:var(--muted);margin:0 0 22px;max-width:54ch;white-space:pre-line;overflow-wrap:anywhere;}
-.about-biography p:first-child{color:var(--gray5);font-size:clamp(18px,1.5vw,21px);line-height:1.85;}
+.portfolio .about-focus{font-size:clamp(26px,2.6vw,38px);font-weight:var(--weight-heading);line-height:1.25;letter-spacing:-.035em;margin:0 0 28px;max-width:24ch;color:var(--text);}
+.about-biography p{font-size:var(--type-body);line-height:var(--leading-body);color:var(--muted);margin:0 0 22px;max-width:54ch;white-space:pre-line;overflow-wrap:anywhere;}
+.about-biography p:first-child{color:var(--gray5);font-size:clamp(18px,1.5vw,21px);line-height:var(--leading-body);}
 .about-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;}
-#about .about-actions .button{font-size:13px;min-height:50px;}
+#about .about-actions .button{font-size:var(--type-small);min-height:50px;}
 #about .about-actions .button.primary{background:var(--text);color:var(--background);border-color:var(--text);}
 #about :focus-visible{outline-color:var(--accent);}
-@media(min-width:768px) and (max-width:1050px){.about-composition{gap:28px;grid-template-columns:minmax(0,.9fr) minmax(0,1fr);}.portrait-stage{height:470px;}.portrait-atelier figcaption{grid-template-columns:1fr;gap:8px;align-content:start;min-height:88px;}.about-reading{padding-top:30px;}.about-biography p,.about-biography p:first-child{font-size:17px;}.about-actions .button{padding-inline:18px;}.portfolio .about-focus{font-size:29px;}}
-@media(max-width:767px){.portfolio main>.about-section[data-experience=portrait-atelier]{padding-block:56px 64px;}.about-masthead{align-items:flex-start;flex-direction:column;gap:22px;padding-bottom:24px;}.about-kicker{font-size:12px;margin-bottom:16px;}.portfolio .about-masthead h2{font-size:clamp(44px,10vw,64px);}#about .about-work-link{font-size:12px;min-height:44px;margin:0;padding:10px 15px;}.about-composition{grid-template-columns:minmax(0,1fr);gap:0;}.portrait-stage{height:clamp(350px,105vw,480px);}.portrait-object-label{font-size:12px;left:0;top:18px;}.portrait-atelier figcaption{grid-template-columns:minmax(0,1fr);gap:7px;padding-top:12px;align-content:start;min-height:88px;}.portrait-atelier-empty figcaption{min-height:58px;}.atelier-owner{font-size:12px;}.about-reading{padding-block:32px 0;}.portfolio .about-focus{font-size:29px;margin-bottom:22px;max-width:24ch;}.about-biography p,.about-biography p:first-child{font-size:17px;line-height:1.85;}.about-actions{margin-top:26px;}.atelier-print{width:min(68%,300px);}}
+@media(min-width:768px) and (max-width:1050px){.about-composition{gap:28px;grid-template-columns:minmax(0,.9fr) minmax(0,1fr);}.portrait-stage{height:470px;}.portrait-atelier figcaption{grid-template-columns:1fr;gap:8px;align-content:start;min-height:88px;}.about-reading{padding-top:30px;}.about-biography p,.about-biography p:first-child{font-size:var(--type-body);}.about-actions .button{padding-inline:18px;}.portfolio .about-focus{font-size:29px;}}
+@media(max-width:767px){.portfolio main>.about-section[data-experience=portrait-atelier]{padding-block:56px 64px;}.about-masthead{align-items:flex-start;flex-direction:column;gap:22px;padding-bottom:24px;}.about-kicker{font-size:var(--type-label);margin-bottom:16px;}.portfolio .about-masthead h2{font-size:clamp(44px,10vw,64px);}#about .about-work-link{font-size:var(--type-label);min-height:44px;margin:0;padding:10px 15px;}.about-composition{grid-template-columns:minmax(0,1fr);gap:0;}.portrait-stage{height:clamp(350px,105vw,480px);}.portrait-object-label{font-size:var(--type-label);left:0;top:18px;}.portrait-atelier figcaption{grid-template-columns:minmax(0,1fr);gap:7px;padding-top:12px;align-content:start;min-height:88px;}.portrait-atelier-empty figcaption{min-height:58px;}.atelier-owner{font-size:var(--type-label);}.about-reading{padding-block:32px 0;}.portfolio .about-focus{font-size:29px;margin-bottom:22px;max-width:24ch;}.about-biography p,.about-biography p:first-child{font-size:var(--type-body);line-height:var(--leading-body);}.about-actions{margin-top:26px;}.atelier-print{width:min(68%,300px);}}
 @supports(animation-timeline:view()){@media(prefers-reduced-motion:no-preference){.portfolio[data-motion=on] #about .about-reading{animation:about-reading-enter .8s var(--room-ease) both;animation-timeline:view();animation-range:entry 0% cover 22%;}}}
 @keyframes about-reading-enter{from{opacity:.25;transform:translateY(22px);}to{opacity:1;transform:none;}}
 @media(prefers-reduced-motion:reduce){.portrait-stage canvas,.atelier-fallback{transition:none;}.portrait-stage::after{transform:none;}.about-reading{animation:none!important;transform:none!important;opacity:1!important;}}

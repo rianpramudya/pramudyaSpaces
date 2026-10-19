@@ -13,14 +13,14 @@
   min-width: 0
 }
 .admin-panel h3 {
-  font-size: 14px
+  font-size: var(--type-small)
 }
 .form-section {
   border-bottom: 1px solid var(--border);
   padding-bottom: 24px
 }
 .form-section h2 {
-  font-size: 17px;
+  font-size: var(--type-body);
   margin-bottom: 18px
 }
 .form-grid>.full {
@@ -32,11 +32,11 @@
   align-items: center;
   gap: 9px;
   min-height: 30px;
-  font-size: 12px;
+  font-size: var(--type-label);
   color: var(--text)
 }
 .form-help {
-  font-size: 12px;
+  font-size: var(--type-label);
   color: var(--muted);
   margin: 0
 }
@@ -116,7 +116,7 @@
   background: var(--surface);
   cursor: pointer;
   color: var(--text);
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .upload-label input {
   display: none
@@ -148,11 +148,11 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  font-size: 12px;
+  font-size: var(--type-label);
   margin-bottom: 15px
 }
 .admin-message p {
-  font-size: 13px;
+  font-size: var(--type-small);
   white-space: pre-line;
   overflow-wrap: anywhere
 }
@@ -173,7 +173,7 @@
   padding: 12px 20px;
   border-radius: 7px;
   z-index: 90;
-  font-size: 12px;
+  font-size: var(--type-label);
   max-width: calc(100% - 30px);
   display: flex;
   align-items: center;
@@ -194,7 +194,7 @@
   --border: var(--gray5);
   --text: var(--gray1);
   --muted: var(--gray3);
-  font-size: 15px;
+  font-size: var(--type-body);
   grid-template-columns: 244px minmax(0,1fr);
   background: var(--background);
   color: var(--text)
@@ -226,13 +226,13 @@ html[data-theme=dark] .admin-shell {
   padding: 0 10px
 }
 .admin-brand strong {
-  font-size: 16px;
+  font-size: var(--type-body);
   letter-spacing: -.3px
 }
 .admin-brand span {
   display: block;
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--type-label);
   margin-top: 3px
 }
 .admin-nav {
@@ -246,7 +246,7 @@ html[data-theme=dark] .admin-shell {
   gap: 10px;
   border-radius: 6px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--type-small);
   min-height: 44px;
   padding: 10px 12px;
   transition: background .18s,color .18s
@@ -258,13 +258,13 @@ html[data-theme=dark] .admin-shell {
 .admin-nav a.active {
   background: var(--text);
   color: var(--surface);
-  font-weight: 600
+  font-weight: var(--weight-control)
 }
 .admin-nav-label {
   color: var(--muted);
   padding: 15px 13px 5px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--type-label);
+  font-weight: var(--weight-control);
   padding-top: 20px
 }
 .admin-sidebar-bottom {
@@ -278,7 +278,7 @@ html[data-theme=dark] .admin-shell {
 }
 .admin-header>span {
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--type-small);
   margin-right: auto
 }
 .admin-header-right {
@@ -303,35 +303,35 @@ html[data-theme=dark] .admin-shell {
 }
 .admin-title h1 {
   margin-bottom: 8px;
-  font-size: 36px;
-  font-weight: 800;
+  font-size: var(--type-title);
+  font-weight: var(--weight-heavy);
   letter-spacing: -1px;
   line-height: 1.2
 }
 .admin-title p {
   color: var(--muted);
   margin: 0;
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: var(--type-small);
+  line-height: var(--leading-body);
   max-width: 640px
 }
 .admin-shell .button {
   border-radius: 8px;
-  font-size: 13px;
+  font-size: var(--type-small);
   min-height: 42px
 }
 .admin-shell .button:disabled {
   cursor: default
 }
 .admin-shell :is(input,textarea,select),.admin-modal :is(input,textarea,select) {
-  font-size: 14px;
+  font-size: var(--type-small);
   border-radius: 8px;
   min-height: 44px;
   line-height: 1.5
 }
 .admin-shell label,.admin-modal label {
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--type-small);
+  font-weight: var(--weight-heading);
   gap: 8px
 }
 .admin-shell :is(input,textarea,select):disabled,.admin-modal :is(input,textarea,select):disabled {
@@ -339,9 +339,9 @@ html[data-theme=dark] .admin-shell {
   color: var(--muted)
 }
 .admin-shell .form-help,.admin-modal .form-help {
-  font-size: 12px;
-  line-height: 1.6;
-  font-weight: 400
+  font-size: var(--type-label);
+  line-height: var(--leading-body);
+  font-weight: var(--weight-body)
 }
 .admin-form {
   display: flex;
@@ -356,7 +356,7 @@ html[data-theme=dark] .admin-shell {
   padding: 28px
 }
 .admin-form .form-section h2 {
-  font-size: 18px;
+  font-size: var(--type-lead);
   margin-bottom: 22px
 }
 .admin-form .form-section>.form-help {
@@ -370,7 +370,7 @@ html[data-theme=dark] .admin-shell {
 .admin-shell .checkbox-label,.admin-modal .checkbox-label {
   flex-direction: row;
   align-items: center;
-  font-weight: 400;
+  font-weight: var(--weight-body);
   gap: 10px
 }
 .checkbox-label input {
@@ -383,8 +383,8 @@ html[data-theme=dark] .admin-shell {
 }
 .admin-shell details summary,.admin-modal details summary {
   cursor: pointer;
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: var(--weight-control);
+  font-size: var(--type-body);
   min-height: 30px
 }
 .admin-shell details[open]>summary,.admin-modal details[open]>summary {
@@ -411,8 +411,8 @@ html[data-theme=dark] .admin-shell {
 }
 .admin-panel p {
   color: var(--muted);
-  font-size: 14px;
-  line-height: 1.75
+  font-size: var(--type-small);
+  line-height: var(--leading-body)
 }
 .stats-grid {
   display: grid;
@@ -430,14 +430,14 @@ html[data-theme=dark] .admin-shell {
   display: flex;
   justify-content: space-between;
   color: var(--muted);
-  font-size: 13px
+  font-size: var(--type-small)
 }
 .stat strong {
   letter-spacing: -1px;
   display: block;
   margin-top: 12px;
-  font-size: 36px;
-  font-weight: 700
+  font-size: var(--type-title);
+  font-weight: var(--weight-strong)
 }
 .content-toolbar {
   display: flex;
@@ -465,15 +465,15 @@ html[data-theme=dark] .admin-shell {
 .admin-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px
+  font-size: var(--type-small)
 }
 .admin-table th {
   text-align: left;
   color: var(--muted);
   border-bottom: 1px solid var(--border);
   padding: 16px 20px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--type-label);
+  font-weight: var(--weight-control);
   background: var(--surface-muted)
 }
 .admin-table td {
@@ -482,11 +482,11 @@ html[data-theme=dark] .admin-shell {
 }
 .table-subtitle {
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--type-label);
   margin-top: 4px
 }
 .table-title {
-  font-weight: 600;
+  font-weight: var(--weight-control);
   display: block;
   overflow-wrap: anywhere
 }
@@ -502,7 +502,7 @@ html[data-theme=dark] .admin-shell {
   border: 1px solid var(--border);
   border-radius: 20px;
   white-space: nowrap;
-  font-size: 12px;
+  font-size: var(--type-label);
   padding: 4px 10px;
   gap: 4px;
   background: var(--surface);
@@ -516,11 +516,11 @@ html[data-theme=dark] .admin-shell {
 }
 .admin-empty h2 {
   margin-bottom: 10px;
-  font-size: 20px
+  font-size: var(--type-lead)
 }
 .admin-empty p {
   color: var(--muted);
-  font-size: 14px
+  font-size: var(--type-small)
 }
 .admin-modal {
   max-width: 100%;
@@ -549,7 +549,7 @@ html[data-theme=dark] .admin-shell {
 .modal-title h2 {
   margin: 0;
   letter-spacing: -.7px;
-  font-size: 24px
+  font-size: var(--type-title-small)
 }
 .admin-modal>.admin-form {
   padding: 28px
@@ -568,7 +568,7 @@ html[data-theme=dark] .admin-shell {
   border-radius: 20px;
   padding: 7px 12px;
   background: var(--surface);
-  font-size: 13px
+  font-size: var(--type-small)
 }
 .technology-choice.selected {
   border-color: var(--accent);
@@ -606,7 +606,7 @@ html[data-theme=dark] .admin-shell {
   border-radius: 4px
 }
 .media-option>span {
-  font-size: 12px;
+  font-size: var(--type-label);
   overflow-wrap: anywhere
 }
 .media-option:hover {
@@ -621,7 +621,7 @@ html[data-theme=dark] .admin-shell {
 .media-field>p {
   color: var(--muted);
   margin-top: 8px;
-  font-size: 12px;
+  font-size: var(--type-label);
   margin-bottom: 0
 }
 .inline-row textarea {
@@ -629,7 +629,7 @@ html[data-theme=dark] .admin-shell {
   min-width: 0
 }
 .admin-shell .toast {
-  font-size: 13px
+  font-size: var(--type-small)
 }
 @media(max-width:1100px){
 .admin-shell {
@@ -642,7 +642,7 @@ html[data-theme=dark] .admin-shell {
   padding-inline: 28px
 }
 .admin-title h1 {
-  font-size: 28px
+  font-size: var(--type-title-small)
 }}
 @media(max-width:760px){
 .admin-shell {
@@ -682,11 +682,11 @@ html[data-theme=dark] .admin-shell {
   height: 72px
 }
 .admin-header-right .button {
-  font-size: 12px;
+  font-size: var(--type-label);
   padding: 9px 12px
 }
 .admin-header>span {
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .admin-body {
   padding: 28px 20px
@@ -699,7 +699,7 @@ html[data-theme=dark] .admin-shell {
   font-size: 27px
 }
 .admin-title p {
-  font-size: 13px
+  font-size: var(--type-small)
 }
 .admin-form>.form-section,.admin-panel {
   padding: 22px
@@ -767,8 +767,8 @@ html[data-theme=dark] .admin-shell {
   border-radius: 10px
 }
 .bulk-actions>span {
-  font-weight: 600;
-  font-size: 13px;
+  font-weight: var(--weight-control);
+  font-size: var(--type-small);
   margin-right: auto
 }
 .bulk-actions>.form-help {
@@ -793,7 +793,7 @@ html[data-theme=dark] .admin-shell {
 }
 .bulk-actions .button {
   flex: 1;
-  font-size: 12px;
+  font-size: var(--type-label);
   padding-inline: 10px
 }
 .admin-table td:nth-child(2) {
@@ -818,7 +818,7 @@ html[data-theme=dark] .admin-shell {
 }
 .section-intro>summary {
   min-height: 44px;
-  line-height: 1.7
+  line-height: var(--leading-body)
 }
 .section-intro .admin-form {
   max-width: 740px
@@ -827,13 +827,13 @@ html[data-theme=dark] .admin-shell {
   align-self: flex-start
 }
 .admin-shell :is(.section-intro,.document-option)>summary {
-  font-size: 16px
+  font-size: var(--type-body)
 }
 .admin-shell .table-subtitle {
   max-width: 500px
 }
 .admin-shell .table-title {
-  font-size: 15px
+  font-size: var(--type-body)
 }
 .admin-shell .status-tag {
   min-height: 32px;
@@ -862,11 +862,11 @@ html[data-theme=dark] .admin-shell {
   gap: 12px
 }
 .admin-shell .admin-message header {
-  font-size: 14px
+  font-size: var(--type-small)
 }
 .admin-shell .admin-message p {
-  font-size: 15px;
-  line-height: 1.75
+  font-size: var(--type-body);
+  line-height: var(--leading-body)
 }
 .admin-message .button-row {
   gap: 16px
@@ -900,7 +900,7 @@ html[data-theme=dark] .admin-shell {
   gap: 8px
 }
 .admin-shell :is(input,textarea,select) {
-  font-size: 16px
+  font-size: var(--type-body)
 }
 .admin-table .selection-cell {
   width: 48px;
@@ -941,7 +941,7 @@ html[data-theme=dark] .admin-shell {
   border-radius: 0 16px 16px 0
 }
 .admin-shell .admin-title h1 {
-  font-size: 28px
+  font-size: var(--type-title-small)
 }
 .admin-shell .admin-table td:first-child {
   min-width: 56px
@@ -995,9 +995,9 @@ html[data-theme=dark] .admin-shell {
 .admin-shell button.primary:disabled{cursor:wait;}
 @media(max-width:760px){.admin-shell .form-grid{grid-template-columns:1fr;}.admin-shell .admin-title{flex-wrap:wrap;}.admin-shell .account-note{flex-wrap:wrap;}.admin-shell .publish-bar{position:static;}.admin-modal .publish-bar{position:static;}.admin-modal .form-grid{grid-template-columns:1fr;}}
 .oauth-setup{margin-top:24px;border-top:1px solid var(--border);padding-top:20px;}
-.oauth-setup summary{cursor:pointer;font-weight:600;min-height:44px;}
+.oauth-setup summary{cursor:pointer;font-weight:var(--weight-control);min-height:44px;}
 .oauth-setup ol{padding-left:24px;display:grid;gap:24px;}
 .oauth-setup li{min-width:0;}
 .oauth-address{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:12px 0;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--surface-muted);}
 .oauth-address .form-help{flex-basis:100%;}
-.oauth-address code{flex:1;min-width:0;overflow-wrap:anywhere;font-size:13px;}
+.oauth-address code{flex:1;min-width:0;overflow-wrap:anywhere;font-size:var(--type-small);}

@@ -9,7 +9,7 @@
   background: var(--background);
   color: var(--text);
   padding-bottom: calc(120px + env(safe-area-inset-bottom));
-  font-family: Barlow,Arial,sans-serif
+  font-family: var(--font-body)
 }
 html[data-theme=dark] .portfolio {
   --background: var(--gray1);
@@ -37,8 +37,8 @@ html[data-theme=dark] .portfolio {
   z-index: 20
 }
 .site-header .wordmark {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: var(--type-lead);
+  font-weight: var(--weight-heavy);
   flex: 0 0 auto;
   max-width: 240px;
   overflow: hidden;
@@ -50,8 +50,8 @@ html[data-theme=dark] .portfolio {
   display: flex;
   align-items: center;
   gap: 22px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--type-small);
+  font-weight: var(--weight-control);
   letter-spacing: 0
 }
 .main-nav a {
@@ -70,13 +70,13 @@ html[data-theme=dark] .portfolio {
   border: 0;
   background: none;
   padding: 12px 4px;
-  font-size: 12px;
+  font-size: var(--type-label);
   display: flex;
   gap: 5px;
   color: var(--muted)
 }
 .language-button .selected {
-  font-weight: 700;
+  font-weight: var(--weight-strong);
   color: var(--text)
 }
 .lang-divider {
@@ -91,9 +91,9 @@ html[data-theme=dark] .portfolio {
   min-height: 0
 }
 .hero-name {
-  font-family: Barlow,Arial,sans-serif;
+  font-family: var(--font-body);
   font-size: clamp(72px,10.5vw,144px);
-  font-weight: 900;
+  font-weight: var(--weight-display);
   line-height: 1.02;
   letter-spacing: -.035em;
   text-transform: uppercase;
@@ -114,8 +114,8 @@ html[data-theme=dark] .portfolio {
   width: 100%
 }
 .hero-summary {
-  font-size: 18px;
-  line-height: 1.75;
+  font-size: var(--type-lead);
+  line-height: var(--leading-body);
   color: var(--muted);
   max-width: 630px;
   margin-bottom: 24px
@@ -125,7 +125,7 @@ html[data-theme=dark] .portfolio {
   margin-bottom: 25px
 }
 .scroll-note {
-  font-size: 12px;
+  font-size: var(--type-label);
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -164,8 +164,8 @@ html[data-theme=dark] .portfolio {
   background: var(--surface);
   color: var(--text);
   padding: 12px 21px;
-  font-weight: 700;
-  font-size: 13px;
+  font-weight: var(--weight-strong);
+  font-size: var(--type-small);
   box-shadow: none;
   transition: background-color .2s ease,color .2s ease,translate .2s ease
 }
@@ -197,8 +197,8 @@ html[data-theme=dark] .portfolio {
   border-radius: 999px;
   background: var(--surface);
   color: var(--text);
-  font-size: 15px;
-  font-weight: 700;
+  font-size: var(--type-body);
+  font-weight: var(--weight-strong);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -226,11 +226,11 @@ html[data-theme=dark] .portfolio {
   justify-content: space-between;
   gap: 15px;
   min-height: 38px;
-  font-size: 12px;
+  font-size: var(--type-label);
   color: var(--muted)
 }
 .block-instructions .text-button {
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .page-section {
   border-top: 1px solid var(--border);
@@ -245,21 +245,21 @@ html[data-theme=dark] .portfolio {
 }
 .section-heading h2 {
   font-size: clamp(36px,4.6vw,64px);
-  font-weight: 800;
+  font-weight: var(--weight-heavy);
   line-height: 1;
   letter-spacing: -.03em;
   margin: 0 0 12px
 }
 .section-heading h2 sup {
-  font-size: 12px;
+  font-size: var(--type-label);
   color: var(--muted);
-  font-weight: 500;
+  font-weight: var(--weight-heading);
   margin-left: 12px;
   vertical-align: top;
   letter-spacing: 0
 }
 .section-heading p {
-  font-size: 14px;
+  font-size: var(--type-small);
   margin: 0;
   max-width: 540px
 }
@@ -305,8 +305,8 @@ html[data-theme=dark] .portfolio {
   overflow-wrap: anywhere
 }
 .featured-info p {
-  font-size: 16px;
-  line-height: 1.75;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
   color: var(--muted);
   margin-bottom: 24px
 }
@@ -325,7 +325,7 @@ html[data-theme=dark] .portfolio {
   gap: 40px
 }
 .project-placeholder>span {
-  font-weight: 800;
+  font-weight: var(--weight-heavy);
   font-size: clamp(28px,3vw,42px);
   line-height: 1.12;
   letter-spacing: -.025em;
@@ -392,7 +392,7 @@ html[data-theme=dark] .portfolio {
   gap: 15px;
   padding: 22px 0;
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--type-small);
   min-height: 0
 }
 .empty-state p {
@@ -417,9 +417,9 @@ html[data-theme=dark] .portfolio {
   margin: 20px 0 12px
 }
 .service-list p {
-  font-size: 14px;
+  font-size: var(--type-small);
   color: var(--muted);
-  line-height: 1.8
+  line-height: var(--leading-body)
 }
 .timeline-row {
   display: grid;
@@ -429,21 +429,21 @@ html[data-theme=dark] .portfolio {
   border-bottom: 1px solid var(--border)
 }
 .timeline-date {
-  font-size: 13px
+  font-size: var(--type-small)
 }
 .timeline-date span {
   display: block;
   color: var(--muted)
 }
 .timeline-content h3 {
-  font-size: 26px;
+  font-size: var(--type-title-small);
   margin-bottom: 14px;
   letter-spacing: -.02em
 }
 .timeline-content p,.timeline-content li {
-  font-size: 16px;
+  font-size: var(--type-body);
   color: var(--muted);
-  line-height: 1.8
+  line-height: var(--leading-body)
 }
 .timeline-content ul {
   padding-left: 20px
@@ -468,9 +468,9 @@ html[data-theme=dark] .portfolio {
   gap: 40px
 }
 .skill-group h3 {
-  font-size: 14px;
+  font-size: var(--type-small);
   color: var(--muted);
-  font-weight: 500;
+  font-weight: var(--weight-heading);
   padding-top: 10px
 }
 .skill-items {
@@ -483,7 +483,7 @@ html[data-theme=dark] .portfolio {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 10px 16px;
-  font-size: 15px
+  font-size: var(--type-body)
 }
 .certificate-row {
   display: grid;
@@ -516,11 +516,11 @@ html[data-theme=dark] .portfolio {
   font-size: 30px
 }
 .certificate-row h3 {
-  font-size: 20px;
+  font-size: var(--type-lead);
   margin: 5px 0 9px
 }
 .certificate-row p {
-  font-size: 13px;
+  font-size: var(--type-small);
   color: var(--muted);
   margin-bottom: 0
 }
@@ -532,7 +532,7 @@ html[data-theme=dark] .portfolio {
   align-items: center;
   justify-content: flex-end;
   gap: 6px;
-  font-size: 12px;
+  font-size: var(--type-label);
   color: var(--accent);
   margin-top: 10px
 }
@@ -548,15 +548,15 @@ html[data-theme=dark] .portfolio {
 }
 .contact-copy h2 {
   font-size: clamp(40px,5vw,70px);
-  font-weight: 800;
+  font-weight: var(--weight-heavy);
   line-height: 1.05;
   letter-spacing: -.04em;
   margin: 20px 0
 }
 .contact-copy>p {
   max-width: 410px;
-  font-size: 16px;
-  line-height: 1.8
+  font-size: var(--type-body);
+  line-height: var(--leading-body)
 }
 .contact-copy>p:empty {
   display: none
@@ -580,7 +580,7 @@ html[data-theme=dark] .portfolio {
   align-items: center;
   gap: 10px;
   min-height: 44px;
-  font-size: 15px;
+  font-size: var(--type-body);
   color: var(--muted);
   overflow-wrap: anywhere
 }
@@ -601,17 +601,17 @@ html[data-theme=dark] .portfolio {
   border-top: 1px solid var(--border)
 }
 .site-footer p {
-  font-size: 12px;
+  font-size: var(--type-label);
   margin: 8px 0 0
 }
 .site-footer .wordmark {
-  font-size: 20px
+  font-size: var(--type-lead)
 }
 .translation-notice {
   text-align: center;
   padding: 10px 20px;
   background: var(--surface-muted);
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .site-status-rail {
   position: fixed;
@@ -630,15 +630,15 @@ html[data-theme=dark] .portfolio {
   gap: 9px;
   padding: 12px 24px;
   border-right: 1px solid var(--border);
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .rail-cell>span:not(.rail-led) {
-  font-size: 12px;
+  font-size: var(--type-label);
   color: var(--muted)
 }
 .rail-cell strong {
-  font-size: 12px;
-  font-weight: 600
+  font-size: var(--type-label);
+  font-weight: var(--weight-control)
 }
 .rail-led {
   width: 7px;
@@ -659,8 +659,8 @@ html[data-theme=dark] .portfolio {
   border: 0;
   border-left: 1px solid var(--border);
   background: transparent;
-  font-size: 12px;
-  font-weight: 600
+  font-size: var(--type-label);
+  font-weight: var(--weight-control)
 }
 .rail-chat {
   background: var(--text);
@@ -706,7 +706,7 @@ html[data-theme=dark] .portfolio {
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 3px 12px;
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .project-detail {
   padding-block: 50px 80px
@@ -716,14 +716,14 @@ html[data-theme=dark] .portfolio {
 }
 .project-detail h1 {
   font-size: clamp(48px,6vw,90px);
-  font-weight: 900;
+  font-weight: var(--weight-display);
   line-height: 1.05;
   letter-spacing: -.04em;
   max-width: 1000px
 }
 .project-lead {
   font-size: 19px;
-  line-height: 1.8;
+  line-height: var(--leading-body);
   max-width: 740px;
   color: var(--muted)
 }
@@ -743,11 +743,11 @@ html[data-theme=dark] .portfolio {
   margin: 45px 0
 }
 .project-story h2 {
-  font-size: 28px
+  font-size: var(--type-title-small)
 }
 .project-story p,.project-story li {
-  font-size: 15px;
-  line-height: 1.8;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
   color: var(--muted)
 }
 .project-gallery {
@@ -793,7 +793,7 @@ html[data-theme=dark] .portfolio {
   transform: scale(1.015)
 }
 .portfolio label {
-  font-size: 14px
+  font-size: var(--type-small)
 }
 @keyframes panel-enter{
 from {
@@ -814,14 +814,14 @@ html {
 }}
 .hero-role {
   font-size: clamp(18px,2vw,24px);
-  font-weight: 500;
+  font-weight: var(--weight-heading);
   line-height: 1.5;
   color: var(--muted);
   margin: 0 0 48px;
   max-width: 800px
 }
 .hero-section-title {
-  font-size: 28px;
+  font-size: var(--type-title-small);
   letter-spacing: -.02em;
   margin-bottom: 18px
 }
@@ -841,8 +841,8 @@ html {
   margin-top: 28px;
   padding-top: 20px;
   border-top: 1px solid var(--border);
-  font-size: 14px;
-  font-weight: 600
+  font-size: var(--type-small);
+  font-weight: var(--weight-control)
 }
 .project-cover-tags {
   display: flex;
@@ -853,13 +853,13 @@ html {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 6px 12px;
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .tags span {
   border: 1px solid var(--border);
   border-radius: 5px;
   padding: 5px 9px;
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .background-section {
   border-top: 1px solid var(--border);
@@ -888,8 +888,8 @@ html {
   margin-bottom: 12px
 }
 .education-item p,.achievement-item p,.background-details li {
-  font-size: 15px;
-  line-height: 1.75
+  font-size: var(--type-body);
+  line-height: var(--leading-body)
 }
 .education-gpa {
   display: flex;
@@ -897,11 +897,11 @@ html {
   align-items: center
 }
 .education-gpa strong {
-  font-size: 22px
+  font-size: var(--type-lead)
 }
 .background-details summary {
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--type-small);
   min-height: 44px;
   display: list-item;
   line-height: 44px
@@ -924,7 +924,7 @@ html {
 .language-list p {
   flex-basis: 100%;
   margin: 0;
-  font-size: 14px
+  font-size: var(--type-small)
 }
 .public-navigation-scrim {
   display: none
@@ -943,7 +943,7 @@ html {
   border-color: var(--input-border,var(--border));
   border-radius: 10px;
   transition: border-color .18s ease,background-color .18s ease;
-  font-size: 16px;
+  font-size: var(--type-body);
   line-height: 1.5
 }
 .portfolio .contact-form {
@@ -967,14 +967,14 @@ html {
   padding: 24px
 }
 .portfolio .panel-intro,.portfolio .guest-message>p,.portfolio .chat-bubble p {
-  font-size: 15px;
-  line-height: 1.7
+  font-size: var(--type-body);
+  line-height: var(--leading-body)
 }
 .portfolio .chat-welcome>p,.portfolio .suggestions>button {
-  font-size: 14px
+  font-size: var(--type-small)
 }
 .portfolio .guest-login>p,.portfolio .ai-notice p {
-  font-size: 13px
+  font-size: var(--type-small)
 }
 .portfolio .chat-compose {
   padding-bottom: max(12px,env(safe-area-inset-bottom));
@@ -995,7 +995,7 @@ html {
 @media(max-width:1200px){
 .main-nav {
   gap: 13px;
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .site-header {
   padding-inline: 25px;
@@ -1035,14 +1035,14 @@ html {
 }
 .main-nav.open a {
   padding: 12px;
-  font-size: 14px
+  font-size: var(--type-small)
 }
 .hero-details {
   grid-template-columns: minmax(0,1fr) 180px;
   gap: 25px
 }
 .hero-summary {
-  font-size: 17px
+  font-size: var(--type-body)
 }
 .featured-info {
   padding: 25px
@@ -1068,7 +1068,7 @@ html {
 }
 .site-header .wordmark {
   max-width: 170px;
-  font-size: 18px
+  font-size: var(--type-lead)
 }
 .header-tools {
   gap: 2px
@@ -1083,12 +1083,12 @@ html {
   height: 185px
 }
 .skill-block {
-  font-size: 13px;
+  font-size: var(--type-small);
   height: 46px;
   border-radius: 999px
 }
 .block-instructions {
-  font-size: 12px;
+  font-size: var(--type-label);
   gap: 8px
 }
 .hero-name {
@@ -1107,14 +1107,14 @@ html {
   justify-self: start
 }
 .hero-summary {
-  font-size: 16px;
-  line-height: 1.8
+  font-size: var(--type-body);
+  line-height: var(--leading-body)
 }
 .hero-actions {
   gap: 12px
 }
 .portfolio .button {
-  font-size: 12px;
+  font-size: var(--type-label);
   padding: 11px 16px
 }
 .page-section {
@@ -1124,10 +1124,10 @@ html {
   margin-bottom: 25px
 }
 .section-heading h2 {
-  font-size: 36px
+  font-size: var(--type-title)
 }
 .section-heading p {
-  font-size: 13px
+  font-size: var(--type-small)
 }
 .featured-project {
   grid-template-columns: 1fr
@@ -1136,7 +1136,7 @@ html {
   min-height: 235px
 }
 .featured-info h3 {
-  font-size: 26px
+  font-size: var(--type-title-small)
 }
 .archive-tech {
   display: none
@@ -1182,7 +1182,7 @@ html {
   gap: 8px
 }
 .skill-items span {
-  font-size: 13px;
+  font-size: var(--type-small);
   padding: 8px 12px
 }
 .certificate-row {
@@ -1193,7 +1193,7 @@ html {
   height: 50px
 }
 .certificate-row h3 {
-  font-size: 18px
+  font-size: var(--type-lead)
 }
 .certificate-meta {
   grid-column: 2;
@@ -1211,7 +1211,7 @@ html {
   padding-block: 48px
 }
 .contact-copy h2 {
-  font-size: 40px
+  font-size: var(--type-title-large)
 }
 .site-footer {
   align-items: flex-start;
@@ -1222,11 +1222,11 @@ html {
   gap: 6px
 }
 .rail-cell strong {
-  font-size: 12px
+  font-size: var(--type-label)
 }
 .rail-action {
   padding: 10px 12px;
-  font-size: 12px;
+  font-size: var(--type-label);
   gap: 7px
 }
 .rail-open {
@@ -1242,7 +1242,7 @@ html {
   grid-template-columns: 1fr
 }
 .project-lead {
-  font-size: 16px
+  font-size: var(--type-body)
 }
 .project-detail h1 {
   font-size: clamp(36px,9vw,52px);
@@ -1271,11 +1271,11 @@ html {
   top: 64px
 }
 .hero-role {
-  font-size: 17px;
+  font-size: var(--type-body);
   margin-bottom: 28px
 }
 .hero-section-title {
-  font-size: 24px
+  font-size: var(--type-title-small)
 }
 .project-showcase {
   gap: 24px
@@ -1304,12 +1304,12 @@ html {
   border-radius: 0
 }
 .portfolio .site-footer .wordmark {
-  font-size: 18px
+  font-size: var(--type-lead)
 }
 .project-detail>.project-image {
   min-height: 0
 }}
 
 
-.main-nav a{max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.main-nav.open a{max-width:none;white-space:normal}.portfolio .hero-summary{max-width:64ch}.portfolio .featured-info>p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}.portfolio .project-lead{max-width:68ch}@media(max-width:600px){.site-header{gap:8px}.site-header .wordmark{flex:1 1 auto;min-width:0;max-width:calc(100% - 150px);font-size:17px}.header-tools{flex-shrink:0;margin-left:0}.portfolio .featured-info>p{-webkit-line-clamp:5}.site-status-rail{min-width:0}.rail-cell{min-width:0}.rail-cell strong{white-space:nowrap}.rail-action{flex-shrink:0}.hero-name{font-size:clamp(48px,13.5vw,80px)}}
+.main-nav a{max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.main-nav.open a{max-width:none;white-space:normal}.portfolio .hero-summary{max-width:64ch}.portfolio .featured-info>p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}.portfolio .project-lead{max-width:68ch}@media(max-width:600px){.site-header{gap:8px}.site-header .wordmark{flex:1 1 auto;min-width:0;max-width:calc(100% - 150px);font-size:var(--type-body)}.header-tools{flex-shrink:0;margin-left:0}.portfolio .featured-info>p{-webkit-line-clamp:5}.site-status-rail{min-width:0}.rail-cell{min-width:0}.rail-cell strong{white-space:nowrap}.rail-action{flex-shrink:0}.hero-name{font-size:clamp(48px,13.5vw,80px)}}
 
