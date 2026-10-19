@@ -1,0 +1,17 @@
+import type { Metadata } from 'next';
+import '@fontsource/barlow/latin-400.css';
+import '@fontsource/barlow/latin-500.css';
+import '@fontsource/barlow/latin-600.css';
+import '@fontsource/barlow/latin-700.css';
+import '@fontsource/barlow/latin-800.css';
+import '@fontsource/barlow/latin-900.css';
+import './globals.css';
+import './portfolio.css';
+import './hero-chase.css';
+import './immersive.css';
+import './hero-experience.css';
+import './site-chrome.css';
+import './project-room.css';
+import './about-room.css';
+export const metadata:Metadata={title:{default:'Portfolio',template:'%s | Portfolio'},description:'Profil profesional, proyek, pengalaman, dan kontak.'};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="id" suppressHydrationWarning><body><script dangerouslySetInnerHTML={{__html:"try{var t=localStorage.getItem('portfolio-theme');document.documentElement.dataset.theme=t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';}catch(e){}"}}/>{children}</body></html>;}

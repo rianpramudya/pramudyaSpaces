@@ -1,0 +1,1 @@
+export function heroIdentity(name:string){const parts=name.trim().split(/\s+/).filter(Boolean);return {givenName:parts[0]||'',familyName:parts.slice(1).join(' '),initials:parts.slice(0,2).map(part=>Array.from(part)[0].toUpperCase()).join('')||'/'};}

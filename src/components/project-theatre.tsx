@@ -1,0 +1,42 @@
+'use client';
+import {useEffect,useRef,useState,useId} from 'react';
+import Link from 'next/link';
+import {ArrowLeft,ArrowRight,ArrowUpRight} from 'lucide-react';
+import type {ProjectStageItem} from '@/lib/project-theatre';
+import type {TheatreController} from '@/lib/project-theatre-renderer';
+import {sculptureQuality} from '@/lib/sculpture-motion';
+import {clampGalleryIndex,swipeDirection} from '@/lib/gallery-navigation';
+function ProjectDisplay({items,index,en}:{items:ProjectStageItem[];index:number;en:boolean}){
+ const host=useRef<HTMLDivElement>(null),canvas=useRef<HTMLCanvasElement>(null),controller=useRef<TheatreController|null>(null),current=useRef(index);current.current=index;
+ const [ready,setReady]=useState(false),[failedImage,setFailedImage]=useState('');const signature=items.map(item=>`${item.id}|${item.image||''}|${item.title}`).join('\n');const item=items[index];
+ useEffect(()=>{const root=host.current,element=canvas.current;if(!root||!element)return;let disposed=false,visible=false,loading=false;setReady(false);const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  const enabled=()=>{let on=true;try{on=localStorage.getItem('portfolio-motion')!=='off';}catch{}return visible&&on&&!reduced.matches&&document.visibilityState==='visible';};const sync=()=>controller.current?.motion(enabled());
+  async function load(){if(loading||disposed||controller.current)return;loading=true;const memory=(navigator as Navigator & {deviceMemory?:number}).deviceMemory;if(!sculptureQuality(root!.clientWidth,devicePixelRatio||1,memory).webgl)return;
+   try{const context=element!.getContext('webgl2',{alpha:true,antialias:true,powerPreference:'low-power'});if(!context)return;const {createProjectTheatre}=await import('@/lib/project-theatre-renderer');if(disposed)return;controller.current=createProjectTheatre(element!,context,root!,items,()=>{if(!disposed)setReady(true);});controller.current.select(current.current);sync();}catch{controller.current?.dispose();controller.current=null;}
+  }
+  const observer=new IntersectionObserver(entries=>{visible=entries[0]?.isIntersecting??false;if(visible)void load();sync();},{rootMargin:'80px'});observer.observe(root);const resize=new ResizeObserver(()=>controller.current?.resize());resize.observe(root);const lost=(event:Event)=>{event.preventDefault();controller.current?.dispose();controller.current=null;if(!disposed)setReady(false);};element.addEventListener('webglcontextlost',lost);
+  reduced.addEventListener('change',sync);document.addEventListener('visibilitychange',sync);window.addEventListener('portfolio-play-change',sync);
+  return()=>{disposed=true;observer.disconnect();resize.disconnect();element.removeEventListener('webglcontextlost',lost);reduced.removeEventListener('change',sync);document.removeEventListener('visibilitychange',sync);window.removeEventListener('portfolio-play-change',sync);controller.current?.dispose();controller.current=null;};
+ },[signature]);
+ useEffect(()=>{controller.current?.select(index);},[index]);
+ return <div className="project-display" ref={host} data-renderer={ready?'webgl':'fallback'} onPointerMove={event=>{if(event.pointerType!=='mouse')return;const box=event.currentTarget.getBoundingClientRect();controller.current?.point((event.clientX-box.left)/box.width*2-1,(event.clientY-box.top)/box.height*2-1);}} onPointerLeave={()=>controller.current?.point(0,0)}>
+  <div className="project-display-fallback" aria-hidden={ready}>{item.image&&failedImage!==item.image?<img key={item.image} src={item.image} alt={item.alt} onError={()=>setFailedImage(item.image||'')}/>:<span>{item.title}</span>}</div><canvas className="project-display-canvas" ref={canvas} aria-hidden="true"/><Link className="project-display-hit" href={item.href} aria-label={`${en?'Read case study':'Baca studi kasus'}: ${item.title}`}><span className="sr-only">{item.title}</span></Link>
+ </div>;
+}
+export function ProjectTheatre({items,en}:{items:ProjectStageItem[];en:boolean}){
+ const uid=useId();const [selected,setSelected]=useState(items[0]?.id||'');const index=Math.max(0,items.findIndex(item=>item.id===selected));const item=items[index];const touch=useRef<{x:number;y:number;id:number}|null>(null);
+ function choose(next:number){if(items.length)setSelected(items[clampGalleryIndex(next,items.length)].id);}
+ if(!item)return <div className="project-theatre-empty"><p>{en?'Projects will appear when published.':'Proyek akan tampil setelah diterbitkan.'}</p><Link className="text-button" href="/projects">{en?'All projects':'Lihat semua proyek'}<ArrowUpRight size={18}/></Link></div>;
+ return <div className="project-theatre" role="region" aria-roledescription={en?'carousel':'karusel'} aria-label={en?'Selected project gallery':'Galeri proyek pilihan'}>
+  <div className="project-theatre-stage" onKeyDown={event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();choose(index+(event.key==='ArrowRight'?1:-1));}else if(event.key==='Home'||event.key==='End'){event.preventDefault();choose(event.key==='Home'?0:items.length-1);}}}
+   onTouchStart={event=>{const p=event.touches[0];touch.current=event.touches.length===1?{x:p.clientX,y:p.clientY,id:p.identifier}:null;}}
+   onTouchEnd={event=>{const start=touch.current;touch.current=null;if(!start||event.touches.length)return;const p=Array.from(event.changedTouches).find(p=>p.identifier===start.id);if(!p)return;const direction=swipeDirection(start,{x:p.clientX,y:p.clientY});if(direction){event.preventDefault();choose(index+direction);}}} onTouchCancel={()=>{touch.current=null;}}>
+   <div className="project-stage-top"><span>{en?'Work in focus':'Karya dalam sorotan'}</span><span>{String(index+1).padStart(2,'0')} / {String(items.length).padStart(2,'0')}</span></div>
+   <ProjectDisplay items={items} index={index} en={en}/>
+   <div className="project-stage-bottom"><span>{en?'Choose a project. Explore its story.':'Pilih karya. Jelajahi ceritanya.'}</span><div className="project-stage-arrows"><button type="button" className="icon-button" disabled={index===0} aria-label={en?'Previous project':'Proyek sebelumnya'} onClick={()=>choose(index-1)}><ArrowLeft size={20}/></button><button type="button" className="icon-button" disabled={index===items.length-1} aria-label={en?'Next project':'Proyek berikutnya'} onClick={()=>choose(index+1)}><ArrowRight size={20}/></button></div></div>
+  </div>
+  <div className="project-theatre-reading" key={item.id} id={`${uid}-story`}><div className="project-theatre-identity"><p className="chapter-label">{item.role}</p><h3>{item.title}</h3><div className="project-theatre-tools">{item.technologies.map(technology=><span key={technology}>{technology}</span>)}</div><Link className="button primary" href={item.href}>{en?'Read the case study':'Baca studi kasus'}<ArrowUpRight size={18}/></Link></div><div className="project-theatre-story"><p>{item.description}</p>{(item.context||item.result||!!item.contributions.length)&&<div className="case-preview">{item.context&&<details><summary>{en?'The brief':'Konteks'}</summary><p>{item.context}</p></details>}{!!item.contributions.length&&<details><summary>{en?'My contribution':'Kontribusi saya'}</summary><ul>{item.contributions.map((point,i)=><li key={i}>{point}</li>)}</ul></details>}{item.result&&<details><summary>{en?'The outcome':'Hasilnya'}</summary><p>{item.result}</p></details>}</div>}</div></div>
+  <ol className="project-theatre-index" aria-label={en?'Choose a project':'Pilih proyek'}>{items.map((entry,i)=><li key={entry.id}><button type="button" aria-pressed={i===index} aria-controls={`${uid}-story`} onClick={()=>choose(i)} onKeyDown={event=>{if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();const next=clampGalleryIndex(i+(event.key==='ArrowRight'?1:-1),items.length);choose(next);const list=event.currentTarget.closest('ol');(list?.children[next]?.querySelector('button') as HTMLButtonElement|null)?.focus();}}}><span>{String(i+1).padStart(2,'0')}</span><strong>{entry.title}</strong><ArrowUpRight size={16}/></button></li>)}</ol>
+  <div className="project-theatre-archive"><span>{en?'More systems, ideas and experiments.':'Sistem, ide, dan eksperimen lainnya.'}</span><Link className="text-button" href="/projects">{en?'Browse all projects':'Lihat semua proyek'}<ArrowUpRight size={18}/></Link></div>
+ </div>;
+}

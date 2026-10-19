@@ -1,0 +1,21 @@
+'use client';
+import Link from 'next/link';
+import {ArrowUpRight,Check,FileText,Folder,MessageSquare,UserRound} from 'lucide-react';
+import {kindLabels,type PublicContent,type Kind} from '@/lib/model';
+export function Overview({content}:{content:PublicContent}){
+ const drafts=content.records.filter(entry=>!entry.published);
+ const published=content.records.filter(entry=>entry.published).length;
+ const steps=[
+  {title:'Ceritakan tentang Anda',description:'Nama, jabatan, ringkasan, dan foto profil.',href:'/admin/profile',done:Boolean(content.profile.name&&content.profile.headline&&content.profile.summary&&content.profile.photo)},
+  {title:'Tampilkan karya pilihan',description:'Lengkapi proyek, lalu pilih yang ingin diterbitkan.',href:'/admin/project',done:content.records.some(entry=>entry.kind==='project'&&entry.published)},
+  {title:'Siapkan CV unggulan',description:'Pilih dokumen terbit untuk diunduh pengunjung.',href:'/admin/documents',done:content.documents.some(doc=>doc.published&&doc.id===content.profile.featured_cv)},
+  {title:'Terbitkan profil',description:'Profil terbit membuka konten untuk pengunjung.',href:'/admin/profile',done:content.profile.published},
+ ];
+ const next=steps.find(step=>!step.done);
+ return <div className="workspace-overview"><section className="workspace-welcome"><div><span className="workspace-availability"><span/>{content.profile.published?'Website Anda sudah terbit':'Profil masih berupa draft'}</span><h2>{next?'Sedikit demi sedikit, jadi cerita yang utuh.':'Ruang Anda, siap menerima pengunjung.'}</h2><p>{next?next.description:'Tambahkan karya baru, perbarui perjalanan, atau sapa orang yang mampir.'}</p><Link className="button primary" href={next?.href||'/admin/project'}>{next?.title||'Kelola karya'}<ArrowUpRight size={17}/></Link></div><div className="workspace-profile"><div className="workspace-monogram">{content.profile.name?.trim().split(/\s+/).slice(0,2).map(word=>word[0]).join('')||'P'}</div><strong>{content.profile.name||'Profil Anda'}</strong><span>{content.profile.headline||'Mulai dengan identitas profesional Anda'}</span><Link className="text-button" href="/" target="_blank">Lihat website<ArrowUpRight size={16}/></Link></div></section>
+  <div className="workspace-summary"><span><strong>{published}</strong> konten terbit</span><span><strong>{drafts.length}</strong> draft tersimpan</span><span><strong>{content.documents.length}</strong> dokumen</span></div>
+  <div className="workspace-columns"><section className="admin-panel workspace-checklist"><div className="between"><h2>Langkah berikutnya</h2><span className="pill">{steps.filter(step=>step.done).length}/{steps.length}</span></div>{steps.map(step=><Link className="workspace-step" href={step.href} key={step.title}><span className={`workspace-check ${step.done?'complete':''}`}>{step.done?<Check size={17}/>:<ArrowUpRight size={17}/>}</span><div><strong>{step.title}</strong><p>{step.description}</p></div><span className="form-help">{step.done?'Siap':'Lengkapi'}</span></Link>)}</section>
+  <section className="admin-panel workspace-drafts"><div className="between"><h2>Lanjutkan draft</h2><span className="pill">{drafts.length}</span></div><p className="form-help">Tersimpan di dashboard; belum tampil untuk pengunjung.</p>{drafts.length?drafts.slice(0,5).map(entry=><Link className="workspace-draft" key={entry.id} href={`/admin/${entry.kind}?edit=${entry.id}`}><div><span className="form-help">{kindLabels[entry.kind as Kind]}</span><strong>{entry.title}</strong></div><ArrowUpRight size={17}/></Link>):<div className="workspace-clear"><Check size={24}/><p>Tidak ada draft tertunda.</p><Link className="text-button" href="/admin/project">Tambah karya baru</Link></div>}</section></div>
+  <section className="workspace-shortcuts" aria-label="Akses cepat">{[{href:'/admin/profile',label:'Perbarui profil',text:'Identitas dan kontak',Icon:UserRound},{href:'/admin/project',label:'Tambahkan karya',text:'Proyek dan studi kasus',Icon:Folder},{href:'/admin/documents',label:'Siapkan dokumen',text:'CV dan surat lamaran',Icon:FileText},{href:'/admin/guestbook',label:'Sapa pengunjung',text:'Buku tamu dan balasan',Icon:MessageSquare}].map(({href,label,text,Icon})=><Link key={href} href={href}><Icon size={22}/><strong>{label}</strong><span>{text}</span></Link>)}</section>
+ </div>;
+}

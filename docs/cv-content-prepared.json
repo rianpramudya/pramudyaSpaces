@@ -1,0 +1,451 @@
+{
+  "source": "docs/CV_ATS_rian_pramudya_amanda-2.pdf",
+  "profile": {
+    "name": "Rian Pramudya Amanda",
+    "headline": "Full Stack Web Developer & AI Enthusiast",
+    "summary": "Lulusan Informatika Telkom University dengan fokus pada pengembangan Machine Learning, pengembangan web full-stack, dan penerapan praktis ekosistem Generative AI. Memiliki minat kuat dalam memanfaatkan alat AI untuk mengoptimalkan alur pengembangan perangkat lunak. Berkomitmen untuk terus belajar dan membangun solusi teknologi yang inovatif, efisien, serta berdampak nyata.",
+    "email": "pramudya.career@gmail.com",
+    "phone": "0851-2111-1260",
+    "socials": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/rianpramudyaamanda"
+      },
+      {
+        "label": "Portfolio sebelumnya",
+        "url": "https://rianpramudya.github.io/pramudyaprofile"
+      }
+    ]
+  },
+  "records": [
+    {
+      "kind": "skill",
+      "title": "Laravel",
+      "data": {
+        "category": "Backend"
+      },
+      "published": false,
+      "position": 0
+    },
+    {
+      "kind": "skill",
+      "title": "PHP",
+      "data": {
+        "category": "Backend"
+      },
+      "published": false,
+      "position": 1
+    },
+    {
+      "kind": "skill",
+      "title": "GoLang",
+      "data": {
+        "category": "Backend"
+      },
+      "published": false,
+      "position": 2
+    },
+    {
+      "kind": "skill",
+      "title": "Python",
+      "data": {
+        "category": "Backend"
+      },
+      "published": false,
+      "position": 3
+    },
+    {
+      "kind": "skill",
+      "title": "MySQL/DataBase",
+      "data": {
+        "category": "Backend"
+      },
+      "published": false,
+      "position": 4
+    },
+    {
+      "kind": "skill",
+      "title": "REST API",
+      "data": {
+        "category": "Backend"
+      },
+      "published": false,
+      "position": 5
+    },
+    {
+      "kind": "skill",
+      "title": "Tailwind CSS",
+      "data": {
+        "category": "Frontend"
+      },
+      "published": false,
+      "position": 6
+    },
+    {
+      "kind": "skill",
+      "title": "HTML5 & CSS3",
+      "data": {
+        "category": "Frontend"
+      },
+      "published": false,
+      "position": 7
+    },
+    {
+      "kind": "skill",
+      "title": "Blade Template",
+      "data": {
+        "category": "Frontend"
+      },
+      "published": false,
+      "position": 8
+    },
+    {
+      "kind": "skill",
+      "title": "Java Script",
+      "data": {
+        "category": "Frontend"
+      },
+      "published": false,
+      "position": 9
+    },
+    {
+      "kind": "skill",
+      "title": "Alpine JS",
+      "data": {
+        "category": "Frontend"
+      },
+      "published": false,
+      "position": 10
+    },
+    {
+      "kind": "skill",
+      "title": "Git & GitHub",
+      "data": {
+        "category": "Tools"
+      },
+      "published": false,
+      "position": 11
+    },
+    {
+      "kind": "skill",
+      "title": "VS Code",
+      "data": {
+        "category": "Tools"
+      },
+      "published": false,
+      "position": 12
+    },
+    {
+      "kind": "skill",
+      "title": "Composer",
+      "data": {
+        "category": "Tools"
+      },
+      "published": false,
+      "position": 13
+    },
+    {
+      "kind": "skill",
+      "title": "Pro Create",
+      "data": {
+        "category": "Tools"
+      },
+      "published": false,
+      "position": 14
+    },
+    {
+      "kind": "skill",
+      "title": "Figma",
+      "data": {
+        "category": "Design"
+      },
+      "published": false,
+      "position": 15
+    },
+    {
+      "kind": "skill",
+      "title": "Responsive Design",
+      "data": {
+        "category": "Design"
+      },
+      "published": false,
+      "position": 16
+    },
+    {
+      "kind": "skill",
+      "title": "Web Layout",
+      "data": {
+        "category": "Design"
+      },
+      "published": false,
+      "position": 17
+    },
+    {
+      "kind": "skill",
+      "title": "UI/UX Basic",
+      "data": {
+        "category": "Design"
+      },
+      "published": false,
+      "position": 18
+    },
+    {
+      "kind": "skill",
+      "title": "Leadership",
+      "data": {
+        "category": "Soft Skills"
+      },
+      "published": false,
+      "position": 19
+    },
+    {
+      "kind": "skill",
+      "title": "Communication",
+      "data": {
+        "category": "Soft Skills"
+      },
+      "published": false,
+      "position": 20
+    },
+    {
+      "kind": "skill",
+      "title": "Problem Solving",
+      "data": {
+        "category": "Soft Skills"
+      },
+      "published": false,
+      "position": 21
+    },
+    {
+      "kind": "skill",
+      "title": "Critical Thinking",
+      "data": {
+        "category": "Soft Skills"
+      },
+      "published": false,
+      "position": 22
+    },
+    {
+      "kind": "skill",
+      "title": "Team Collaboration",
+      "data": {
+        "category": "Soft Skills"
+      },
+      "published": false,
+      "position": 23
+    },
+    {
+      "kind": "skill",
+      "title": "Adaptability",
+      "data": {
+        "category": "Soft Skills"
+      },
+      "published": false,
+      "position": 24
+    },
+    {
+      "kind": "experience",
+      "title": "FullStack Web Developer Intern",
+      "data": {
+        "type": "work",
+        "organization": "Diskominfo",
+        "start": "Juni 2025",
+        "end": "September 2025",
+        "current": false,
+        "bullets": [
+          "Building a large-scale, integrated digital ecosystem architecture to support the digitalization program of the Subang Regency Government.",
+          "Developing a centralized platform that facilitates the creation and management of independent websites for 30 Sub-districts (Kecamatan) and 30 Regional Government Agencies (OPD).",
+          "Optimizing public information accessibility through the integration of a responsive and efficient main regency profile portal."
+        ]
+      },
+      "published": false,
+      "position": 0
+    },
+    {
+      "kind": "experience",
+      "title": "Information & Communication Media Staff",
+      "data": {
+        "type": "organization",
+        "organization": "Hima IF Telkom University",
+        "start": "2024",
+        "end": "2026",
+        "current": false,
+        "bullets": [
+          "Designed and managed HIMA IF's social media visual content consistently using Figma, maintaining the organization's digital branding standards and visual identity to boost audience engagement.",
+          "Elevated the professionalism of public communication platforms through consistent, high-quality digital visual identity management.",
+          "Built strategic partnerships with internal and external stakeholders to support the smooth execution and success of the association's key work programs."
+        ]
+      },
+      "published": false,
+      "position": 1
+    },
+    {
+      "kind": "project",
+      "title": "Government Portal — 30 Kecamatan & 30 OPD",
+      "data": {
+        "role": "Full-Stack Web Developer",
+        "repository": "https://github.com/rianpramudya/WebsiteKabupatenSubang",
+        "technologies": [
+          "Laravel 11",
+          "Tailwind CSS"
+        ],
+        "description": "Portal pemerintahan terintegrasi untuk website profil 30 Kecamatan dan 30 OPD Kabupaten Subang.",
+        "bullets": [
+          "Led the development of a large-scale, integrated government web portal architecture serving 60 institutions (30 District/Kecamatan websites and 30 Regional Government Agency/OPD websites) using Laravel 11 and Tailwind CSS.",
+          "Integrated a Generative AI-assisted development workflow to accelerate the development cycle efficiently while maintaining strict system security standards.",
+          "Executed comprehensive feature implementation and responsive, intuitive UI/UX optimization to ensure ease of access for the general public."
+        ],
+        "featured": true
+      },
+      "published": false,
+      "position": 0
+    },
+    {
+      "kind": "project",
+      "title": "Astra Logistic & Asset Tracking System",
+      "data": {
+        "role": "Full-Stack Web Developer",
+        "repository": "https://github.com/rianpramudya/Astra-Project",
+        "technologies": [
+          "FastAPI",
+          "SQLAlchemy",
+          "PostgreSQL",
+          "Three.js",
+          "SvelteKit"
+        ],
+        "description": "Sistem pengelolaan logistik dan pelacakan aset dengan simulasi kontainer 3D dan dashboard analitik.",
+        "bullets": [
+          "Developed a high-performance RESTful API backend using FastAPI and SQLAlchemy (PostgreSQL) to manage logistics data for millions of assets, including a real-time, API-based history logging and tracking system to ensure full supply chain visibility.",
+          "Built an interactive 3D simulation feature using Three.js to visualize and optimize container packing arrangements, maximizing load factor for industrial containers.",
+          "Designed and implemented a real-time analytics dashboard using SvelteKit to monitor KPIs such as container utilization, delivery performance, and operational anomalies."
+        ],
+        "featured": false
+      },
+      "published": false,
+      "position": 1
+    },
+    {
+      "kind": "project",
+      "title": "Amazon Electronics Recommendation System",
+      "data": {
+        "role": "Machine Learning / Data Science",
+        "repository": "https://github.com/rianpramudya/SistemRekomendasiAmazon",
+        "technologies": [
+          "Truncated SVD",
+          "K-Means",
+          "Streamlit",
+          "Plotly"
+        ],
+        "description": "Sistem rekomendasi produk elektronik dari dataset ulasan Amazon berdasarkan segmentasi minat pengguna.",
+        "bullets": [
+          "Processed and cleaned a large-scale Amazon product review dataset, implementing Truncated SVD to reduce the user-item matrix to 50 latent features and address data sparsity.",
+          "Built a K-Means clustering model to segment users into 10 distinct interest profiles, generating relevant product recommendations based on in-cluster popularity metrics, validated via 5-Fold Cross Validation for prediction consistency (Precision, Recall, F1-Score).",
+          "Built an interactive analytics dashboard using Streamlit and Plotly to visualize user clustering results and real-time model performance metrics."
+        ],
+        "featured": false
+      },
+      "published": false,
+      "position": 2
+    },
+    {
+      "kind": "project",
+      "title": "AcneScan: YOLOv11 Acne Lesion Detection & Counting System",
+      "data": {
+        "role": "Deep Learning / Computer Vision",
+        "repository": "https://github.com/rianpramudya/AcneScan?tab=readme-ov-file",
+        "technologies": [
+          "YOLOv11m",
+          "SAHI",
+          "Streamlit",
+          "SQLite"
+        ],
+        "description": "Sistem deteksi dan penghitungan lesi jerawat dengan aplikasi web analisis gambar.",
+        "bullets": [
+          "Built an end-to-end object detection pipeline using YOLOv11m to accurately classify active acne lesions, integrating Slicing Aided Hyper Inference (SAHI) to significantly improve detection of small, overlapping objects in high-resolution images.",
+          "Developed an interactive web application with Streamlit, enabling real-time image analysis and accessible model usage for non-technical users.",
+          "Optimized model performance through hyperparameter tuning at 800px resolution and image augmentation experiments, with SQLite-based data storage for detection metadata and long-term statistical analysis."
+        ],
+        "featured": false
+      },
+      "published": false,
+      "position": 3
+    },
+    {
+      "kind": "project",
+      "title": "Real-Time Stock Monitoring Dashboard & Data Visualization",
+      "data": {
+        "role": "Full-Stack Web Development / Data Visualization",
+        "repository": "https://github.com/rianpramudya/DashboardSahamIDX",
+        "technologies": [
+          "Next.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "Chart.js",
+          "Yahoo Finance",
+          "Vercel"
+        ],
+        "description": "Dashboard pasar saham IDX untuk tren harga, volume perdagangan, dan distribusi sektor 15 saham blue-chip.",
+        "bullets": [
+          "Co-developed a real-time stock market dashboard for the Indonesian Stock Exchange (IDX) with a 4- person team, visualizing price trends, trading volume, and sector distribution across 15 blue-chip stocks using live data from Yahoo Finance.",
+          "Built 6 interactive chart types (line, bar, doughnut, scatter) with Chart.js, featuring time-range filtering, dataset toggling, and stock search autocomplete.",
+          "Developed with Next.js, TypeScript, and Tailwind CSS, deployed on Vercel with animated UX including count-up KPI cards and scroll-reveal transitions."
+        ],
+        "featured": false
+      },
+      "published": false,
+      "position": 4
+    },
+    {
+      "kind": "education",
+      "title": "Telkom University",
+      "data": {
+        "degree": "S1 — Informatika",
+        "gpa": "3.49 / 4.00",
+        "start": "2022",
+        "end": "2026",
+        "current": false,
+        "bullets": [
+          "Maintained a high standard of academic achievement with a strong focus on Informatics and software development.",
+          "Proactively enhanced professional competencies beyond the formal curriculum through mastery of cutting- edge technologies such as Laravel 11 and Computer Vision.",
+          "Engaged in various hands-on projects to sharpen soft skills and adaptability in navigating the dynamics and competitiveness of the tech industry."
+        ]
+      },
+      "published": false,
+      "position": 0
+    },
+    {
+      "kind": "certificate",
+      "title": "TOEFL Prediction Test — Score 640",
+      "data": {
+        "issuer": "Central Course",
+        "date": "September 2026",
+        "credential": "2609312828",
+        "url": "https://toefltestcc.com/certificate/2609312828"
+      },
+      "published": false,
+      "position": 0
+    },
+    {
+      "kind": "certificate",
+      "title": "EPrT (English Proficiency Test) — Score 467",
+      "data": {
+        "issuer": "Telkom University Language Center",
+        "date": "Juni 2026",
+        "credential": "33125/SPI3-F/BHS/2026"
+      },
+      "published": false,
+      "position": 1
+    },
+    {
+      "kind": "certificate",
+      "title": "Preparation Course for Azure AI Fundamentals (AI-900)",
+      "data": {
+        "issuer": "Microsoft",
+        "date": "Juni 2025",
+        "credential": "a478288b"
+      },
+      "published": false,
+      "position": 2
+    }
+  ]
+}

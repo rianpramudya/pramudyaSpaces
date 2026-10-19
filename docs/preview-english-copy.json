@@ -1,0 +1,58 @@
+{
+  "Government Portal — 30 Kecamatan & 30 OPD": {
+    "description": "Integrated government portal for the profile websites of 30 sub-districts and 30 regional government agencies in Subang Regency."
+  },
+  "Astra Logistic & Asset Tracking System": {
+    "description": "Logistics and asset tracking system with interactive 3D container simulations and an analytics dashboard."
+  },
+  "Amazon Electronics Recommendation System": {
+    "description": "Electronics recommendation system using an Amazon review dataset and segmentation of user interests."
+  },
+  "Real-Time Stock Monitoring Dashboard & Data Visualization": {
+    "description": "IDX stock market dashboard showing price trends, trading volume and sector distribution for 15 blue-chip stocks."
+  },
+  "FullStack Web Developer Intern": {
+    "description": "Contributed to Subang Regency’s digital portal ecosystem, including profile websites for 30 sub-districts and 30 regional government agencies, as documented in my CV."
+  },
+  "Information & Communication Media Staff": {
+    "description": "Managed visual identity and media content for HIMA IF Telkom University and collaborated with stakeholders to support organizational programs."
+  },
+  "Telkom University": {
+    "description": "Undergraduate Informatics studies focused on software development, Machine Learning and practical technology projects.",
+    "degree": "Bachelor’s degree — Informatics"
+  },
+  "TOEFL Prediction Test — Score 640": {
+    "description": "TOEFL Prediction Test result of 640 as listed in my CV. Use the verification link to check the certificate."
+  },
+  "EPrT (English Proficiency Test) — Score 467": {
+    "description": "English Proficiency Test (EPrT) result of 467 from Telkom University Language Center, as listed in my CV."
+  },
+  "Preparation Course for Azure AI Fundamentals (AI-900)": {
+    "description": "Preparation training for Azure AI Fundamentals (AI-900) listed in my CV. This does not claim certification from passing the AI-900 exam."
+  },
+  "Indonesia": {
+    "title": "Indonesian",
+    "description": "The language used for communication and this portfolio’s original content."
+  },
+  "English": {
+    "description": "Assessment results are taken from my CV; no unverified CEFR level is assigned."
+  },
+  "Website & dashboard (dummy)": {
+    "title": "Websites & dashboards (dummy)"
+  },
+  "Integrasi API & otomasi (dummy)": {
+    "title": "API integration & automation (dummy)"
+  },
+  "Prototipe AI & data (dummy)": {
+    "title": "AI & data prototypes (dummy)"
+  },
+  "Finalis kompetisi inovasi digital (dummy)": {
+    "title": "Digital innovation competition finalist (dummy)"
+  },
+  "Karya pilihan komunitas developer (dummy)": {
+    "title": "Developer community featured work (dummy)"
+  },
+  "AcneScan: YOLOv11 Acne Lesion Detection & Counting System": {
+    "description": "Acne lesion detection and counting system with a web application for image analysis."
+  }
+}
