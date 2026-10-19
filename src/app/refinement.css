@@ -42,3 +42,37 @@
 .project-detail .project-story{grid-template-columns:1fr;}
 .project-detail .project-evidence{grid-template-columns:repeat(3,minmax(0,1fr));}
 @media(max-width:767px){#projects .project-theatre-reading,.project-detail .project-evidence{grid-template-columns:minmax(0,1fr);}.project-evidence p,.project-evidence li{font-size:15px;}.project-evidence>section{padding-left:16px;}}
+/* Proof sections use one material language: thin planes, edge light, restrained depth. */
+.hero-experience .hero-stats{font:12px/1.6 var(--mono);max-width:100%;gap:16px;margin-top:26px;}
+.hero-experience .hero-stats>div{display:block;flex:1;padding-inline:16px;min-width:0;}
+.hero-experience .hero-stats>div:first-child{padding-left:0;}
+.hero-experience .hero-stats dt{font-size:12px;margin-bottom:6px;}
+.hero-experience .hero-stats dd{font-size:14px;line-height:1.6;overflow-wrap:anywhere;}
+.portfolio .competence-section{padding-block:var(--space-section);position:relative;isolation:isolate;}
+.portfolio .competence-section .section-heading h2{font-size:var(--type-section);font-weight:500;letter-spacing:-.045em;line-height:1.1;}
+.portfolio .competence-section .section-heading p{font-size:16px;line-height:1.8;max-width:60ch;}
+.competence-section .depth-surface:is([data-room=skills],[data-room=service],[data-room=journey],[data-room=education],[data-room=credential]){--rest-x:1deg;--rest-y:-1deg;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border);box-shadow:0 2px 0 var(--surface-muted),0 14px 36px rgb(var(--black-rgb) / .1);transition:transform var(--motion-slow) var(--motion-ease),box-shadow var(--motion-fast);}
+.competence-section .depth-surface:nth-child(even){--rest-x:1deg;--rest-y:1deg;}
+.competence-section .depth-surface:is([data-room=education],[data-room=credential],[data-room=service])::before,.competence-section .depth-surface[data-room=skills]::after{content:none;}
+.competence-section .depth-surface[data-room=skills]{padding:24px 28px;margin-bottom:18px;grid-template-columns:150px minmax(0,1fr);gap:28px;}
+.competence-section .skill-group h3{font:12px/1.7 var(--mono);color:var(--muted);}
+.competence-section .skill-items{gap:12px 24px;}
+.competence-section .skill-items span{font-size:clamp(18px,2vw,26px);line-height:1.5;text-shadow:none;transform:translateZ(12px);}
+.competence-section .depth-surface[data-room=education]{padding:28px;margin-bottom:24px;}
+.competence-section .background-group h2{font-size:22px;padding-block:0 20px;margin-bottom:22px;}
+.competence-section .education-item h3{font-size:clamp(25px,3vw,36px);max-width:100%;}
+.competence-section .education-gpa{margin:18px 0;}
+.competence-section .education-gpa strong{font-size:28px;}
+.competence-section .depth-surface[data-room=journey]{display:grid;grid-template-columns:130px minmax(0,1fr) 64px;gap:30px;padding:32px;margin-bottom:24px;border-left:3px solid var(--text);}
+.competence-section .timeline-content h3{font-size:clamp(26px,3vw,38px);margin-block:10px 16px;}
+.competence-section .timeline-date{font:12px/1.8 var(--mono);}
+.competence-section .certificate-list{gap:18px;padding:0;}
+.competence-section .depth-surface[data-room=credential]{padding:26px;border-radius:var(--radius);}
+.competence-section .certificate-row h3{font-size:clamp(22px,2.5vw,30px);line-height:1.25;}
+.competence-section .certificate-preview{transform:translateZ(12px);border-radius:4px;}
+.competence-section .depth-surface[data-room=service]{padding:0 24px;margin-bottom:16px;}
+.competence-section .service-disclosure h3{font-size:clamp(23px,2.5vw,32px);}
+.competence-section .service-disclosure>summary{padding-block:22px;}
+.competence-section .depth-surface.achievement-item{padding:24px;}
+.competence-section :is(p,li){font-size:16px;line-height:1.8;}
+@media(max-width:767px){.hero-experience .hero-stats{flex-wrap:wrap;gap:12px;}.hero-experience .hero-stats>div{flex-basis:40%;padding-left:12px;}.competence-section .depth-surface:is([data-room=skills],[data-room=education],[data-room=journey],[data-room=credential]){padding:22px 18px;transform:none;}.competence-section .depth-surface[data-room=skills],.competence-section .depth-surface[data-room=journey]{grid-template-columns:minmax(0,1fr);gap:14px;}.competence-section .depth-surface[data-room=journey] .experience-image{grid-column:1;}.competence-section .skill-items span{font-size:20px;transform:none;}.competence-section :is(p,li){font-size:15px;}.competence-section .depth-surface[data-room=service]{padding-inline:16px;}}

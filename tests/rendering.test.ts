@@ -90,7 +90,7 @@ test('about works without a photo, biography or CV and never invents owner facts
  assert.ok(html.includes('Profil sedang disiapkan'));assert.ok(html.includes('portrait-atelier-empty'));assert.ok(!html.includes('Sudut pandang potret'));assert.ok(!html.includes('Unduh CV'));assert.ok(!html.includes('>Rian<'));
 });
 
-test('immersive hero exposes CMS tech tags, real counts, bilingual static content and safe play access',()=>{
+test('immersive hero exposes CMS tech tags, CMS contribution scope, bilingual static content and safe play access',()=>{
  const initial:PublicContent={profile:{...emptyProfile,published:true,name:'Rian Pramudya Amanda',headline:'Full Stack Developer',summary:'Machine learning and computer vision',location:'Bandung',photo:'owner.png'},records:[{id:'p',kind:'project',title:'Project',published:true,position:0,data:{technologies:['Python','TypeScript']}},{id:'s',kind:'skill',title:'Python',published:true,position:0,data:{}},{id:'hidden',kind:'project',title:'Secret',published:false,position:0,data:{technologies:['Private tool']}}],documents:[]};
  const html=renderToStaticMarkup(React.createElement(Portfolio,{initial}));const hero=html.slice(html.indexOf('id="home"'),html.indexOf('id="projects"'));
  for(const value of ['hero-floor-grid','hero-film-grain','hero-tech-tags','Python','TypeScript','hero-stats','6.9175° S','polaroid-tape','hero-photo-badge','hero-letter-rise','href="#playground"','ML Engineer','Computer Vision'])assert.ok(hero.includes(value),value);
@@ -99,6 +99,6 @@ test('immersive hero exposes CMS tech tags, real counts, bilingual static conten
 
 test('hero English presentation retains the same CMS identity and navigation',async()=>{
  const {HeroExperience}=await import('../src/components/hero-experience');const html=renderToStaticMarkup(React.createElement(HeroExperience,{profile:{...emptyProfile,name:'Dewi Putri',headline:'A CMS headline',location:'Another city',status:'open'},records:[],en:true,sectionCount:7}));
- for(const text of ['Identity monogram DP','Static view','Explore my work','A little about me','Projects','Certificates','01 / 07','Open to work'])assert.ok(html.includes(text),text);
+ for(const text of ['Identity monogram DP','Static view','View work','Contact','01 / 07','Open to work'])assert.ok(html.includes(text),text);
  assert.ok(!html.includes('6.9175'));assert.ok(!html.includes('ML Engineer'));assert.ok(!html.includes('>Rian<'));
 });

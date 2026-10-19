@@ -5,8 +5,8 @@ import {emptyProfile,type Entry} from '../src/lib/model';
 test('hero annotations use only published CMS facts and do not invent a city or counts',()=>{
  const entry=(id:string,kind:string,published=true,data:Record<string,unknown>={}):Entry=>({id,kind,title:id,published,data,position:0});
  const data=heroSceneData({...emptyProfile,name:'Rian',headline:'Full Stack Developer & AI',summary:'Computer vision and machine learning',location:'Bandung'},[entry('project','project',true,{technologies:['TypeScript','Python']}),entry('TypeScript','skill'),entry('credential','certificate'),entry('secret','project',false,{technologies:['Secret tech']})],false);
- assert.deepEqual(data.technologies,['TypeScript','Python']);assert.deepEqual(data.stats.map(s=>s.value),[1,1,1]);assert.equal(data.roles.length,3);assert.ok(data.coordinates?.includes('107.6191'));assert.ok(!JSON.stringify(data).includes('Secret tech'));
- const empty=heroSceneData({...emptyProfile,location:'Another city'},[],true);assert.equal(empty.coordinates,undefined);assert.deepEqual(empty.technologies,[]);assert.deepEqual(empty.roles,[]);assert.deepEqual(empty.stats.map(s=>s.value),[0,0,0]);
+ assert.deepEqual(data.technologies,['TypeScript','Python']);assert.deepEqual(data.facts.map(s=>s.value),['TypeScript / Python']);assert.equal(data.roles.length,3);assert.ok(data.coordinates?.includes('107.6191'));assert.ok(!JSON.stringify(data).includes('Secret tech'));
+ const empty=heroSceneData({...emptyProfile,location:'Another city'},[],true);assert.equal(empty.coordinates,undefined);assert.deepEqual(empty.technologies,[]);assert.deepEqual(empty.roles,[]);assert.deepEqual(empty.facts,[]);
 });
 test('hero mouse tilt is bounded to twelve degrees and quality avoids mobile, low power and reduced motion',()=>{
  assert.ok(heroSceneConfig.particleCount<=40);const point=heroPointer(10,-10);assert.ok(Math.abs(point.x)<=Math.PI/15&&Math.abs(point.y)<=Math.PI/15);
@@ -23,3 +23,5 @@ test('scene cleanup releases particle resources and shared mesh assets exactly o
  const counts=[0,0,0,0];[meshGeometry,sharedMaterial,pointGeometry,pointMaterial].forEach((resource,index)=>resource.addEventListener('dispose',()=>counts[index]++));
  scene.add(new THREE.Mesh(meshGeometry,sharedMaterial),new THREE.Mesh(meshGeometry,sharedMaterial),new THREE.Points(pointGeometry,pointMaterial));disposeSceneResources(scene);assert.deepEqual(counts,[1,1,1,1]);
 });
+
+test('hero proof uses published roles and organizations instead of vanity counters',()=>{const entries:Entry[]=[{id:'p',kind:'project',title:'P',published:true,position:0,data:{role:'Backend developer'}},{id:'e',kind:'experience',title:'Engineer',published:true,position:0,data:{organization:'Actual employer'}},{id:'private',kind:'experience',title:'Hidden employer',published:false,position:0,data:{}}];assert.deepEqual(heroSceneData(emptyProfile,entries,false).facts.map(f=>f.value),['Backend developer','Actual employer']);});
