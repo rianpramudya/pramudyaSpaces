@@ -14,7 +14,7 @@ export const profileSchema = z.object({
 export const dataSchema = z.object({
  description:text.optional(),role:short.optional(),organization:short.optional(),type:z.enum(['work','organization']).optional(),start:short.optional(),end:short.optional(),current:z.boolean().optional(),
  technologies:z.array(short).max(50).transform(values=>[...new Set(values.filter(Boolean))]).optional(),url:url.optional(),repository:url.optional(),media:z.array(path).max(10).optional(),alt:short.optional(),featured:z.boolean().optional(),
- context:text.optional(),result:text.optional(),bullets:z.array(z.string().trim().max(2000)).max(30).optional(),category:short.optional(),issuer:short.optional(),date:short.optional(),credential:short.optional(),degree:short.optional(),gpa:short.optional(),level:short.optional(),
+ context:text.optional(),result:text.optional(),result_source:url.optional(),paper:url.optional(),bullets:z.array(z.string().trim().max(2000)).max(30).optional(),category:short.optional(),issuer:short.optional(),date:short.optional(),credential:short.optional(),degree:short.optional(),gpa:short.optional(),level:short.optional(),
 });
 export const entrySchema = z.object({id:z.uuid().optional(),kind:z.enum(kinds),title:z.string().trim().min(1).max(240),published:z.boolean(),position:z.number().int().min(0).max(100000),data:dataSchema}).transform(entry=>{if(entry.kind==='experience'&&entry.data.role?.toLowerCase()===entry.title.toLowerCase()){const data={...entry.data};delete data.role;return {...entry,data};}return entry;});
 export const contactSchema = z.object({name:z.string().trim().min(2).max(100),email:z.email().max(254),subject:z.string().trim().min(2).max(200),message:z.string().trim().min(10).max(5000),website:z.string().max(200).default('')});

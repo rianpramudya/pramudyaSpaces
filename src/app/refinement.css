@@ -22,3 +22,23 @@
 .hero-experience .hero-baseline{font-size:12px;}
 .hero-experience .sculpture-controls,.hero-experience .sculpture-controls .text-button{font-size:12px;}
 @media(max-width:767px){.portfolio main>.hero.hero-experience[data-experience=personal-monogram]{padding-bottom:28px;}.hero-experience .hero-annotations{gap:10px;font-size:12px;}.hero-experience .hero-given-name{font-size:clamp(72px,calc(96vw / var(--given-length,4)),170px);}.hero-experience .hero-tech-tag>span{font-size:12px;}.hero-experience .hero-photo-note{width:74px;right:8%;}.hero-experience .hero-photo-badge{width:78px;height:78px;left:-64px;}.hero-experience .hero-location{font-size:12px;}.hero-experience .hero-baseline{font-size:12px;}.hero-experience .hero-signature-object .sculpture-hero{height:300px;}.hero-experience .hero-tech-tag-1{top:auto;bottom:12%;}}
+/* Product imagery first, evidence always visible, tools last. */
+#projects .project-theatre-reading{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);}
+#projects .project-summary{font-size:16px;line-height:1.8;color:var(--muted);margin-bottom:24px;}
+#projects .project-theatre-tools{margin-top:24px;margin-bottom:0;font-size:12px;}
+.project-evidence{display:grid;gap:24px;min-width:0;}
+.project-evidence>section{border-left:2px solid var(--border);padding-left:20px;min-width:0;}
+.project-evidence h4{font:600 12px/1.5 var(--mono);margin:0 0 10px;text-transform:uppercase;letter-spacing:.06em;}
+.project-evidence p,.project-evidence li{font-size:16px;line-height:1.8;color:var(--muted);overflow-wrap:anywhere;}
+.project-evidence p{margin-bottom:0;}
+.project-evidence ul{padding-left:18px;margin:0;display:grid;gap:8px;}
+.project-evidence details,.project-full-context{margin-top:16px;font-size:14px;}
+.project-evidence summary,.project-full-context summary{cursor:pointer;min-height:44px;padding-block:12px;line-height:1.6;}
+.project-evidence .evidence-todo{font:12px/1.8 var(--mono);padding:12px 14px;background:var(--surface-muted);border:1px dashed var(--border);color:var(--text);}
+.project-source-links{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:16px;}
+.project-source-links .text-button{min-height:44px;font-size:14px;color:var(--text);}
+.project-detail .project-image{aspect-ratio:auto;min-height:0;}
+.project-detail .project-image img{width:100%;max-height:75dvh;object-fit:contain;}
+.project-detail .project-story{grid-template-columns:1fr;}
+.project-detail .project-evidence{grid-template-columns:repeat(3,minmax(0,1fr));}
+@media(max-width:767px){#projects .project-theatre-reading,.project-detail .project-evidence{grid-template-columns:minmax(0,1fr);}.project-evidence p,.project-evidence li{font-size:15px;}.project-evidence>section{padding-left:16px;}}

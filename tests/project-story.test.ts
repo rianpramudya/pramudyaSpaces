@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {projectStory} from '../src/lib/project-story';
+import {dataSchema} from '../src/lib/validation';
+test('missing evidence stays an explicit TODO while preserving the authored outcome',()=>{const story=projectStory({context:'A concrete problem. Additional context.',result:'Claim without evidence',bullets:['Built the API']});assert.equal(story.problem,'A concrete problem.');assert.equal(story.result,'TODO: isi hasil terverifikasi');assert.equal(story.authoredResult,'Claim without evidence');assert.equal(story.missingResult,true);assert.deepEqual(story.contributions,['Built the API']);});
+test('evidence-backed result retains source, links and owner data; unsafe sources are rejected',()=>{const data=dataSchema.parse({result:'Working prototype',result_source:'https://example.com/report',paper:'https://example.com/paper',repository:'https://github.com/owner/project'});const story=projectStory(data);assert.equal(story.result,'Working prototype');assert.equal(story.missingResult,false);assert.ok(story.links.some(l=>l.url===data.paper));assert.equal(dataSchema.safeParse({result_source:'javascript:alert(1)'}).success,false);});
