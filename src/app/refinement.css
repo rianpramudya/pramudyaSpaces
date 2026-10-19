@@ -124,7 +124,7 @@
 .portfolio .visitor-dock .hero-chase .arcade-feedback{top:0;right:0;font-size:12px;}
 .portfolio .visitor-dock :focus-visible{outline:2px solid var(--white);outline-offset:3px;}
 .portfolio .site-footer[data-experience=signature-footer]{padding-bottom:calc(104px + env(safe-area-inset-bottom));}
-@media(max-width:767px){.portfolio .visitor-dock{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));max-width:calc(100vw - 24px);}.visitor-dock .dock-quick-actions{display:none;}.visitor-dock .dock-content{max-width:calc(100vw - 24px);width:320px;}.visitor-dock>details>summary{min-height:48px;padding:10px 14px;}.visitor-dock .dock-panel-actions>button{font-size:14px;}}
+@media(max-width:767px){.portfolio .visitor-dock{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));max-width:calc(100vw - 24px);}.visitor-dock .dock-quick-actions{display:flex;flex:1;min-width:0;}.visitor-dock .dock-content{max-width:calc(100vw - 24px);width:320px;}.visitor-dock>details>summary{min-height:48px;padding:10px 14px;}.visitor-dock .dock-panel-actions>button{font-size:14px;}}
 @media(prefers-reduced-transparency:reduce){.portfolio .visitor-dock{background:var(--black);backdrop-filter:none;}}
 /* Reading and input accessibility; supporting labels never shrink below 12px. */
 .portfolio :is(.icon-button,.text-button,.button,summary){min-height:44px;min-width:44px;}
@@ -153,3 +153,13 @@
 #projects .project-theatre-resources .project-theatre-tools{margin-top:0;}
 #projects .project-theatre-resources>.button{margin-top:20px;min-height:50px;font-size:14px;}
 @media(max-width:767px){#projects .project-theatre-reading{grid-template-areas:"identity" "story" "resources";grid-template-rows:auto;gap:24px;}}
+
+/* Keep guestbook and chat discoverable without opening the mobile play drawer. */
+@media(max-width:767px){
+ .portfolio .visitor-dock{left:12px;right:12px;width:auto;max-width:none;}
+ .visitor-dock>details{flex:0 0 52px;}
+ .visitor-dock>details>summary{justify-content:center;min-height:52px;padding:12px;}
+ .visitor-dock>details>summary>span{display:none;}
+ .visitor-dock .dock-quick-actions>button{flex:1;min-width:44px;min-height:52px;padding:10px 8px;gap:7px;font-size:12px;}
+ .visitor-dock .dock-quick-actions>button>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+}
