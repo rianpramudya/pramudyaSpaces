@@ -76,3 +76,21 @@
 .competence-section .depth-surface.achievement-item{padding:24px;}
 .competence-section :is(p,li){font-size:16px;line-height:1.8;}
 @media(max-width:767px){.hero-experience .hero-stats{flex-wrap:wrap;gap:12px;}.hero-experience .hero-stats>div{flex-basis:40%;padding-left:12px;}.competence-section .depth-surface:is([data-room=skills],[data-room=education],[data-room=journey],[data-room=credential]){padding:22px 18px;transform:none;}.competence-section .depth-surface[data-room=skills],.competence-section .depth-surface[data-room=journey]{grid-template-columns:minmax(0,1fr);gap:14px;}.competence-section .depth-surface[data-room=journey] .experience-image{grid-column:1;}.competence-section .skill-items span{font-size:20px;transform:none;}.competence-section :is(p,li){font-size:15px;}.competence-section .depth-surface[data-room=service]{padding-inline:16px;}}
+/* A clear reading route: work and experience first; supporting chapters on demand. */
+.portfolio main>.supplementary-section{padding-block:0;border-top:0;background:var(--background);color:var(--text);}
+.supplementary-section>details{border-top:1px solid var(--border);}
+.supplementary-section>details>summary{display:flex;justify-content:space-between;align-items:center;gap:24px;list-style:none;padding-block:28px;min-height:100px;cursor:pointer;}
+.supplementary-section>details>summary::-webkit-details-marker{display:none;}
+.supplementary-section>details>summary h2{font-size:clamp(25px,3vw,40px);font-weight:500;letter-spacing:-.035em;margin:0;line-height:1.2;}
+.supplementary-section>details>summary p{font-size:14px;color:var(--muted);margin:10px 0 0;max-width:50ch;}
+.section-disclosure-label{display:flex;align-items:center;gap:16px;font:12px/1.5 var(--mono);flex-shrink:0;}
+.section-disclosure-plus{display:grid;place-items:center;width:44px;height:44px;font-size:24px;border:1px solid var(--border);border-radius:50%;transition:transform var(--motion-fast),background var(--motion-fast);}
+.supplementary-section>details[open]>summary .section-disclosure-plus{transform:rotate(45deg);background:var(--text);color:var(--background);}
+.section-expansion{padding-block:12px 48px;}
+.supplementary-section .play-section{background:transparent;padding:24px 0;}
+.portfolio main>.supplementary-section:has(.play-section){--background:var(--gray1);--surface:var(--gray1);--surface-muted:var(--gray2);--text:var(--white);--muted:var(--gray4);--border:var(--gray2);--accent:var(--white);color-scheme:dark;}
+.portfolio main>section:not(.hero):not(.supplementary-section){padding-block:var(--space-section);}
+.portfolio .competence-section::after{content:'';position:absolute;left:20%;right:20%;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);pointer-events:none;}
+@supports(animation-timeline:view()){@media(prefers-reduced-motion:no-preference) and (min-width:768px){.portfolio[data-motion=on] .competence-section .depth-surface{animation:proof-arrive linear both;animation-timeline:view();animation-range:entry 0% entry 90%;}@keyframes proof-arrive{from{opacity:.75;translate:0 24px;}to{opacity:1;translate:0 0;}}}}
+@media(max-width:767px){.supplementary-section>details>summary{gap:14px;padding-block:24px;}.section-disclosure-label{gap:8px;}.section-disclosure-label>span:first-child{display:none;}.section-expansion{padding-bottom:28px;}}
+@media(prefers-reduced-motion:reduce){.section-disclosure-plus{transition:none;}}
