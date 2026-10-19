@@ -15,10 +15,10 @@ test('optional services and CV button absent when no published data',()=>{
  assert.ok(!html.includes('id="services"'));assert.ok(!html.includes('Unduh CV'));assert.ok(html.includes('Profil sedang disiapkan'));
  assert.match(html,/<h1[^>]*>Nama Anda<\/h1>/);
 });
-test('reference-inspired profile keeps public status and guestbook action in the playful status rail',()=>{
+test('unified visitor dock retains profile status and guestbook access',()=>{
  const content:PublicContent={profile:{...emptyProfile,published:true,name:'Rian Pramudya Amanda',headline:'Full Stack Developer',location:'Jambi, ID',status:'open'},records:[],documents:[]};
  const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:content}));
- assert.ok(html.includes('class="site-status-rail" role="group" aria-label="Status profil"'));
+ assert.ok(html.includes('class="dock-status" role="group" aria-label="Status profil"'));
  assert.ok(html.includes('aria-label="Status profil"'));
  assert.ok(html.includes('Open to work'));
  assert.ok(html.includes('Jambi, ID'));

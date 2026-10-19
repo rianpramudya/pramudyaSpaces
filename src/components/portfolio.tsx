@@ -8,8 +8,9 @@ import { oauthOutcome } from '@/lib/auth-policy';
 import { mediaURL,requestJSON } from '@/lib/client-api';
 import { usePreferences } from './preferences';
 import { ContactForm } from './contact-form';
+import {VisitorDock} from './visitor-dock';
 import { PublicPanels } from './public-panels';
-import { Playground,ArcadeLane } from './playground';
+import { Playground } from './playground';
 import { Background } from './credentials';
 import {ProjectEvidence,ProjectLinks} from './project-evidence';
 import { ProjectGallery } from './project-gallery';
@@ -70,14 +71,7 @@ export function Portfolio({initial,projectId,archive=false}:{initial:PublicConte
    <section id="contact" className="contact-section page-width" data-experience="correspondence-room"><div className="contact-copy"><span className="chapter-label">{en?'Have something in mind?':'Punya ide untuk dikerjakan?'}</span><h2>{copy('contact_title',en?'Contact':'Kontak')}</h2><p className="muted">{copy('contact_description')}</p><SculptureStage variant="contact" en={en}/><div className="contact-links">{profile.email&&<a href={`mailto:${profile.email}`}>{profile.email}<ArrowUpRight size={17}/></a>}{profile.phone&&<a href={`tel:${profile.phone.replace(/[^+\d]/g,'')}`}>{profile.phone}<ArrowUpRight size={17}/></a>}{profile.socials.map(s=><a key={s.label} href={s.url} target="_blank" rel="noreferrer">{s.label}<ArrowUpRight size={17}/></a>)}{content.documents.filter(d=>d.id!==profile.featured_cv).map(d=><a key={d.id} href={`${mediaURL(d.path)}?download=1`}>{d.title}<Download size={16}/></a>)}</div></div><DepthSurface room="contact" className="contact-station"><div className="contact-station-head"><span>{en?'A new conversation':'Awal percakapan baru'}</span><ArrowUpRight size={20}/></div><ContactForm language={language}/></DepthSurface></section>
   </>}</main>
     <SiteFooter profile={profile} nav={nav} en={en} away={!!projectId||archive}/>
-    {!archive&&!projectId&&<ArcadeLane language={language}/>}
-    <div className="site-status-rail" role="group" aria-label={en?'Profile status':'Status profil'}>
-     {profile.status!=='hidden'&&<div className="rail-cell rail-open"><span className="rail-led"/><strong>{profile.status==='open'?(en?'Open to work':'Open to work'):(en?'Currently working':'Sedang bekerja')}</strong></div>}
-     {profile.location&&<div className="rail-cell rail-location"><span>{en?'Based in':'Berlokasi di'}</span><strong>{profile.location}</strong></div>}
-     <div className="rail-fill"/>
-     <button className="rail-action rail-guestbook" onClick={()=>setPanel('guestbook')} aria-label={en?'Open guestbook':'Buka buku tamu'}><MessageSquare size={16}/><span>{en?'Guestbook':'Buku tamu'}</span></button>
-     <button className="rail-action rail-chat" onClick={()=>setPanel('chat')} aria-label={en?'Open AI assistant':'Buka asisten AI'}><Sparkles size={16}/><span>{en?`Ask ${owner||'me'}`:`Tanya ${owner||'saya'}`}</span></button>
-    </div>
+    <VisitorDock profile={profile} language={language} play={!archive&&!projectId} onPanel={setPanel}/>
   {panel&&<PublicPanels panel={panel} onClose={()=>setPanel(null)} language={language} owner={owner} authError={authError}/>} {certificate&&<Drawer title={certificate.title} onClose={()=>setCertificate(null)}><img className="certificate-full" src={mediaURL(listValue(certificate.data,'media')[0])} alt={textValue(certificate.data,'alt')||certificate.title}/></Drawer>}
  </div>;
 }
