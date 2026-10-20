@@ -181,7 +181,7 @@
  .hero-experience .hero-entry-actions .text-button{font-size:var(--type-label);min-height:44px;gap:6px;}
  .hero-experience .hero-signature-object{grid-column:2;grid-row:2;align-self:center;margin-top:0;min-width:0;transform:none;}
  .hero-experience .hero-signature-object .sculpture-hero{height:clamp(280px,54vw,350px);}
- .hero-experience .identity-monogram-fallback{font-size:clamp(90px,29vw,205px);}
+
  .hero-experience .hero-photo-note{width:clamp(48px,11vw,72px);right:4%;top:-16px;padding:4px 4px 7px;}
  .hero-experience .hero-photo-badge{width:62px;height:62px;left:-49px;top:-9px;}
  .hero-experience .hero-photo-note .polaroid-tape{width:30px;left:14px;height:12px;top:-6px;}

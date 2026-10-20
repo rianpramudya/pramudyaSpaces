@@ -4,7 +4,7 @@ export function sculptureQuality(width:number,dpr:number,memory?:number){return 
 export function sculptureCameraDistance(variant:'hero'|'contact',progress:number,aspect=1.05){
  const bounded=Math.max(0,Math.min(1,progress));
  if(variant==='contact')return 6.1-bounded*.1;
- // Fit the 3.9-unit plinth and rotating initials in the horizontal 38° camera field.
+ // Fit the routed symbol, its depth and pointer rotation in the horizontal 38° camera field.
  const horizontalFit=2.1/Math.tan(19*Math.PI/180)/Math.max(.1,aspect)*1.12+.45;
  return Math.max(7.5-bounded*.45,horizontalFit);
 }

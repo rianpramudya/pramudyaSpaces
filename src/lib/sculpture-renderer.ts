@@ -15,7 +15,7 @@ export function createSculpture(canvas:HTMLCanvasElement,context:WebGL2Rendering
  const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(38,1,.1,60);const cameraDistance=sculptureCameraDistance(variant,0);camera.position.set(0,0,cameraDistance);
  const pmrem=new THREE.PMREMGenerator(renderer);const room=new RoomEnvironment();const environment=pmrem.fromScene(room,.04);scene.environment=environment.texture;room.dispose();pmrem.dispose();
  const assembly=sculptureModel(variant,quality.segments,monogram);scene.add(assembly);
- const atmosphere=variant==='hero'?createHeroAtmosphere(monogram,new THREE.Box3().setFromObject(assembly,true).min.y-.06):null;if(atmosphere)scene.add(atmosphere.group);
+ const atmosphere=variant==='hero'?createHeroAtmosphere(new THREE.Box3().setFromObject(assembly,true).min.y-.06):null;if(atmosphere)scene.add(atmosphere.group);
 
  scene.add(new THREE.HemisphereLight(sceneTheme.white,sceneTheme.gray1,1.2));const key=new THREE.DirectionalLight(sceneTheme.white,3);key.position.set(-3,4,5);scene.add(key);const rim=new THREE.DirectionalLight(sceneTheme.gray5,variant==='hero'?2+heroSceneConfig.glowIntensity*2:2);rim.position.set(4,1,-2);scene.add(rim);
  const target={x:0,y:0};let active=false,frame=0,last=0,elapsed=0,manual=0,disposed=false;const base=variant==='hero'?{x:-.08,y:-.2,z:-.025}:{x:-.12,y:-.22,z:-.08};

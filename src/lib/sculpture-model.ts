@@ -1,22 +1,28 @@
 import {sceneTheme} from './visual-theme';
 import * as THREE from 'three';
-import {FontLoader} from 'three/addons/loaders/FontLoader.js';
-import {TextGeometry} from 'three/addons/geometries/TextGeometry.js';
-import fontData from '../assets/helvetiker-bold.json';
+import {rpaMarkPaths} from './rpa-mark';
 /** Procedural, testable assets with no DOM, downloads or renderer dependency. */
 export function sculptureModel(variant:'hero'|'contact',segments=160,monogram='RP'){
  const chrome=new THREE.MeshPhysicalMaterial({color:sceneTheme.gray5,metalness:1,roughness:.19,clearcoat:1,clearcoatRoughness:.14,envMapIntensity:2.2});
- const paper=new THREE.MeshStandardMaterial({color:sceneTheme.gray5,metalness:.35,roughness:.35,envMapIntensity:1.4});const dark=new THREE.MeshStandardMaterial({color:sceneTheme.gray3,metalness:.5,roughness:.4});
  const assembly=new THREE.Group();
  function mesh(geometry:THREE.BufferGeometry,material:THREE.Material|THREE.Material[],parent:THREE.Object3D=assembly){const result=new THREE.Mesh(geometry,material);parent.add(result);return result;}
  if(variant==='hero'){
-  const font=new FontLoader().parse(fontData);
-  const geometry=new TextGeometry(monogram,{font,size:2,depth:.42,curveSegments:12,bevelEnabled:true,bevelThickness:.045,bevelSize:.025,bevelSegments:3});
-  geometry.computeBoundingBox();const width=geometry.boundingBox?.getSize(new THREE.Vector3()).x||1;const scale=Math.min(1,3.7/width);geometry.scale(scale,scale,scale);geometry.center();
-  const mark=mesh(geometry,[chrome,dark]);mark.name='identity-monogram';mark.userData.initials=monogram;
-  const base=mesh(new THREE.BoxGeometry(3.9,.08,.85),dark);base.position.y=-1.25;
-  const edge=mesh(new THREE.BoxGeometry(3.9,.018,.86),paper);edge.position.y=-1.2;
+  const mark=new THREE.Group();mark.name='rpa-linear-symbol';mark.userData.ownerInitials=monogram;assembly.add(mark);
+  rpaMarkPaths.forEach((path,index)=>{
+   const points=path.map(([x,y])=>new THREE.Vector3((x-128)/55,(128-y)/55,(index-1)*.25));
+   const curve=new THREE.CurvePath<THREE.Vector3>();
+   // Round each corner without changing the linear route or its endpoints.
+   let previous=points[0];
+   for(let i=1;i<points.length-1;i++){
+    const corner=points[i],before=corner.clone().lerp(points[i-1],.09),after=corner.clone().lerp(points[i+1],.09);
+    curve.add(new THREE.LineCurve3(previous,before));curve.add(new THREE.QuadraticBezierCurve3(before,corner,after));previous=after;
+   }
+   curve.add(new THREE.LineCurve3(previous,points.at(-1)!));
+   const strand=mesh(new THREE.TubeGeometry(curve,Math.max(96,segments),.09,10,false),chrome,mark);strand.name=`rpa-route-${index}`;
+   for(const point of [points[0],points.at(-1)!]){const terminal=mesh(new THREE.SphereGeometry(.09,12,8),chrome,mark);terminal.position.copy(point);}
+  });
  }else{
+  const paper=new THREE.MeshStandardMaterial({color:sceneTheme.gray5,metalness:.35,roughness:.35,envMapIntensity:1.4});const dark=new THREE.MeshStandardMaterial({color:sceneTheme.gray3,metalness:.5,roughness:.4});
   // A folded envelope and raised letter. Geometry is shallowly extruded, not a flat illustration.
   const body=mesh(new THREE.BoxGeometry(2.8,1.75,.12),paper);body.position.y=-.25;
   function triangle(points:[number,number][],material:THREE.Material,z:number,parent:THREE.Object3D=assembly){const shape=new THREE.Shape();shape.moveTo(...points[0]);points.slice(1).forEach(point=>shape.lineTo(...point));shape.closePath();const face=mesh(new THREE.ExtrudeGeometry(shape,{depth:.035,bevelEnabled:true,bevelSegments:2,steps:1,bevelSize:.015,bevelThickness:.015}),material,parent);face.position.z=z;return face;}

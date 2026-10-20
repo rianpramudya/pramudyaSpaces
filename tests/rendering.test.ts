@@ -76,7 +76,7 @@ test('immersive rooms preserve section content and give archive and case-study d
 
 test('personal opening derives its monogram, portrait and positioning from the CMS',()=>{
  const initial:PublicContent={profile:{...emptyProfile,published:true,name:'Dewi Putri',headline:'CMS professional focus',location:'CMS city',photo:'cms-face.png'},records:[],documents:[]};const html=renderToStaticMarkup(React.createElement(Portfolio,{initial}));
- assert.ok(html.includes('data-experience="personal-monogram"'));assert.ok(html.includes('hero-given-name'));assert.ok(html.includes('Monogram identitas DP'));assert.ok(html.includes('CMS professional focus'));assert.ok(html.includes('CMS city'));assert.ok(html.includes('cms-face.png'));assert.ok(!html.includes('chrome-knot'));assert.ok(!html.includes('>Rian<'));
+ assert.ok(html.includes('data-experience="personal-monogram"'));assert.ok(html.includes('hero-given-name'));assert.ok(html.includes('Simbol identitas RPA'));assert.ok(html.includes('CMS professional focus'));assert.ok(html.includes('CMS city'));assert.ok(html.includes('cms-face.png'));assert.ok(!html.includes('chrome-knot'));assert.ok(!html.includes('>Rian<'));
 });
 
 test('about portrait atelier preserves CMS biography, real photo and published CV',()=>{
@@ -99,6 +99,6 @@ test('immersive hero exposes CMS tech tags, CMS contribution scope, bilingual st
 
 test('hero English presentation retains the same CMS identity and navigation',async()=>{
  const {HeroExperience}=await import('../src/components/hero-experience');const html=renderToStaticMarkup(React.createElement(HeroExperience,{profile:{...emptyProfile,name:'Dewi Putri',headline:'A CMS headline',location:'Another city',status:'open'},records:[],en:true,sectionCount:7}));
- for(const text of ['Identity monogram DP','Static view','View work','Contact','01 / 07','Open to work'])assert.ok(html.includes(text),text);
+ for(const text of ['RPA identity symbol','Static view','View work','Contact','01 / 07','Open to work'])assert.ok(html.includes(text),text);
  assert.ok(!html.includes('6.9175'));assert.ok(!html.includes('ML Engineer'));assert.ok(!html.includes('>Rian<'));
 });
