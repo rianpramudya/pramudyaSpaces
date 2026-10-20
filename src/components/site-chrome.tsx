@@ -19,7 +19,7 @@ export function SiteHeader({profile,nav,en,away,activeSection,theme,onLanguage,o
  },[menu]);
  const current=(id:string)=>!away&&activeSection===id?'location' as const:undefined;
  return <><header className="site-header" data-experience="monochrome-navigation">
-  <Link href="/" className="wordmark chrome-wordmark" aria-label={profile.wordmark||profile.name||'Portfolio'}><span className="chrome-monogram" aria-hidden="true">{heroIdentity(profile.name).initials}</span><span className="chrome-brand-name">{profile.wordmark||profile.name||'Portfolio'}</span></Link>
+  <Link href="/" className="wordmark chrome-wordmark" aria-label={profile.wordmark||profile.name||'Portfolio'}><span className="chrome-monogram" aria-hidden="true"><img src="/brand/rpa-symbol.svg" width={32} height={32} alt=""/></span><span className="chrome-brand-name">{profile.wordmark||profile.name||'Portfolio'}</span></Link>
   <nav id="public-navigation" aria-label={en?'Main navigation':'Navigasi utama'} className={menu?'main-nav open':'main-nav'}>
    {nav.map(([id,label])=><a key={id} className={primarySections.has(id)?'nav-primary-link':'nav-secondary-link'} href={href(id)} title={label} aria-current={current(id)} onClick={close}>{label}</a>)}
    {extras.length>0&&<details className="header-overflow" ref={overflow} data-active={!away&&extras.some(([id])=>id===activeSection)}><summary>{en?'More':'Lainnya'}<ChevronDown size={13}/></summary><div className="header-overflow-panel">{extras.map(([id,label])=><a key={id} href={href(id)} aria-current={current(id)} onClick={close}>{label}<ArrowUpRight size={13}/></a>)}</div></details>}

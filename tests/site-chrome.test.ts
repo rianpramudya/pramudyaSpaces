@@ -7,7 +7,7 @@ import {emptyProfile} from '../src/lib/model';
 const nav=[['home','Beranda'],['projects','Karya CMS'],['about','Tentang'],['skills','Alat CMS'],['journey','Perjalanan CMS'],['contact','Kontak CMS']];
 test('header keeps CMS navigation, native overflow menu and bilingual/theme controls',()=>{
  const html=renderToStaticMarkup(React.createElement(SiteHeader,{profile:{...emptyProfile,name:'Dewi Putri'},nav,en:false,away:false,activeSection:'skills',theme:'light',onLanguage:()=>{},onTheme:()=>{}}));
- for(const value of ['DP','Dewi Putri','Karya CMS','Alat CMS','Perjalanan CMS','<details','<summary','aria-controls="public-navigation"','aria-expanded="false"','Ganti ke bahasa Inggris','Ganti tema'])assert.ok(html.includes(value),value);
+ for(const value of ['/brand/rpa-symbol.svg','Dewi Putri','Karya CMS','Alat CMS','Perjalanan CMS','<details','<summary','aria-controls="public-navigation"','aria-expanded="false"','Ganti ke bahasa Inggris','Ganti tema'])assert.ok(html.includes(value),value);
  assert.ok(html.includes('data-active="true"'));assert.ok(!html.includes('/admin'));
 });
 test('header and footer route every section back to home from archive/detail pages',()=>{
