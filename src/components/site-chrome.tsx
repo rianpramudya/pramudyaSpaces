@@ -29,14 +29,14 @@ export function SiteHeader({profile,nav,en,away,activeSection,theme,onLanguage,o
 }
 export function SiteFooter({profile,nav,en,away}:Shared){
  const identity=heroIdentity(profile.name),href=(id:string)=>`${away?'/':''}#${id}`;
- return <footer className="site-footer page-width" data-experience="signature-footer" aria-labelledby="footer-heading">
-  <div className="footer-atmosphere" aria-hidden="true"><div className="footer-floor"/><span>{identity.initials}</span></div>
+ return <footer id="footer" className="site-footer page-width" data-experience="signature-footer" aria-labelledby="footer-heading">
+  <div className="footer-atmosphere" aria-hidden="true"><div className="footer-floor"/></div>
   <div className="footer-opening"><div><p className="footer-note">{en?'A conversation can be a beginning.':'Satu percakapan bisa jadi awal.'}</p><h2 id="footer-heading">{en?'See you at':'Sampai di'}<br/><span>{en?'the next idea.':'ide berikutnya.'}</span></h2></div><a className="footer-invitation" href={href('contact')}><span>{en?"Let's talk":'Mari bertukar ide'}</span><ArrowUpRight size={29}/></a></div>
   <div className="footer-directory"><Link href="/" className="footer-brand">{profile.wordmark||profile.name||'Portfolio'}{profile.headline&&<span>{profile.headline}</span>}</Link>
-   <nav className="footer-navigation" aria-label={en?'Footer navigation':'Navigasi footer'}>{nav.filter(([id])=>['projects','about','contact'].includes(id)).map(([id,label])=><a key={id} href={href(id)}>{label}<ArrowUpRight size={13}/></a>)}<a href={href('playground')}>{en?'Playground':'Ruang bermain'}<ArrowUpRight size={13}/></a></nav>
-   {(profile.socials.length>0||(profile.email&&profile.show_email))&&<div className="footer-socials">{profile.email&&profile.show_email&&<a href={`mailto:${profile.email}`}>{profile.email}<ArrowUpRight size={13}/></a>}{profile.socials.map((social,index)=><a key={`${social.label}-${index}`} href={social.url} target="_blank" rel="noopener noreferrer">{social.label}<ArrowUpRight size={13}/></a>)}</div>}
+   <nav className="footer-navigation" aria-label={en?'Footer navigation':'Navigasi footer'}><span className="footer-directory-label">{en?'Explore':'Jelajahi'}</span>{nav.filter(([id])=>['projects','about','contact'].includes(id)).map(([id,label])=><a key={id} href={href(id)}>{label}<ArrowUpRight size={13}/></a>)}<a href={href('playground')}>{en?'Playground':'Ruang bermain'}<ArrowUpRight size={13}/></a></nav>
+   {(profile.socials.length>0||(profile.email&&profile.show_email))&&<div className="footer-socials"><span className="footer-directory-label">{en?'Find me':'Temukan saya'}</span>{profile.email&&profile.show_email&&<a href={`mailto:${profile.email}`}>{profile.email}<ArrowUpRight size={13}/></a>}{profile.socials.map((social,index)=><a key={`${social.label}-${index}`} href={social.url} target="_blank" rel="noopener noreferrer">{social.label}<ArrowUpRight size={13}/></a>)}</div>}
   </div>
-  <div className="footer-signature" aria-hidden="true">{identity.givenName||profile.wordmark||'Portfolio'}</div>
-  <div className="footer-colophon"><span>© {new Date().getFullYear()} {profile.name||profile.wordmark||'Portfolio'}</span>{profile.location&&<span>{profile.location}</span>}<a href="#main">{en?'Back to top':'Kembali ke atas'}<ArrowUp size={14}/></a></div>
+  <div className="footer-ending"><div className="footer-signature" aria-hidden="true">{identity.givenName||profile.wordmark||'Portfolio'}</div>
+  <div className="footer-colophon"><span>© {new Date().getFullYear()} {profile.name||profile.wordmark||'Portfolio'}</span>{profile.location&&<span>{profile.location}</span>}<a href="#main">{en?'Back to top':'Kembali ke atas'}<ArrowUp size={14}/></a></div></div>
  </footer>;
 }
