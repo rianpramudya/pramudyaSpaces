@@ -44,8 +44,8 @@ test('published education, languages and achievements have public presentation, 
  const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:{profile:{...emptyProfile,published:true,name:'Owner'},documents:[],records:[record('education','University'),record('language','English'),record('achievement','Award'),record('education','Private education',false),record('project','Private project',false)]}}));
  assert.ok(html.includes('University'));assert.ok(html.includes('English'));assert.ok(html.includes('Award'));assert.ok(!html.includes('Private education'));assert.ok(!html.includes('Private project'));assert.ok(html.includes('id="background"'));
 });
-test('custom section titles remain consistent between navigation and heading',()=>{
- const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:{profile:{...emptyProfile,published:true,name:'Owner',headline:'A long professional headline',section_copy:{projects_title:'Karya pilihan'}},documents:[],records:[]}}));assert.match(html,/href="#projects"[^>]*>Karya pilihan<\/a>/);assert.ok(html.includes('<h2>Karya pilihan'));assert.ok(html.includes('class="hero-role"'));
+test('navigation stays concise while editorial section titles remain CMS managed',()=>{
+ const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:{profile:{...emptyProfile,published:true,name:'Owner',headline:'A long professional headline',section_copy:{projects_title:'Karya pilihan dari perjalanan profesional saya'}},documents:[],records:[]}}));assert.match(html,/href="#projects"[^>]*>Proyek<\/a>/);assert.ok(html.includes('<h2>Karya pilihan dari perjalanan profesional saya'));assert.ok(html.includes('class="hero-role"'));
 });
 test('home exposes project exhibition and archive link instead of stacked project cards',()=>{
  const content:PublicContent={profile:{...emptyProfile,published:true,name:'Owner'},documents:[],records:[{id:'project',kind:'project',title:'Visible',position:0,published:true,data:{}},{id:'draft',kind:'project',title:'Hidden draft',position:1,published:false,data:{}}]};

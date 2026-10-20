@@ -1,7 +1,7 @@
 /* Supporting rooms borrow the portrait laminate and project reading planes, without more canvases. */
 .portfolio main>.support-room{
  --background:var(--white);--surface:var(--white);--surface-muted:var(--gray5);--text:var(--gray1);--muted:var(--gray3);--border:var(--gray4);--accent:var(--gray1);--frame-edge:var(--gray3);
- position:relative;isolation:isolate;background:var(--background);color:var(--text);color-scheme:light;padding-inline:max(24px,calc((100% - 1360px)/2));
+ position:relative;isolation:isolate;background:var(--background);color:var(--text);color-scheme:light;padding-inline:max(24px,calc((100% - var(--content-width))/2));
 }
 html[data-theme=dark] .portfolio main>.support-room,.portfolio main>#certificates.support-room{
  --background:var(--black);--surface:var(--gray1);--surface-muted:var(--gray2);--text:var(--white);--muted:var(--gray4);--border:var(--gray2);--accent:var(--white);--frame-edge:var(--gray4);color-scheme:dark;
@@ -19,8 +19,8 @@ html[data-theme=dark] .portfolio main>.support-room,.portfolio main>#certificate
 .support-room :is(.education-item,.certificate-preview){transform-style:preserve-3d;}
 /* Education is a suspended document. Languages and achievements remain an open reading rail. */
 #background.support-room .background-grid{grid-template-columns:minmax(0,1.3fr) minmax(0,.8fr);gap:clamp(36px,6vw,88px);align-items:start;}
-#background.support-room .background-group>h2{font-family:var(--font-body);font-size:var(--type-lead);line-height:var(--leading-heading);color:var(--muted);border:0;padding-bottom:0;margin-bottom:26px;}
-#background.support-room .background-group>h2 svg{width:20px;height:20px;}
+#background.support-room .background-group>h3{font-family:var(--font-body);font-size:var(--type-lead);line-height:var(--leading-heading);color:var(--muted);border:0;padding-bottom:0;margin-bottom:26px;}
+#background.support-room .background-group>h3 svg{width:20px;height:20px;}
 #background.support-room .depth-surface.education-item{
  --rest-x:1deg;--rest-y:-2deg;padding:clamp(24px,3vw,42px);margin:8px 0 38px;border:1px solid var(--frame-edge);border-radius:var(--radius-lg);background:var(--surface);box-shadow:3px 3px 0 var(--surface-muted),0 22px 48px rgb(var(--black-rgb) / .1);
 }
@@ -28,7 +28,7 @@ html[data-theme=dark] .portfolio main>.support-room,.portfolio main>#certificate
  content:'';position:absolute;inset:-10px -10px 7px 10px;width:auto;border:1px solid var(--border);border-radius:var(--radius-lg);background:rgb(var(--gray4-rgb) / .09);transform:translateZ(-24px);z-index:-1;
 }
 #background.support-room .education-item .portrait-corner{width:20px;height:20px;border-color:var(--frame-edge);}
-#background.support-room .education-item h3{font-size:var(--type-title-large);line-height:var(--leading-heading);letter-spacing:var(--tracking-heading);max-width:24ch;margin-block:16px;transform:translateZ(12px);}
+#background.support-room .education-item h4{font-size:var(--type-title-large);line-height:var(--leading-heading);letter-spacing:var(--tracking-heading);max-width:24ch;margin-block:16px;transform:translateZ(12px);}
 #background.support-room .education-item>p:first-of-type{font:var(--weight-body) var(--type-label)/var(--leading-label) var(--font-mono);color:var(--muted);}
 #background.support-room .education-gpa{display:flex;align-items:baseline;gap:12px;margin-block:24px;padding-top:18px;border-top:1px solid var(--border);}
 #background.support-room .education-gpa strong{font-size:var(--type-title);font-weight:var(--weight-heading);letter-spacing:var(--tracking-heading);}
@@ -38,7 +38,7 @@ html[data-theme=dark] .portfolio main>.support-room,.portfolio main>#certificate
 #background.support-room .language-list>div>span{font-size:var(--type-small);align-self:center;overflow-wrap:anywhere;}
 #background.support-room .language-list p{grid-column:1/-1;font-size:var(--type-body);line-height:var(--leading-body);margin:0;}
 #background.support-room .depth-surface.achievement-item{--rest-x:0deg;--rest-y:0deg;padding:22px 0;margin:0;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent;box-shadow:none;}
-#background.support-room .achievement-item h3{font-size:var(--type-title-small);line-height:var(--leading-heading);letter-spacing:var(--tracking-heading);}
+#background.support-room .achievement-item h4{font-size:var(--type-title-small);line-height:var(--leading-heading);letter-spacing:var(--tracking-heading);}
 /* Certificate images get the same fine edge, rear sheet and corner brackets as About. */
 #certificates.support-room .certificate-list{gap:0;padding:0;}
 #certificates.support-room .depth-surface.certificate-row{
@@ -81,7 +81,7 @@ html[data-theme=dark] .portfolio main>.support-room,.portfolio main>#certificate
  .support-room .section-expansion{padding-block:12px 40px;}
  #background.support-room .background-grid{grid-template-columns:minmax(0,1fr);gap:24px;}
  #background.support-room .depth-surface.education-item{padding:26px 20px;margin:12px 8px 28px 0;transform:none;}
- #background.support-room .education-item h3{transform:none;}
+ #background.support-room .education-item h4{transform:none;}
  #background.support-room .language-list>div{grid-template-columns:minmax(0,1fr);gap:6px;}
  #background.support-room .language-list p{grid-column:1;}
  #certificates.support-room .depth-surface.certificate-row{grid-template-columns:110px minmax(0,1fr);gap:20px;padding-block:28px;transform:none;}
