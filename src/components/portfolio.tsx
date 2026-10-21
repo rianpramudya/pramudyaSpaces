@@ -1,5 +1,5 @@
 'use client';
-import { useEffect,useRef,useState } from 'react';
+import { Children,Fragment,isValidElement,useEffect,useRef,useState,type ReactNode } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight,Download,MessageSquare,Sparkles,ExternalLink,Award } from 'lucide-react';
 import type { PublicContent,Entry } from '@/lib/model';
@@ -22,6 +22,7 @@ import { SculptureStage } from './sculpture-stage';
 import {SupplementarySection} from './supplementary-section';
 import { AboutProfile } from './about-profile';
 import { SiteHeader,SiteFooter } from './site-chrome';
+import {SectionTransition,type SectionSurface} from './section-transition';
 export function Portfolio({initial,projectId,archive=false}:{initial:PublicContent;projectId?:string;archive?:boolean}){
  const portfolioRoot=useRef<HTMLDivElement>(null);
  const {language,setLanguage,theme,setTheme}=usePreferences();const en=language==='en';const [content,setContent]=useState(initial);const [fallback,setFallback]=useState(false);const [panel,setPanel]=useState<'guestbook'|'chat'|null>(null);const [authError,setAuthError]=useState(false);const [activeSection,setActiveSection]=useState('home');const [certificate,setCertificate]=useState<Entry|null>(null);
@@ -49,7 +50,7 @@ export function Portfolio({initial,projectId,archive=false}:{initial:PublicConte
  return <div className="portfolio" ref={portfolioRoot}><a className="skip-link" href="#main">{en?'Skip to content':'Lewati ke konten'}</a>
   <SiteHeader profile={profile} nav={nav} en={en} away={!!projectId||archive} activeSection={activeSection} theme={theme} onLanguage={()=>setLanguage(en?'id':'en')} onTheme={()=>setTheme(theme==='dark'?'light':'dark')}/>
   {fallback&&<div className="translation-notice" role="status">English translation is temporarily unavailable. Showing the Indonesian source.</div>}
-  <main id="main">{archive?<ProjectArchive projects={projects} en={en}/>:project?<ProjectDetail project={project} en={en}/>:<>
+  <main id="main">{archive?<ProjectArchive projects={projects} en={en}/>:project?<ProjectDetail project={project} en={en}/>:<SectionFlow>
    <HeroExperience profile={profile} records={content.records} en={en} sectionCount={nav.length+1}/>
    <section id="projects" className="page-section page-width" data-experience="project-theatre"><SectionHeading title={copy('projects_title',en?'Projects':'Proyek')} description={copy('projects_description')} count={projects.length}/>
     <ProjectGallery projects={projects} en={en}/>
@@ -62,7 +63,7 @@ export function Portfolio({initial,projectId,archive=false}:{initial:PublicConte
    {skills.length>0&&<section id="skills" className="page-section page-width competence-section"><SectionHeading title={copy('skills_title','Skills')} description={copy('skills_description')}/>
     {skills.length?<div className="skill-groups">{[...new Set(skills.map(s=>textValue(s.data,'category')||'Skills'))].map(group=><DepthSurface room="skills" className="skill-group" key={group}><h3>{group}</h3><div className="skill-items">{skills.filter(s=>(textValue(s.data,'category')||'Skills')===group).map(s=><span key={s.id}>{s.title}</span>)}</div></DepthSurface>)}</div>:<Empty en={en} text={en?'Published skills will appear here.':'Kompetensi yang diterbitkan akan tampil di sini.'}/>}
    </section>}
-   <Background education={education} languages={languages} achievements={achievements} en={en}/>
+   {(education.length>0||languages.length>0||achievements.length>0)&&<Background education={education} languages={languages} achievements={achievements} en={en}/>}
    {certificates.length>0&&<SupplementarySection defaultOpen id="certificates" className="support-room" en={en} title={copy('certificates_title',en?'Certificates':'Sertifikat')} description={copy('certificates_description')}>
     {certificates.length?<div className="certificate-list">{certificates.map(c=><DepthSurface as="article" room="credential" key={c.id} className="certificate-row">{listValue(c.data,'media')[0]?<button className="certificate-preview" onClick={()=>setCertificate(c)} aria-label={`${en?'Preview':'Pratinjau'} ${c.title}`}>{['top-left','top-right','bottom-left','bottom-right'].map(corner=><i key={corner} className={`portrait-corner corner-${corner}`} aria-hidden="true"/>)}<img loading="lazy" src={mediaURL(listValue(c.data,'media')[0])} alt={textValue(c.data,'alt')||c.title}/></button>:<div className="certificate-mark" aria-hidden="true"><Award size={36}/></div>}<div><span className="muted small">{textValue(c.data,'issuer')}</span><h3>{c.title}</h3>{(textValue(c.data,'description')||textValue(c.data,'credential'))&&<details className="credential-disclosure"><summary>{en?'Certificate details':'Rincian sertifikat'}</summary><p>{textValue(c.data,'description')}</p>{textValue(c.data,'credential')&&<p className="muted small">ID: {textValue(c.data,'credential')}</p>}</details>}</div><div className="certificate-meta"><span className="muted small">{textValue(c.data,'date')}</span>{textValue(c.data,'url')&&<a href={textValue(c.data,'url')} target="_blank" rel="noreferrer">{en?'Verify':'Verifikasi'}<ExternalLink size={14}/></a>}</div></DepthSurface>)}</div>:<Empty en={en} text={en?'Published certificates will appear here.':'Sertifikat yang diterbitkan akan tampil di sini.'}/>}
    </SupplementarySection>}
@@ -77,11 +78,17 @@ export function Portfolio({initial,projectId,archive=false}:{initial:PublicConte
     <DepthSurface room="contact" className="contact-station"><div className="contact-station-head"><span>{en?'A new conversation':'Awal percakapan baru'}</span><ArrowUpRight size={20}/></div><ContactForm language={language}/></DepthSurface>
     <div className="contact-links">{profile.email&&<a href={`mailto:${profile.email}`}>{profile.email}<ArrowUpRight size={17}/></a>}{profile.phone&&<a href={`tel:${profile.phone.replace(/[^+\d]/g,'')}`}>{profile.phone}<ArrowUpRight size={17}/></a>}{profile.socials.map(s=><a key={s.label} href={s.url} target="_blank" rel="noreferrer">{s.label}<ArrowUpRight size={17}/></a>)}{content.documents.filter(d=>d.id!==profile.featured_cv).map(d=><a key={d.id} href={`${mediaURL(d.path)}?download=1`}>{d.title}<Download size={16}/></a>)}</div>
    </section>
-  </>}</main>
+  </SectionFlow>}</main>
+    {(archive||!!project)&&<SectionTransition from="page" to="footer"/>}
     <SiteFooter profile={profile} nav={nav} en={en} away={!!projectId||archive}/>
     <VisitorDock profile={profile} language={language} play={!archive&&!projectId} onPanel={setPanel}/>
   {panel&&<PublicPanels panel={panel} onClose={()=>setPanel(null)} language={language} owner={owner} authError={authError}/>} {certificate&&<Drawer title={certificate.title} onClose={()=>setCertificate(null)}><img className="certificate-full" src={mediaURL(listValue(certificate.data,'media')[0])} alt={textValue(certificate.data,'alt')||certificate.title}/></Drawer>}
  </div>;
+}
+function SectionFlow({children}:{children:ReactNode}){
+ const sections=Children.toArray(children).filter(isValidElement<{id?:SectionSurface}>);
+ const id=(section:typeof sections[number]):SectionSurface=>section.props.id||(section.type===HeroExperience?'home':section.type===AboutProfile?'about':'background');
+ return <>{sections.map((section,index)=><Fragment key={id(section)}>{index>0&&<SectionTransition from={id(sections[index-1])} to={id(section)}/>}{section}</Fragment>)}{sections.length>0&&<SectionTransition from={id(sections[sections.length-1])} to="footer"/>}</>;
 }
 function SectionHeading({title,description,count}:{title:string;description:string;count?:number}){return <div className="section-heading"><div><h2>{title}{count!==undefined&&<sup>{String(count).padStart(2,'0')}</sup>}</h2>{description&&<p className="muted">{description}</p>}</div></div>;}
 function Empty({text,en}:{text:string;en:boolean}){return <div className="empty-state"><span className="empty-line"/><p>{text}</p></div>;}

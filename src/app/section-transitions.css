@@ -1,0 +1,14 @@
+/* Static gradients bridge actual neighboring sections, including optional CMS chapters. */
+.section-transition{
+ --blend-from:var(--blend-from-light);--blend-to:var(--blend-to-light);
+ height:clamp(44px,5vw,76px);width:100%;flex-shrink:0;pointer-events:none;
+ background:linear-gradient(180deg,var(--blend-from),var(--blend-to));
+ background:linear-gradient(180deg,var(--blend-from) 0%,color-mix(in srgb,var(--blend-from) 80%,var(--blend-to)) 24%,color-mix(in srgb,var(--blend-from),var(--blend-to)) 50%,color-mix(in srgb,var(--blend-from) 20%,var(--blend-to)) 76%,var(--blend-to) 100%);
+}
+html:not([data-theme=dark]) .section-transition[data-light-match=true]{display:none;}
+html[data-theme=dark] .section-transition{--blend-from:var(--blend-from-dark);--blend-to:var(--blend-to-dark);}
+html[data-theme=dark] .section-transition[data-dark-match=true]{display:none;}
+.portfolio #main>.section-transition+section[id]{border-top:0;}
+.portfolio #main>.section-transition+section[id]>details[data-section-disclosure]{border-top:0;}
+.portfolio:has(.section-transition) .site-footer[data-experience=signature-footer]{border-top:0;}
+@media(forced-colors:active){.section-transition{display:none;}}

@@ -19,5 +19,6 @@ import './typography.css';
 import './support-rooms.css';
 import './contact-room.css';
 import './reading-layout.css';
+import './section-transitions.css';
 export const metadata:Metadata={title:{default:'Portfolio',template:'%s | Portfolio'},description:'Profil profesional, proyek, pengalaman, dan kontak.'};
 export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="id" suppressHydrationWarning><body><script dangerouslySetInnerHTML={{__html:"try{var t=localStorage.getItem('portfolio-theme');document.documentElement.dataset.theme=t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';}catch(e){}"}}/>{children}</body></html>;}
