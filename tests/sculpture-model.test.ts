@@ -13,6 +13,8 @@ for(const variant of ['hero','contact'] as const)test(`${variant} 3D asset has f
 
 test('opening uses the custom three-route RPA symbol, with owner metadata and no text geometry',()=>{
  const model=sculptureModel('hero',96,'DP');const mark=model.getObjectByName('rpa-linear-symbol');assert.ok(mark instanceof THREE.Group);assert.equal(mark.userData.ownerInitials,'DP');assert.equal(mark.children.filter(child=>child instanceof THREE.Mesh&&child.geometry.type==='TubeGeometry').length,3);model.traverse(child=>{if(child instanceof THREE.Mesh)assert.notEqual(child.geometry.type,'TextGeometry');});
+ assert.ok(mark.getObjectByName('rpa-planet') instanceof THREE.Mesh);
+ assert.ok(mark.getObjectByName('rpa-orbit') instanceof THREE.Mesh);
  model.traverse(object=>{if(object instanceof THREE.Mesh){object.geometry.dispose();const materials=Array.isArray(object.material)?object.material:[object.material];materials.forEach(material=>material.dispose());}});
 });
 

@@ -1,6 +1,6 @@
 import {sceneTheme} from './visual-theme';
 import * as THREE from 'three';
-import {rpaMarkPaths} from './rpa-mark';
+import {rpaMarkPaths,rpaOrbit} from './rpa-mark';
 /** Procedural, testable assets with no DOM, downloads or renderer dependency. */
 export function sculptureModel(variant:'hero'|'contact',segments=160,monogram='RP'){
  const chrome=new THREE.MeshPhysicalMaterial({color:sceneTheme.gray5,metalness:1,roughness:.19,clearcoat:1,clearcoatRoughness:.14,envMapIntensity:2.2});
@@ -21,6 +21,10 @@ export function sculptureModel(variant:'hero'|'contact',segments=160,monogram='R
    const strand=mesh(new THREE.TubeGeometry(curve,Math.max(96,segments),.09,10,false),chrome,mark);strand.name=`rpa-route-${index}`;
    for(const point of [points[0],points.at(-1)!]){const terminal=mesh(new THREE.SphereGeometry(.09,12,8),chrome,mark);terminal.position.copy(point);}
   });
+  const core=new THREE.Group();core.name='rpa-orbital-core';mark.add(core);
+  const planet=mesh(new THREE.SphereGeometry(rpaOrbit.planetRadius/55,32,20),chrome,core);planet.name='rpa-planet';
+  const orbitalPlane=new THREE.Group();orbitalPlane.rotation.z=rpaOrbit.tiltDegrees*Math.PI/180;core.add(orbitalPlane);
+  const orbit=mesh(new THREE.TorusGeometry(rpaOrbit.radius/55,rpaOrbit.strokeWidth/110,8,96),chrome,orbitalPlane);orbit.name='rpa-orbit';orbit.rotation.x=Math.acos(rpaOrbit.minorRadius/rpaOrbit.radius);
  }else{
   const paper=new THREE.MeshStandardMaterial({color:sceneTheme.gray5,metalness:.35,roughness:.35,envMapIntensity:1.4});const dark=new THREE.MeshStandardMaterial({color:sceneTheme.gray3,metalness:.5,roughness:.4});
   // A folded envelope and raised letter. Geometry is shallowly extruded, not a flat illustration.
