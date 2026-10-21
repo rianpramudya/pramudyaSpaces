@@ -12,4 +12,7 @@ test('downloadable logo and static hero use the same three routes as the 3D geom
  assert.ok(svg.includes(`r="${rpaOrbit.planetRadius}"`));
  assert.ok(svg.includes(`rx="${rpaOrbit.radius}" ry="${rpaOrbit.minorRadius}"`));
  assert.ok(svg.includes(`rotate(-${rpaOrbit.tiltDegrees} 128 128)`));
+ const hero=readFileSync(new URL('../public/brand/rpa-hero-symbol.svg',import.meta.url),'utf8');
+ assert.deepEqual([...hero.matchAll(/<path d="([^"]+)" mask=/g)].map(match=>match[1]),rpaMarkPathData);
+ assert.ok(!hero.includes('<circle'));assert.ok(!hero.includes('<ellipse'));
 });

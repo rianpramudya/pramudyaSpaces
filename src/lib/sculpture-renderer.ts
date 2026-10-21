@@ -9,12 +9,12 @@ import {sculptureQuality,sculptureScroll,sculptureCameraDistance} from './sculpt
 export type SculptureVariant='hero'|'contact';
 export interface SculptureController{setMotion:(active:boolean)=>void;point:(x:number,y:number)=>void;rotate:()=>void;resize:()=>void;dispose:()=>void;}
 /** Loaded only by a visible sculpture. Procedural geometry/environment; no model or HDR downloads. */
-export function createSculpture(canvas:HTMLCanvasElement,context:WebGL2RenderingContext,host:HTMLElement,variant:SculptureVariant,monogram='/'):SculptureController{
+export function createSculpture(canvas:HTMLCanvasElement,context:WebGL2RenderingContext,host:HTMLElement,variant:SculptureVariant):SculptureController{
  const quality=sculptureQuality(host.clientWidth,window.devicePixelRatio||1);
  const renderer=new THREE.WebGLRenderer({canvas,context,alpha:true,antialias:true});renderer.setPixelRatio(quality.pixelRatio);renderer.setClearColor(sceneTheme.black,0);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.35;
  const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(38,1,.1,60);const cameraDistance=sculptureCameraDistance(variant,0);camera.position.set(0,0,cameraDistance);
  const pmrem=new THREE.PMREMGenerator(renderer);const room=new RoomEnvironment();const environment=pmrem.fromScene(room,.04);scene.environment=environment.texture;room.dispose();pmrem.dispose();
- const assembly=sculptureModel(variant,quality.segments,monogram);scene.add(assembly);
+ const assembly=sculptureModel(variant,quality.segments);scene.add(assembly);
  const atmosphere=variant==='hero'?createHeroAtmosphere(new THREE.Box3().setFromObject(assembly,true).min.y-.06):null;if(atmosphere)scene.add(atmosphere.group);
 
  scene.add(new THREE.HemisphereLight(sceneTheme.white,sceneTheme.gray1,1.2));const key=new THREE.DirectionalLight(sceneTheme.white,3);key.position.set(-3,4,5);scene.add(key);const rim=new THREE.DirectionalLight(sceneTheme.gray5,variant==='hero'?2+heroSceneConfig.glowIntensity*2:2);rim.position.set(4,1,-2);scene.add(rim);
@@ -29,7 +29,7 @@ export function createSculpture(canvas:HTMLCanvasElement,context:WebGL2Rendering
   camera.position.z=sculptureCameraDistance(variant,progress,camera.aspect);renderer.render(scene,camera);if(active)frame=requestAnimationFrame(draw);
  }
  function request(){if(!frame&&!disposed)frame=requestAnimationFrame(draw);}
- function resize(){if(disposed)return;const w=host.clientWidth,h=Math.max(1,host.clientHeight-44);if(!w||!h)return;renderer.setPixelRatio(sculptureQuality(w,window.devicePixelRatio||1).pixelRatio);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);request();}
+ function resize(){if(disposed)return;const w=host.clientWidth,h=Math.max(1,host.clientHeight-(host.dataset.controls==='external'?0:44));if(!w||!h)return;renderer.setPixelRatio(sculptureQuality(w,window.devicePixelRatio||1).pixelRatio);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);request();}
  resize();
  return {
   setMotion(value){if(disposed)return;active=value;last=0;if(!value){target.x=0;target.y=0;cancelAnimationFrame(frame);frame=0;}request();},

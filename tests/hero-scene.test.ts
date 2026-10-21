@@ -12,6 +12,16 @@ test('hero mouse tilt is bounded to twelve degrees and quality avoids mobile, lo
  assert.ok(heroSceneConfig.particleCount<=40);const point=heroPointer(10,-10);assert.ok(Math.abs(point.x)<=Math.PI/15&&Math.abs(point.y)<=Math.PI/15);
  assert.equal(heroQuality(390,8,false,8).webgl,false);assert.equal(heroQuality(1200,2,false,8).webgl,false);assert.equal(heroQuality(1200,8,true,8).animate,false);assert.equal(heroQuality(1200,8,false,2).webgl,false);assert.equal(heroQuality(1200,8,false,8).webgl,true);
 });
+test('CMS contribution summaries distinguish web, AI and professional experience',()=>{
+ const records:Entry[]=[
+  {id:'web',kind:'project',title:'Portal',published:true,position:0,data:{role:'Full-Stack Web Developer'}},
+  {id:'ai',kind:'project',title:'Vision',published:true,position:1,data:{role:'Machine Learning / Data Science'}},
+  {id:'work',kind:'experience',title:'Developer',published:true,position:0,data:{organization:'CMS organization'}},
+ ];
+ const facts=heroSceneData(emptyProfile,records,true).facts;
+ assert.deepEqual(facts.map(fact=>fact.label),['Web','AI','Experience']);
+ assert.deepEqual(facts.map(fact=>fact.value),['Full-Stack Web Developer','Machine Learning / Data Science','CMS organization']);
+});
 
 test('ambient particles stay finite, deterministic and bounded even with excessive configuration',async()=>{
  const {heroParticles}=await import('../src/lib/hero-atmosphere');const a=heroParticles(1000),b=heroParticles(1000);assert.equal(a.getAttribute('position').count,40);assert.deepEqual(a.getAttribute('position').array,b.getAttribute('position').array);for(const value of a.getAttribute('position').array)assert.ok(Number.isFinite(value)&&Math.abs(value)<6);a.dispose();b.dispose();

@@ -1,5 +1,5 @@
 /* Editorial monochrome system: tactile depth supports the content hierarchy. */
-.portfolio main>.hero.hero-experience[data-experience=personal-monogram]{--bg:var(--black);--fg:var(--white);--background:var(--black);--surface:var(--gray1);--surface-muted:var(--gray2);--surface-inverse:var(--white);--text:var(--white);--muted:var(--gray4);--border:var(--gray2);--accent:var(--white);background:var(--bg);gap:20px 12px;padding-top:24px;padding-bottom:40px;}
+.portfolio main>.hero.hero-experience[data-experience=centered-symbol]{--bg:var(--black);--fg:var(--white);--background:var(--black);--surface:var(--gray1);--surface-muted:var(--gray2);--surface-inverse:var(--white);--text:var(--white);--muted:var(--gray4);--border:var(--gray2);--accent:var(--white);background:var(--bg);gap:20px 12px;padding-top:24px;padding-bottom:40px;}
 .hero-experience .hero-identity{position:relative;z-index:2;}
 .hero-experience .hero-annotations{color:var(--gray4);font-size:var(--type-label);gap:16px;}
 .hero-annotations .hero-availability i{box-shadow:none;}
@@ -21,7 +21,7 @@
 .hero-experience .hero-baseline .hero-play-link{margin-right:0;}
 .hero-experience .hero-baseline{font-size:var(--type-label);}
 .hero-experience .sculpture-controls,.hero-experience .sculpture-controls .text-button{font-size:var(--type-label);}
-@media(max-width:767px){.portfolio main>.hero.hero-experience[data-experience=personal-monogram]{padding-bottom:28px;}.hero-experience .hero-annotations{gap:10px;font-size:var(--type-label);}.hero-experience .hero-given-name{font-size:clamp(72px,calc(96vw / var(--given-length,4)),170px);}.hero-experience .hero-tech-tag>span{font-size:var(--type-label);}.hero-experience .hero-photo-note{width:74px;right:8%;}.hero-experience .hero-photo-badge{width:78px;height:78px;left:-64px;}.hero-experience .hero-location{font-size:var(--type-label);}.hero-experience .hero-baseline{font-size:var(--type-label);}.hero-experience .hero-signature-object .sculpture-hero{height:300px;}.hero-experience .hero-tech-tag-1{top:auto;bottom:12%;}}
+@media(max-width:767px){.portfolio main>.hero.hero-experience[data-experience=centered-symbol]{padding-bottom:28px;}.hero-experience .hero-annotations{gap:10px;font-size:var(--type-label);}.hero-experience .hero-given-name{font-size:clamp(72px,calc(96vw / var(--given-length,4)),170px);}.hero-experience .hero-tech-tag>span{font-size:var(--type-label);}.hero-experience .hero-photo-note{width:74px;right:8%;}.hero-experience .hero-photo-badge{width:78px;height:78px;left:-64px;}.hero-experience .hero-location{font-size:var(--type-label);}.hero-experience .hero-baseline{font-size:var(--type-label);}.hero-experience .hero-signature-object .sculpture-hero{height:300px;}.hero-experience .hero-tech-tag-1{top:auto;bottom:12%;}}
 /* Product imagery first, evidence always visible, tools last. */
 #projects .project-theatre-reading{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);}
 #projects .project-summary{font-size:var(--type-body);line-height:var(--leading-body);color:var(--muted);margin-bottom:24px;}
@@ -153,60 +153,3 @@
 #projects .project-theatre-resources .project-theatre-tools{margin-top:0;}
 #projects .project-theatre-resources>.button{margin-top:20px;min-height:50px;font-size:var(--type-small);}
 @media(max-width:767px){#projects .project-theatre-reading{grid-template-areas:"identity" "story" "resources";grid-template-rows:auto;gap:24px;}}
-
-/* Keep guestbook and chat discoverable without opening the mobile play drawer. */
-@media(max-width:767px){
- .portfolio .visitor-dock{left:12px;right:12px;width:auto;max-width:none;}
- .visitor-dock>details{flex:0 0 52px;}
- .visitor-dock>details>summary{justify-content:center;min-height:52px;padding:12px;}
- .visitor-dock>details>summary>span{display:none;}
- .visitor-dock .dock-quick-actions>button{flex:1;min-width:44px;min-height:52px;padding:10px 8px;gap:7px;font-size:var(--type-label);}
- .visitor-dock .dock-quick-actions>button>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-}
-/* Compact mobile hero: preserve the desktop relationship between identity and sculpture. */
-@media(max-width:767px){
- .portfolio main>.hero.hero-experience[data-experience=personal-monogram]{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);grid-template-rows:auto auto auto auto;gap:18px 10px;padding:24px 20px 32px;min-height:auto;align-content:start;}
- .hero-experience .hero-annotations{grid-column:1/-1;grid-row:1;padding-bottom:0;gap:8px 12px;}
- .hero-experience .hero-annotations>span:nth-child(2){display:none;}
- .hero-experience[data-experience=personal-monogram] .hero-identity{display:contents;animation:none;}
- .hero-experience .hero-copy{grid-column:1;grid-row:2;align-self:center;min-width:0;position:relative;z-index:2;}
- .hero-experience .hero-greeting{font-size:var(--type-label);margin-bottom:14px;}
- .portfolio .hero.hero-experience .hero-name{width:100%;margin-bottom:18px;}
- .hero-experience .hero-given-name{font-size:clamp(48px,calc(62vw / var(--given-length,4)),105px);line-height:.95;}
- .hero-experience .hero-family-name{font-size:clamp(14px,3vw,22px);line-height:1.4;letter-spacing:.015em;margin-top:12px;}
- .portfolio .hero.hero-experience .hero-role{font-size:var(--type-body);line-height:1.5;margin-bottom:12px;min-height:3em;}
- .hero-experience .hero-location{font-size:var(--type-label);margin-bottom:16px;}
- .hero-experience .hero-entry-actions{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;}
- .hero-experience .hero-entry-actions .button{min-height:44px;padding:10px 12px;font-size:var(--type-label);gap:7px;}
- .hero-experience .hero-entry-actions .text-button{font-size:var(--type-label);min-height:44px;gap:6px;}
- .hero-experience .hero-signature-object{grid-column:2;grid-row:2;align-self:center;margin-top:0;min-width:0;transform:none;}
- .hero-experience .hero-signature-object .sculpture-hero{height:clamp(280px,54vw,350px);}
-
- .hero-experience .hero-photo-note{width:clamp(48px,11vw,72px);right:4%;top:-16px;padding:4px 4px 7px;}
- .hero-experience .hero-photo-badge{width:62px;height:62px;left:-49px;top:-9px;}
- .hero-experience .hero-photo-note .polaroid-tape{width:30px;left:14px;height:12px;top:-6px;}
- .hero-experience .hero-photo-note>span:not(.polaroid-tape){font-size:var(--type-label);margin-top:3px;}
- .hero-experience .hero-tech-tag{max-width:100%;}
- .hero-experience .hero-tech-tag>span{padding:5px 8px;font-size:var(--type-label);}
- .hero-experience .hero-tech-tag-0{left:0;top:auto;bottom:4%;}
- .hero-experience .hero-tech-tag:nth-child(n+2){display:none;}
- .hero-experience .hero-tech-tag::before,.hero-experience .hero-tech-tag::after{display:none;}
- .hero-experience .sculpture-controls{gap:4px;padding-inline:0;flex-wrap:wrap;line-height:1.5;}
- .hero-experience .hero-stats{grid-column:1/-1;grid-row:3;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;width:100%;margin:6px 0 0;padding-block:16px;border-block:1px solid var(--border);}
- .hero-experience .hero-stats>div{padding:0 12px;min-width:0;}
- .hero-experience .hero-stats dt{font-size:var(--type-label);line-height:1.5;margin-bottom:6px;}
- .hero-experience .hero-stats dd{font:var(--type-label)/var(--leading-label) var(--font-mono);}
- .hero-experience[data-experience=personal-monogram] .hero-baseline{grid-column:1/-1;grid-row:4;margin-top:0;padding-top:0;gap:8px 14px;min-height:44px;font-size:var(--type-label);border:0;}
-}
-@media(min-width:480px) and (max-width:767px){
- .portfolio main>.hero.hero-experience[data-experience=personal-monogram]{padding-inline:28px;gap:22px 20px;padding-block:28px 36px;}
- .hero-experience .hero-stats dd{font-size:var(--type-small);}
- .hero-experience .hero-entry-actions{gap:8px 14px;}
-}
-@media(max-width:359px){
- .portfolio main>.hero.hero-experience[data-experience=personal-monogram]{padding-inline:16px;gap:16px 8px;}
- .hero-experience .hero-stats{grid-template-columns:minmax(0,1fr);gap:12px;}
- .hero-experience .hero-stats>div{padding:0;border:0;}
- .hero-experience .hero-stats>div+div{padding-top:12px;border-top:1px solid var(--border);}
-}
-@media(max-width:767px){.hero-experience .sculpture-controls>span:first-child{display:none;}}

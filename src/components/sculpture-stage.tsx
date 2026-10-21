@@ -1,10 +1,13 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
+import {createPortal} from 'react-dom';
 import {RotateCcw} from 'lucide-react';
 import {sculptureQuality} from '@/lib/sculpture-motion';
 import {heroQuality} from '@/lib/hero-scene';
 import type {SculptureController,SculptureVariant} from '@/lib/sculpture-renderer';
-export function SculptureStage({variant='hero',en,monogram='/'}:{variant?:SculptureVariant;en:boolean;monogram?:string}){
+export function SculptureStage({variant='hero',en,controlsId}:{variant?:SculptureVariant;en:boolean;controlsId?:string}){
+ const [controlsHost,setControlsHost]=useState<HTMLElement|null>(null);
+ useEffect(()=>{setControlsHost(controlsId?document.getElementById(controlsId):null);},[controlsId]);
  const host=useRef<HTMLDivElement>(null),canvas=useRef<HTMLCanvasElement>(null);const controller=useRef<SculptureController|null>(null);const [mode,setMode]=useState<'fallback'|'webgl'>('fallback');const [turn,setTurn]=useState(0);
  useEffect(()=>{
   const root=host.current,element=canvas.current;if(!root||!element)return;let disposed=false,visible=false,loading=false,failed=false,generation=0;const reduced=matchMedia('(prefers-reduced-motion: reduce)'),desktop=matchMedia('(min-width:768px)');setMode('fallback');
@@ -15,7 +18,7 @@ export function SculptureStage({variant='hero',en,monogram='/'}:{variant?:Sculpt
   async function load(){
    if(loading||controller.current||disposed||failed||!supportsHero())return;loading=true;const ticket=++generation;
    const memory=(navigator as Navigator & {deviceMemory?:number}).deviceMemory;if(!sculptureQuality(root!.clientWidth,devicePixelRatio||1,memory).webgl)return;
-   try{const gl=element!.getContext('webgl2',{alpha:true,antialias:true,powerPreference:'low-power'});if(!gl){failed=true;return;}const {createSculpture}=await import('@/lib/sculpture-renderer');if(disposed||ticket!==generation||!supportsHero())return;controller.current=createSculpture(element!,gl,root!,variant,monogram);controller.current.setMotion(enabled());setMode('webgl');}catch{failed=true;controller.current?.dispose();controller.current=null;setMode('fallback');}finally{if(ticket===generation)loading=false;}
+   try{const gl=element!.getContext('webgl2',{alpha:true,antialias:true,powerPreference:'low-power'});if(!gl){failed=true;return;}const {createSculpture}=await import('@/lib/sculpture-renderer');if(disposed||ticket!==generation||!supportsHero())return;controller.current=createSculpture(element!,gl,root!,variant);controller.current.setMotion(enabled());setMode('webgl');}catch{failed=true;controller.current?.dispose();controller.current=null;setMode('fallback');}finally{if(ticket===generation)loading=false;}
   }
   const observer=new IntersectionObserver(entries=>{visible=entries[0]?.isIntersecting??false;if(visible)void load();sync();},{rootMargin:'100px',threshold:0});observer.observe(root);
   const resize=new ResizeObserver(()=>controller.current?.resize());resize.observe(root);
@@ -23,10 +26,11 @@ export function SculptureStage({variant='hero',en,monogram='/'}:{variant?:Sculpt
   const move=(event:Event)=>{const pointer=event as PointerEvent;if(pointer.pointerType!=='mouse'||!parent)return;const box=parent.getBoundingClientRect();controller.current?.point((pointer.clientX-box.left)/box.width*2-1,(pointer.clientY-box.top)/box.height*2-1);};const leave=()=>controller.current?.point(0,0);parent?.addEventListener('pointermove',move);parent?.addEventListener('pointerleave',leave);
   desktop.addEventListener('change',sync);reduced.addEventListener('change',sync);window.addEventListener('portfolio-play-change',sync);document.addEventListener('visibilitychange',sync);
   return()=>{disposed=true;generation++;parent?.removeEventListener('pointermove',move);parent?.removeEventListener('pointerleave',leave);desktop.removeEventListener('change',sync);observer.disconnect();resize.disconnect();element.removeEventListener('webglcontextlost',lost);reduced.removeEventListener('change',sync);window.removeEventListener('portfolio-play-change',sync);document.removeEventListener('visibilitychange',sync);controller.current?.dispose();controller.current=null;};
- },[variant,monogram]);
- return <div className={`sculpture-stage sculpture-${variant}`} ref={host} role="group" aria-label={variant==='hero'?(en?'RPA identity symbol':'Simbol identitas RPA'):(en?'Interactive envelope':'Amplop interaktif')} data-renderer={mode} onPointerMove={e=>{if(variant==='hero'||e.pointerType!=='mouse')return;const box=e.currentTarget.getBoundingClientRect();controller.current?.point((e.clientX-box.left)/box.width*2-1,(e.clientY-box.top)/box.height*2-1);}} onPointerLeave={()=>controller.current?.point(0,0)}>
-  <div className="sculpture-fallback" aria-hidden="true" style={{'--sculpture-turn':`${turn*90}deg`} as React.CSSProperties}>{variant==='hero'?<div className="rpa-symbol-fallback"><img src="/brand/rpa-symbol.svg" width={256} height={256} alt="" draggable={false}/></div>:<div className="chrome-envelope"><i/><span/></div>}</div>
+ },[variant]);
+ const controls=<div className="sculpture-controls"><span>{variant==='hero'?(en?'Three paths. One signature.':'Tiga jalur. Satu identitas.'):(en?'Every collaboration starts with a message.':'Setiap kolaborasi dimulai dari pesan.')}</span><button type="button" className="text-button" onClick={()=>{setTurn(value=>value+1);controller.current?.rotate();}}><RotateCcw size={14}/>{en?'Turn the object':'Putar objek'}</button></div>;
+ return <div className={`sculpture-stage sculpture-${variant}`} ref={host} role="group" aria-label={variant==='hero'?(en?'RPA identity symbol':'Simbol identitas RPA'):(en?'Interactive envelope':'Amplop interaktif')} data-renderer={mode} data-controls={controlsId?'external':'inline'} onPointerMove={e=>{if(variant==='hero'||e.pointerType!=='mouse')return;const box=e.currentTarget.getBoundingClientRect();controller.current?.point((e.clientX-box.left)/box.width*2-1,(e.clientY-box.top)/box.height*2-1);}} onPointerLeave={()=>controller.current?.point(0,0)}>
+  <div className="sculpture-fallback" aria-hidden="true" style={{'--sculpture-turn':`${turn*90}deg`} as React.CSSProperties}>{variant==='hero'?<div className="rpa-symbol-fallback"><img src="/brand/rpa-hero-symbol.svg" width={256} height={256} alt="" draggable={false}/></div>:<div className="chrome-envelope"><i/><span/></div>}</div>
   <canvas ref={canvas} className="sculpture-canvas" aria-hidden="true"/>
-  <div className="sculpture-controls"><span>{variant==='hero'?(en?'Three paths. One signature.':'Tiga jalur. Satu identitas.'):(en?'Every collaboration starts with a message.':'Setiap kolaborasi dimulai dari pesan.')}</span>{variant==='hero'&&mode==='fallback'?<span>{en?'Static view':'Tampilan statis'}</span>:<button type="button" className="text-button" onClick={()=>{setTurn(value=>value+1);controller.current?.rotate();}}><RotateCcw size={14}/>{en?'Turn the object':'Putar objek'}</button>}</div>
+  {controlsHost?createPortal(controls,controlsHost):controls}
  </div>;
 }

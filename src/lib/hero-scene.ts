@@ -8,7 +8,7 @@ export function heroSceneData(profile:Profile,records:Entry[],en:boolean){
  const technologies=[...new Set([...projects.flatMap(item=>listValue(item.data,'technologies')),...skills.map(item=>item.title)].filter(Boolean))].slice(0,5);
  const rolesInProjects=[...new Set(projects.map(item=>textValue(item.data,'role')).filter(Boolean))].slice(0,2);
  const experience=published.find(item=>item.kind==='experience');
- const facts=[...rolesInProjects.map(value=>({value,label:en?'Project contribution':'Kontribusi proyek'})),...(experience?[{value:textValue(experience.data,'organization')||experience.title,label:en?'Experience':'Pengalaman'}]:[])];
+ const facts=[...rolesInProjects.map((value,index)=>({value,label:/machine learning|data scien|pembelajaran mesin|sains data|kecerdasan buatan|visi komputer|\bai\b|\bml\b|vision/i.test(value)?'AI':/web|stack|frontend|backend/i.test(value)?'Web':index===0?(en?'Project role':'Peran proyek'):(en?'Focus':'Fokus')})),...(experience?[{value:textValue(experience.data,'organization')||experience.title,label:en?'Experience':'Pengalaman'}]:[])];
  if(!facts.length&&technologies.length)facts.push({value:technologies.slice(0,3).join(' / '),label:en?'Used in my work':'Digunakan dalam karya'});
  const source=[profile.headline,profile.summary,...published.map(item=>item.title+' '+JSON.stringify(item.data))].join(' ');
  const roles:string[]=[];if(profile.headline)roles.push(/full[ -]?stack/i.test(profile.headline)?'Full Stack Developer':profile.headline);

@@ -74,9 +74,9 @@ test('immersive rooms preserve section content and give archive and case-study d
  const detail=renderToStaticMarkup(React.createElement(Portfolio,{initial,projectId:'project'}));assert.ok(detail.includes('data-page="case-study"'));assert.ok(detail.includes('data-room="case"'));for(const fact of ['A real brief','A real result','A real contribution'])assert.ok(detail.includes(fact),fact);
 });
 
-test('personal opening derives its monogram, portrait and positioning from the CMS',()=>{
+test('personal opening derives its portrait and positioning from the CMS',()=>{
  const initial:PublicContent={profile:{...emptyProfile,published:true,name:'Dewi Putri',headline:'CMS professional focus',location:'CMS city',photo:'cms-face.png'},records:[],documents:[]};const html=renderToStaticMarkup(React.createElement(Portfolio,{initial}));
- assert.ok(html.includes('data-experience="personal-monogram"'));assert.ok(html.includes('hero-given-name'));assert.ok(html.includes('Simbol identitas RPA'));assert.ok(html.includes('CMS professional focus'));assert.ok(html.includes('CMS city'));assert.ok(html.includes('cms-face.png'));assert.ok(!html.includes('chrome-knot'));assert.ok(!html.includes('>Rian<'));
+ assert.ok(html.includes('data-experience="centered-symbol"'));assert.ok(html.includes('hero-given-name'));assert.ok(html.includes('Simbol identitas RPA'));assert.ok(html.includes('CMS professional focus'));assert.ok(html.includes('CMS city'));assert.ok(html.includes('cms-face.png'));assert.ok(!html.includes('chrome-knot'));assert.ok(!html.includes('>Rian<'));
 });
 
 test('about portrait atelier preserves CMS biography, real photo and published CV',()=>{
@@ -93,12 +93,21 @@ test('about works without a photo, biography or CV and never invents owner facts
 test('immersive hero exposes CMS tech tags, CMS contribution scope, bilingual static content and safe play access',()=>{
  const initial:PublicContent={profile:{...emptyProfile,published:true,name:'Rian Pramudya Amanda',headline:'Full Stack Developer',summary:'Machine learning and computer vision',location:'Bandung',photo:'owner.png'},records:[{id:'p',kind:'project',title:'Project',published:true,position:0,data:{technologies:['Python','TypeScript']}},{id:'s',kind:'skill',title:'Python',published:true,position:0,data:{}},{id:'hidden',kind:'project',title:'Secret',published:false,position:0,data:{technologies:['Private tool']}}],documents:[]};
  const html=renderToStaticMarkup(React.createElement(Portfolio,{initial}));const hero=html.slice(html.indexOf('id="home"'),html.indexOf('id="projects"'));
- for(const value of ['hero-floor-grid','hero-film-grain','hero-tech-tags','Python','TypeScript','hero-stats','6.9175° S','polaroid-tape','hero-photo-badge','hero-letter-rise','href="#playground"','ML Engineer','Computer Vision'])assert.ok(hero.includes(value),value);
- assert.ok(!hero.includes('Private tool'));assert.ok(hero.includes('data-quality="static"'));assert.ok(hero.includes('aria-label="Rian Pramudya Amanda"'));assert.ok(hero.includes('Tampilan statis'));
+ for(const value of ['hero-floor-grid','hero-film-grain','hero-tech-tags','Python','TypeScript','hero-stats','6.9175° S','hero-avatar','hero-role-location','hero-letter-rise','href="#playground"','ML Engineer','Computer Vision'])assert.ok(hero.includes(value),value);
+ assert.ok(!hero.includes('Private tool'));assert.ok(hero.includes('data-quality="static"'));assert.ok(hero.includes('aria-label="Rian Pramudya Amanda"'));assert.ok(hero.includes('Putar objek'));
 });
 
 test('hero English presentation retains the same CMS identity and navigation',async()=>{
  const {HeroExperience}=await import('../src/components/hero-experience');const html=renderToStaticMarkup(React.createElement(HeroExperience,{profile:{...emptyProfile,name:'Dewi Putri',headline:'A CMS headline',location:'Another city',status:'open'},records:[],en:true,sectionCount:7}));
- for(const text of ['RPA identity symbol','Static view','View work','Contact','01 / 07','Open to work'])assert.ok(html.includes(text),text);
+ for(const text of ['RPA identity symbol','Turn the object','View work','Contact','01 / 07','Open to work'])assert.ok(html.includes(text),text);
  assert.ok(!html.includes('6.9175'));assert.ok(!html.includes('ML Engineer'));assert.ok(!html.includes('>Rian<'));
+});
+test('centered hero orders avatar, identity, actions, facts and external scene controls without a polaroid',async()=>{
+ const {HeroExperience}=await import('../src/components/hero-experience');
+ const html=renderToStaticMarkup(React.createElement(HeroExperience,{profile:{...emptyProfile,name:'Rian Pramudya Amanda',headline:'Full Stack Developer',photo:'actual.png',location:'Bandung'},records:[],en:true,sectionCount:10}));
+ const markers=['class="hero-avatar"','class="hero-greeting"','class="hero-name','class="hero-role-location"','class="hero-entry-actions"','class="hero-controls-slot"','class="hero-baseline"'];
+ for(let i=1;i<markers.length;i++)assert.ok(html.indexOf(markers[i])>html.indexOf(markers[i-1]),markers[i]);
+ assert.ok(html.includes('width="72" height="72"'));
+ assert.ok(html.includes('data-controls="external"'));assert.ok(html.includes('/brand/rpa-hero-symbol.svg'));
+ assert.ok(!html.includes('polaroid'));assert.ok(!html.includes('hero-photo-note'));
 });

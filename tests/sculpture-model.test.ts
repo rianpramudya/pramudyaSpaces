@@ -11,16 +11,17 @@ for(const variant of ['hero','contact'] as const)test(`${variant} 3D asset has f
  let meshes=0;model.traverse(object=>{if(object instanceof THREE.Mesh){meshes++;const positions=object.geometry.getAttribute('position');assert.ok(positions.count>0);for(const number of positions.array)assert.ok(Number.isFinite(number));object.geometry.dispose();const materials=Array.isArray(object.material)?object.material:[object.material];materials.forEach(material=>material.dispose());}});assert.ok(meshes>=3);
 });
 
-test('opening uses the custom three-route RPA symbol, with owner metadata and no text geometry',()=>{
- const model=sculptureModel('hero',96,'DP');const mark=model.getObjectByName('rpa-linear-symbol');assert.ok(mark instanceof THREE.Group);assert.equal(mark.userData.ownerInitials,'DP');assert.equal(mark.children.filter(child=>child instanceof THREE.Mesh&&child.geometry.type==='TubeGeometry').length,3);model.traverse(child=>{if(child instanceof THREE.Mesh)assert.notEqual(child.geometry.type,'TextGeometry');});
- assert.ok(mark.getObjectByName('rpa-planet') instanceof THREE.Mesh);
- assert.ok(mark.getObjectByName('rpa-orbit') instanceof THREE.Mesh);
+test('opening uses the custom three-route RPA symbol, with a hollow center and no text geometry',()=>{
+ const model=sculptureModel('hero',96);const mark=model.getObjectByName('rpa-linear-symbol');assert.ok(mark instanceof THREE.Group);assert.equal(mark.children.filter(child=>child instanceof THREE.Mesh&&child.geometry.type==='TubeGeometry').length,3);model.traverse(child=>{if(child instanceof THREE.Mesh)assert.notEqual(child.geometry.type,'TextGeometry');});
+ assert.equal(mark.getObjectByName('rpa-planet'),undefined);
+ assert.equal(mark.getObjectByName('rpa-orbit'),undefined);
+ const center=new THREE.Box3().setFromObject(model,true).getCenter(new THREE.Vector3());assert.ok(center.length()<.00001);
  model.traverse(object=>{if(object instanceof THREE.Mesh){object.geometry.dispose();const materials=Array.isArray(object.material)?object.material:[object.material];materials.forEach(material=>material.dispose());}});
 });
 
 
-test('personal monogram stays inside the narrow tablet stage throughout pointer, scroll and manual turns',()=>{
- const model=sculptureModel('hero',96,'RP');
+test('centered symbol stays inside the narrow tablet stage throughout pointer, scroll and manual turns',()=>{
+ const model=sculptureModel('hero',96);
  const aspect=339/456;
  const camera=new THREE.PerspectiveCamera(38,aspect,.1,60);
  camera.position.z=sculptureCameraDistance('hero',1,aspect);camera.updateMatrixWorld();
@@ -28,7 +29,7 @@ test('personal monogram stays inside the narrow tablet stage throughout pointer,
   model.rotation.set(pitch,yaw+turn,-.055);model.position.y=.07;model.updateMatrixWorld(true);
   model.traverse(object=>{if(object instanceof THREE.Mesh){const positions=object.geometry.getAttribute('position');for(let i=0;i<positions.count;i++){
    const point=new THREE.Vector3().fromBufferAttribute(positions,i).applyMatrix4(object.matrixWorld).project(camera);
-   assert.ok(Math.abs(point.x)<1&&Math.abs(point.y)<1,'tablet monogram fits without clipping');
+   assert.ok(Math.abs(point.x)<1&&Math.abs(point.y)<1,'tablet symbol fits without clipping');
   }}});
  }
  model.traverse(object=>{if(object instanceof THREE.Mesh){object.geometry.dispose();(Array.isArray(object.material)?object.material:[object.material]).forEach(material=>material.dispose());}});
