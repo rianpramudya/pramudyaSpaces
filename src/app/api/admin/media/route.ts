@@ -18,7 +18,7 @@ export async function POST(request:Request){try{
  }catch(error){return failure(error);}}
 export async function DELETE(request:Request){return api(request,async()=>{
  await requireOwner();const {path}=await readJson(request);if(typeof path!=='string')throw new HttpError(400,'Path tidak valid.');
- const content=await getContent();const referenced=content.profile.photo===path||content.documents.some(d=>d.path===path)||content.records.some(e=>Array.isArray(e.data.media)&&e.data.media.includes(path));
+ const content=await getContent();const referenced=[content.profile.photo,content.profile.hero_photo,content.profile.hero_reveal_photo].includes(path)||content.documents.some(d=>d.path===path)||content.records.some(e=>Array.isArray(e.data.media)&&e.data.media.includes(path));
  if(referenced)throw new HttpError(409,'Media masih digunakan. Lepaskan dari konten atau dokumen terlebih dahulu.');
  const db=await sessionClient();const {error}=await db.storage.from('portfolio').remove([path]);if(error)throw new HttpError(400,'Media gagal dihapus.');
  const removed=await db.from('media').delete().eq('path',path);if(removed.error)throw new HttpError(400,'Informasi media gagal dihapus.');return {ok:true};

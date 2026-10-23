@@ -90,3 +90,9 @@ button,input,textarea,select{font-family:var(--font-body);}
 .portfolio #projects :is(.project-theatre-identity .chapter-label,.project-theatre-archive>span,.project-stage-bottom>span,.project-stage-top>span:first-child){font-family:var(--font-body);font-size:var(--type-small);line-height:var(--leading-label);}
 .portfolio .hero-experience .sculpture-controls{font-family:var(--font-body);}
 .portfolio .hero-experience .hero-annotations>span:first-child{font-family:var(--font-mono);}
+
+@font-face{font-family:'Onest';src:url('../assets/fonts/onest-latin.woff2') format('woff2');font-weight:400 700;font-style:normal;font-display:swap;}
+:root{--font-studio:'Onest',sans-serif;}
+
+@font-face{font-family:'Italiana';src:url('../assets/fonts/italiana-latin.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap;}
+:root{--font-cinematic:'Italiana',serif;}

@@ -7,11 +7,12 @@ const text = z.string().trim().max(10000);
 export const profileSchema = z.object({
  section_copy:z.partialRecord(z.enum(sectionCopyKeys),z.string().trim().max(2000)).default({}),
  id:z.literal('main').default('main'), name:short, wordmark:short, headline:short, summary:text, location:short,
- email:z.union([z.literal(''),z.email()]), phone:short, show_email:z.boolean(),show_phone:z.boolean(), photo:path,photo_alt:short,
+ email:z.union([z.literal(''),z.email()]), phone:short, show_email:z.boolean(),show_phone:z.boolean(), photo:path,photo_alt:short,hero_photo:path.default(''),hero_reveal_photo:path.default(''),hero_photo_alt:short.default(''),
  status:z.enum(['open','working','hidden']),published:z.boolean(),socials:z.array(z.object({label:short,url})).max(10),featured_cv:z.string().max(100),
  letter_recipient:short,letter_role:short,letter_body:text,
 });
 export const dataSchema = z.object({
+ related_project_ids:z.array(z.uuid()).max(30).transform(ids=>[...new Set(ids)]).optional(),
  description:text.optional(),role:short.optional(),organization:short.optional(),type:z.enum(['work','organization']).optional(),start:short.optional(),end:short.optional(),current:z.boolean().optional(),
  technologies:z.array(short).max(50).transform(values=>[...new Set(values.filter(Boolean))]).optional(),url:url.optional(),repository:url.optional(),media:z.array(path).max(10).optional(),alt:short.optional(),featured:z.boolean().optional(),
  context:text.optional(),result:text.optional(),result_source:url.optional(),paper:url.optional(),bullets:z.array(z.string().trim().max(2000)).max(30).optional(),category:short.optional(),issuer:short.optional(),date:short.optional(),credential:short.optional(),degree:short.optional(),gpa:short.optional(),level:short.optional(),

@@ -92,3 +92,51 @@
 .admin-shell .selection-checkbox{padding:0;width:18px;height:18px;}
 @media(max-width:760px){.admin-shell .collection-table td:is(:first-child,:nth-child(2)){min-width:0;}}
 .workspace-content{border:0;padding:0;margin:0;min-width:0;}
+
+/* Content studio: the public palette, with compact editing and clear destinations. */
+.admin-shell{background:var(--background);color:var(--text);font-family:var(--font-studio);}
+.admin-shell .admin-main{background:var(--background);}
+.admin-shell .admin-sidebar{background:var(--surface);border-color:var(--border);}
+.admin-shell .admin-brand{gap:12px;}
+.admin-shell .admin-brand>img{flex-shrink:0;}
+html[data-theme=dark] .admin-shell .admin-brand>img{filter:invert(1);}
+.admin-shell .admin-header{background:var(--surface);border-color:var(--border);}
+.admin-shell .admin-body{max-width:1320px;}
+.admin-shell .admin-title h1{font-family:var(--font-studio);font-size:clamp(26px,3vw,34px);letter-spacing:-.04em;}
+.admin-shell :is(.admin-panel,.workspace-welcome,.table-wrap,.form-section){border-radius:10px;box-shadow:none;}
+.admin-shell .workspace-welcome h2,.admin-shell .content-map h2{font-family:var(--font-cinematic);font-weight:400;font-size:clamp(30px,3vw,40px);letter-spacing:-.025em;}
+.admin-shell .workspace-welcome{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);background:linear-gradient(130deg,var(--surface),var(--surface-muted));}
+.admin-shell .workspace-profile{background:transparent;border-left:1px solid var(--border);}
+.admin-shell .workspace-portrait{width:82px;height:110px;object-fit:cover;border-radius:44px 44px 4px 4px;filter:grayscale(1);}
+.admin-shell .workspace-columns .admin-panel{border-radius:10px;}
+.admin-shell .content-map{border-top:1px solid var(--border);padding-top:32px;}
+.admin-shell .content-map>header{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:20px;}
+.admin-shell .content-map h2{margin:8px 0 12px;font-size:34px;line-height:1.15;}
+.admin-shell .content-map p{font-size:14px;color:var(--muted);line-height:1.7;margin:0;}
+.admin-shell .content-map-rows>a{display:grid;grid-template-columns:28px minmax(0,1fr) auto 18px;align-items:center;gap:18px;padding:19px 12px;border-top:1px solid var(--border);text-decoration:none;}
+.admin-shell .content-map-rows>a:last-child{border-bottom:1px solid var(--border);}
+.admin-shell .content-map-rows>a:hover{background:var(--surface-muted);}
+.admin-shell .content-map-rows>a>span{color:var(--muted);font-size:12px;}
+.admin-shell .content-map-rows strong{display:block;font-size:15px;font-weight:500;}
+.admin-shell .content-map-rows small{display:block;font-size:13px;color:var(--muted);margin-top:5px;line-height:1.6;max-width:65ch;}
+.admin-shell .collection-guide{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 24px;margin-bottom:24px;border-left:2px solid var(--text);background:var(--surface-muted);border-radius:0 8px 8px 0;}
+.admin-shell .collection-guide>div>span{font-size:12px;color:var(--muted);}
+.admin-shell .collection-guide p{font-size:14px;line-height:1.7;margin:6px 0;max-width:65ch;}
+.admin-shell .collection-guide small{display:flex;align-items:center;gap:8px;line-height:1.6;font-size:12px;color:var(--muted);}
+.admin-shell .collection-guide>a{display:flex;align-items:center;gap:8px;min-height:44px;font-size:13px;white-space:nowrap;}
+.admin-modal{font-family:var(--font-studio);border-radius:12px;}
+.admin-modal .modal-title{background:var(--surface);}
+.admin-modal .project-picker{display:grid;gap:18px;padding:24px;border:1px solid var(--border);border-radius:8px;background:var(--surface-muted);}
+.admin-modal .project-picker h3{font-size:18px;font-weight:500;margin:0 0 8px;}
+.admin-modal .project-picker-options{display:grid;gap:4px;max-height:240px;overflow:auto;overscroll-behavior:contain;}
+.admin-modal .project-picker-options .checkbox-label{padding:8px;align-items:flex-start;line-height:1.7;border-radius:6px;}
+.admin-modal .project-picker-options input{flex-shrink:0;margin-top:3px;}
+.admin-modal .project-picker-options .checkbox-label:has(input:checked){background:var(--surface);}
+.admin-modal .project-picker-missing{padding-top:12px;border-top:1px solid var(--border);font-size:13px;}
+@media(max-width:760px){
+ .admin-shell .workspace-welcome{grid-template-columns:1fr;}.admin-shell .workspace-profile{border-left:0;border-top:1px solid var(--border);}
+ .admin-shell .content-map>header,.admin-shell .collection-guide{flex-direction:column;align-items:flex-start;gap:12px;}
+ .admin-shell .content-map-rows>a{grid-template-columns:22px minmax(0,1fr) 18px;gap:10px;padding-inline:4px;}
+ .admin-shell .content-map-rows>a>span:nth-last-child(2){grid-column:2;grid-row:2;}.admin-shell .content-map-rows>a>svg{grid-column:3;grid-row:1;}
+ .admin-shell .content-map h2{font-size:30px;}.admin-modal .project-picker{padding:18px;}
+}

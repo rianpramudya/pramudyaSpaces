@@ -6,6 +6,7 @@ export type Profile = {
  section_copy: Record<string,string>;
  id: string; name: string; wordmark: string; headline: string; summary: string; location: string;
  email: string; phone: string; show_email: boolean; show_phone: boolean; photo: string;
+ hero_photo?: string; hero_reveal_photo?: string; hero_photo_alt?: string;
  photo_alt: string; status: string; published: boolean; socials: { label: string; url: string }[];
  featured_cv: string; letter_recipient: string; letter_role: string; letter_body: string;
 };
@@ -13,7 +14,7 @@ export type PublicContent = { profile: Profile; records: Entry[]; documents: Car
 export type CareerDocument = { id: string; title: string; format: string; path: string; published: boolean; created_at: string; source_hash?: string };
 export const emptyProfile: Profile = {
  section_copy: {}, id: 'main', name: '', wordmark: '', headline: '', summary: '', location: '', email: '', phone: '', show_email: false, show_phone: false,
- photo: '', photo_alt: '', status: 'hidden', published: false, socials: [], featured_cv: '', letter_recipient: '', letter_role: '', letter_body: '',
+ photo: '', hero_photo: '', hero_reveal_photo: '', hero_photo_alt: '', photo_alt: '', status: 'hidden', published: false, socials: [], featured_cv: '', letter_recipient: '', letter_role: '', letter_body: '',
 };
 export const kindLabels: Record<Kind, string> = { project: 'Proyek', experience: 'Pengalaman', education: 'Pendidikan', service: 'Layanan', skill: 'Skills', certificate: 'Sertifikat', achievement: 'Pencapaian', language: 'Bahasa' };
 export function textValue(data: Record<string, unknown>, key: string): string { return typeof data[key] === 'string' ? data[key] as string : ''; }

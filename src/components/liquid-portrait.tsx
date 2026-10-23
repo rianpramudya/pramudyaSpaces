@@ -1,0 +1,23 @@
+'use client';
+import {useEffect,useRef} from 'react';
+import {coverRect,brushPoints} from '@/lib/liquid-reveal';
+export function LiquidPortrait({base,reveal,alt,priority=true}:{base:string;reveal?:string;alt:string;priority?:boolean}){
+ const host=useRef<HTMLDivElement>(null),canvas=useRef<HTMLCanvasElement>(null);
+ useEffect(()=>{
+  const root=host.current,el=canvas.current;const hardware=navigator as Navigator & {deviceMemory?:number};if(!root||!el||!reveal||(hardware.deviceMemory!==undefined&&hardware.deviceMemory<=2)||hardware.hardwareConcurrency<=2)return;
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)'),fine=matchMedia('(hover:hover) and (pointer:fine)');
+  const ctx=el.getContext('2d'),cover=document.createElement('canvas'),brush=document.createElement('canvas');const coverCtx=cover.getContext('2d'),brushCtx=brush.getContext('2d');if(!ctx||!coverCtx||!brushCtx)return;
+  const image=new Image();let frame=0,visible=false,loaded=false,disposed=false,idle=0,dpr=1,radius=143,last:{x:number;y:number}|null=null,points:{x:number;y:number}[]=[];
+  function allowed(){let motion=true;try{motion=localStorage.getItem('portfolio-motion')!=='off';}catch{}return motion&&!reduced.matches&&fine.matches&&visible&&document.visibilityState==='visible'&&!document.querySelector('dialog[open]');}
+  function clear(){cancelAnimationFrame(frame);frame=0;last=null;points=[];ctx!.clearRect(0,0,el!.width,el!.height);}
+  function size(){clear();if(!visible||!fine.matches||reduced.matches){el!.width=el!.height=cover.width=cover.height=brush.width=brush.height=1;return;}const box=root!.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,2);el!.width=cover.width=Math.max(1,Math.round(box.width*dpr));el!.height=cover.height=Math.max(1,Math.round(box.height*dpr));radius=143*dpr;brush.width=brush.height=Math.ceil(radius*2);if(loaded){const fit=coverRect(image.naturalWidth,image.naturalHeight,cover.width,cover.height);coverCtx!.clearRect(0,0,cover.width,cover.height);coverCtx!.drawImage(image,fit.x,fit.y,fit.width,fit.height);}}
+  function stamp(x:number,y:number){const c=brush.width/2;brushCtx!.clearRect(0,0,brush.width,brush.height);brushCtx!.globalCompositeOperation='source-over';const g=brushCtx!.createRadialGradient(c,c,0,c,c,radius);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.55,'rgba(255,255,255,.82)');g.addColorStop(1,'rgba(255,255,255,0)');brushCtx!.fillStyle=g;brushCtx!.fillRect(0,0,brush.width,brush.height);brushCtx!.globalCompositeOperation='source-in';brushCtx!.drawImage(cover,c-x,c-y);ctx!.globalCompositeOperation='source-over';ctx!.drawImage(brush,x-c,y-c);}
+  function tick(){frame=0;if(disposed||!allowed()){clear();return;}const drawing=points.length>0;idle=drawing?0:idle+1;ctx!.globalCompositeOperation='destination-out';ctx!.fillStyle=`rgba(0,0,0,${drawing?.016:Math.min(.016+idle*.004,.5)})`;ctx!.fillRect(0,0,el!.width,el!.height);points.forEach(p=>stamp(p.x,p.y));points=[];if(idle>=120){ctx!.clearRect(0,0,el!.width,el!.height);last=null;return;}frame=requestAnimationFrame(tick);}
+  function move(event:PointerEvent){if(!loaded||!allowed()||event.pointerType!=='mouse')return;const box=root!.getBoundingClientRect(),p={x:(event.clientX-box.left)*dpr,y:(event.clientY-box.top)*dpr};if(p.x < -radius||p.y < -radius||p.x>el!.width+radius||p.y>el!.height+radius){last=null;return;}points.push(...brushPoints(last,p,radius));if(points.length>240)points=points.slice(-240);last=p;if(!frame)frame=requestAnimationFrame(tick);}
+  image.onload=()=>{if(!disposed){loaded=true;size();}};image.onerror=clear;
+  const resize=new ResizeObserver(size);resize.observe(root);const preference=()=>{clear();if(visible&&!image.src&&fine.matches&&!reduced.matches)image.src=reveal!;size();};const observer=new IntersectionObserver(entries=>{visible=entries[0]?.isIntersecting??false;preference();});observer.observe(root);
+  window.addEventListener('pointermove',move,{passive:true});window.addEventListener('portfolio-play-change',clear);document.addEventListener('visibilitychange',clear);reduced.addEventListener('change',preference);fine.addEventListener('change',preference);
+  return()=>{disposed=true;clear();image.onload=null;image.onerror=null;resize.disconnect();observer.disconnect();window.removeEventListener('pointermove',move);window.removeEventListener('portfolio-play-change',clear);document.removeEventListener('visibilitychange',clear);reduced.removeEventListener('change',preference);fine.removeEventListener('change',preference);};
+ },[base,reveal]);
+ return <div className="liquid-portrait" ref={host}><img src={base} alt={alt} width={1672} height={941} loading={priority?undefined:'lazy'} fetchPriority={priority?'high':'auto'}/><canvas ref={canvas} aria-hidden="true"/></div>;
+}

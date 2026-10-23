@@ -10,3 +10,15 @@
 }
 :root{--content-width:1240px;--bg:var(--white);--fg:var(--gray1);--muted:var(--gray3);--border:var(--gray4);--surface:var(--white);--surface-inverse:var(--black);--background:var(--bg);--text:var(--fg);--surface-muted:var(--gray5);--accent:var(--gray1);--positive:var(--gray1);--input-border:var(--gray3);--space-section:clamp(56px,7vw,104px);--radius:8px;--radius-lg:16px;--motion-fast:180ms;--motion-slow:650ms;--motion-ease:cubic-bezier(.22,1,.36,1);--type-label:12px;--type-body:16px;--type-section:clamp(36px,5vw,72px);}
 html[data-theme=dark]{--bg:var(--black);--fg:var(--white);--muted:var(--gray4);--border:var(--gray2);--surface:var(--gray1);--surface-inverse:var(--white);--background:var(--bg);--text:var(--fg);--surface-muted:var(--gray2);--accent:var(--white);--positive:var(--white);--input-border:var(--gray4);}
+
+/* Public studio redesign. Admin and document palettes remain independent. */
+.studio-site{--studio-paper:#ffffff;--studio-ink:#0a0a0a;--studio-text:#111111;--studio-muted:#66615d;--studio-line:#e6e5e2;--studio-surface:#f1f0ee;--studio-surface-2:#e3e2df;--studio-copper:#b15f2c;--studio-copper-from:#cf8047;--studio-copper-to:#97501f;--studio-hero:#c9c9c9;--studio-light-surface:#f1f0ee;--studio-light-muted:#66615d;--studio-white-rgb:255 255 255;--studio-ink-rgb:10 10 10;}
+html[data-theme=dark] .studio-site{--studio-paper:#141310;--studio-text:#f1f0ee;--studio-muted:#b9b5ae;--studio-line:#37342f;--studio-surface:#22201c;--studio-surface-2:#33302b;}
+
+/* Laocoön lighting, scoped to the combined public experience. */
+.studio-site.cinematic-site{--studio-paper:#f6f2ec;--studio-text:#211c18;--studio-muted:#6d6259;--studio-line:#d9cfc3;--studio-surface:#eee7de;--studio-surface-2:#ded1c2;--cinematic-cream:#fff6ed;--cinematic-bronze:#d0a67e;--cinematic-blue:#9bb2c4;}
+html[data-theme=dark] .studio-site.cinematic-site{--studio-paper:#0c0b0a;--studio-text:#f5efe7;--studio-muted:#b9aea3;--studio-line:#3b3229;--studio-surface:#171410;--studio-surface-2:#28221c;}
+
+/* Editorial admin workspace shares the public studio's paper and bronze material. */
+.admin-shell{--background:#f6f2ec;--bg:#f6f2ec;--text:#211c18;--fg:#211c18;--muted:#6d6259;--border:#d9cfc3;--surface:#fffaf4;--surface-muted:#eee7de;--accent:#211c18;--positive:#211c18;--input-border:#8c7d6f;--font-body:var(--font-studio);}
+html[data-theme=dark] .admin-shell{--background:#0c0b0a;--bg:#0c0b0a;--text:#f5efe7;--fg:#f5efe7;--muted:#b9aea3;--border:#3b3229;--surface:#171410;--surface-muted:#28221c;--accent:#f5efe7;--positive:#f5efe7;--input-border:#8c7d6f;}

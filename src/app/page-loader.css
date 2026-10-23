@@ -1,0 +1,19 @@
+/* Keep layout mounted behind the screen so the first viewport can load. */
+.portfolio[data-ready=false]{visibility:hidden;}
+.studio-site.cinematic-site.site-loading-screen{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;padding:32px 24px;background:radial-gradient(ellipse at 50% 100%,var(--studio-surface),var(--studio-paper) 70%);color:var(--studio-text);text-align:center;min-height:100dvh;}
+.site-loading-screen .site-loading-identity{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:600;letter-spacing:-.04em;}
+.site-loading-screen .site-loading-identity img{width:40px;height:40px;}
+html[data-theme=dark] .site-loading-screen .site-loading-identity img{filter:invert(1);}
+.site-loading-screen .site-loading-copy p{font-family:var(--font-cinematic);font-size:clamp(28px,5vw,48px);font-weight:400;line-height:1.2;margin:0 0 16px;max-width:24ch;}
+.site-loading-screen .site-loading-copy>span{color:var(--studio-muted);font-size:14px;}
+.site-loading-screen .site-loading-track{width:min(280px,70vw);height:2px;background:var(--studio-line);overflow:hidden;}
+.site-loading-screen .site-loading-track i{display:block;width:40%;height:100%;background:var(--studio-copper-from);animation:page-loading-pass 1.6s ease-in-out infinite;}
+.site-loading-screen .site-loading-skip{display:flex;align-items:center;gap:14px;padding:12px 16px;min-height:44px;border:1px solid var(--studio-line);border-radius:24px;background:transparent;color:var(--studio-text);font:inherit;font-size:13px;cursor:pointer;}
+.site-loading-screen .site-loading-skip:hover{background:var(--studio-surface);}
+.site-loading-screen .site-loading-skip:focus-visible{outline:2px solid var(--studio-text);outline-offset:4px;}
+@keyframes page-loading-pass{0%{transform:translateX(-100%);}100%{transform:translateX(350%);}}
+@media(prefers-reduced-motion:reduce){.site-loading-screen .site-loading-track i{animation:none;width:100%;opacity:.65;}}
+.site-loading-screen[data-exiting=true]{animation:page-loading-exit 600ms cubic-bezier(.22,1,.36,1) both;will-change:transform,opacity;}
+.site-loading-screen[data-exiting=true]>:not(noscript){transition:opacity 200ms ease,transform 300ms ease;opacity:0;transform:translateY(-12px);}
+@keyframes page-loading-exit{from{transform:translateY(0);opacity:1;}to{transform:translateY(-100%);opacity:0;}}
+@media(prefers-reduced-motion:reduce){.site-loading-screen[data-exiting=true]{animation:none;}.site-loading-screen[data-exiting=true]>:not(noscript){transition:none;transform:none;}}

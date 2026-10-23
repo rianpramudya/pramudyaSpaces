@@ -1,113 +1,100 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import React from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
-import { Portfolio } from '../src/components/portfolio';
-import { emptyProfile,type PublicContent } from '../src/lib/model';
-test('guest renders CMS content without registration or account settings',()=>{
- const content:PublicContent={profile:{...emptyProfile,published:true,name:'CMS Owner',headline:'CMS Headline',summary:'CMS summary'},records:[{id:'a',kind:'project',title:'CMS Project',published:true,position:0,data:{description:'Real project'}}],documents:[]};
- const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:content}));
- assert.ok(html.includes('CMS Owner'));assert.ok(html.includes('CMS Project'));assert.ok(html.includes('CMS summary'));
+import {renderToStaticMarkup} from 'react-dom/server';
+import {Portfolio} from '../src/components/portfolio';
+import {StudioHome} from '../src/components/studio-home';
+import {emptyProfile,type PublicContent,type Entry} from '../src/lib/model';
+const entry=(kind:string,title:string,data:Record<string,unknown>={},published=true):Entry=>({id:kind+'-'+title,kind,title,data,published,position:0});
+const render=(content:PublicContent,options={})=>renderToStaticMarkup(React.createElement(Portfolio,{initial:content,...options}));
+const empty={profile:emptyProfile,records:[],documents:[]};
+test('studio renders CMS identity and published projects without exposing admin navigation',()=>{
+ const html=render({...empty,profile:{...emptyProfile,published:true,name:'CMS Owner',headline:'CMS focus',summary:'CMS summary'},records:[entry('project','CMS Project',{description:'Real description'})]});
+ for(const value of ['CMS Owner','CMS summary','CMS Project','Real description','studio-site'])assert.ok(html.includes(value),value);
  assert.ok(!html.includes('/admin/register'));assert.ok(!html.includes('/admin/settings'));
 });
-test('optional services and CV button absent when no published data',()=>{
- const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:{profile:emptyProfile,records:[],documents:[]}}));
- assert.ok(!html.includes('id="services"'));assert.ok(!html.includes('Unduh CV'));assert.ok(html.includes('Profil sedang disiapkan'));
- assert.match(html,/<h1[^>]*>Nama Anda<\/h1>/);
+test('empty studio remains readable without broken images, services or invented personal facts',()=>{
+ const html=render(empty);assert.ok(html.includes('Profil sedang disiapkan'));assert.ok(html.includes('Proyek yang diterbitkan'));assert.ok(!html.includes('id="services"'));assert.ok(!html.includes('Unduh CV'));assert.ok(!html.includes('src=""'));assert.ok(!html.includes('>Rian<'));
 });
-test('unified visitor dock retains profile status and guestbook access',()=>{
- const content:PublicContent={profile:{...emptyProfile,published:true,name:'Rian Pramudya Amanda',headline:'Full Stack Developer',location:'Jambi, ID',status:'open'},records:[],documents:[]};
- const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:content}));
- assert.ok(html.includes('class="dock-status" role="group" aria-label="Status profil"'));
- assert.ok(html.includes('aria-label="Status profil"'));
- assert.ok(html.includes('Open to work'));
- assert.ok(html.includes('Jambi, ID'));
- assert.ok(html.includes('aria-label="Buka buku tamu"'));
+test('photographic hero uses the CMS grayscale/reveal pair and retires the 3D initials',()=>{
+ const html=render({...empty,profile:{...emptyProfile,name:'Dewi Putri',headline:'Software engineer',hero_photo:'uploads/base.webp',hero_reveal_photo:'uploads/reveal.webp',hero_photo_alt:'Owner on stairs'}});
+ assert.ok(html.includes('data-experience="liquid-portrait"'));assert.ok(html.includes('/api/media/uploads/base.webp'));assert.ok(html.includes('Owner on stairs'));assert.ok(html.includes('fetchPriority="high"'));assert.ok(!html.includes('sculpture-stage'));assert.ok(!html.includes('Putar objek'));assert.ok(!html.includes('Simbol identitas RPA'));
 });
-test('spatial identity leads into a dedicated play desk and chibi heroes remain available',()=>{
- const content:PublicContent={profile:{...emptyProfile,published:true,name:'Rian Pramudya Amanda'},records:[{id:'skill',kind:'skill',title:'UI/UX',published:true,position:0,data:{category:'Design'}}],documents:[]};
- const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:content}));
- const blocks=html.indexOf('class="skill-blocks"');const title=html.indexOf('<h1 class="hero-name');
- assert.ok(title>=0&&blocks>title);
- assert.ok(html.includes('class="sculpture-stage sculpture-hero"'));
- assert.ok(html.includes('id="playground"'));
- assert.ok(html.includes('Putar objek'));
- assert.ok(html.includes('href="#skills"'));
- assert.ok(html.includes('aria-label="Sapa Spider-Man"'));
- assert.ok(html.includes('aria-label="Sapa Gwen"'));
- assert.ok(html.indexOf('class="arcade-lane')>html.indexOf('</main>'));
- assert.ok(!html.includes('arcade-avatar'));
+test('hero falls back to the managed profile photo when a dedicated hero is not selected',()=>{
+ const html=render({...empty,profile:{...emptyProfile,name:'Owner',photo:'uploads/profile.webp',photo_alt:'CMS photo'}});assert.ok(html.includes('/api/media/uploads/profile.webp'));assert.ok(html.includes('alt="CMS photo"'));
 });
-
-test('published education, languages and achievements have public presentation, drafts remain hidden',()=>{
- const record=(kind:string,title:string,published=true)=>({id:title,kind,title,published,position:0,data:{degree:'Informatika',gpa:'3.49 / 4.00',level:'Professional',description:'CMS description'}});
- const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:{profile:{...emptyProfile,published:true,name:'Owner'},documents:[],records:[record('education','University'),record('language','English'),record('achievement','Award'),record('education','Private education',false),record('project','Private project',false)]}}));
- assert.ok(html.includes('University'));assert.ok(html.includes('English'));assert.ok(html.includes('Award'));assert.ok(!html.includes('Private education'));assert.ok(!html.includes('Private project'));assert.ok(html.includes('id="background"'));
+test('studio order places metrics between hero and about and navigation follows the page',()=>{
+ const records=['project','experience','skill','education','language','achievement','certificate','service'].map(kind=>entry(kind,'CMS '+kind,{description:'Description '+kind,category:'Tools'}));
+ const html=render({...empty,records});let previous=-1;
+ for(const id of ['home','about','projects','services','journey','skills','background','certificates','playground','contact']){const current=html.indexOf(`id="${id}"`);assert.ok(current>previous,id);previous=current;}
+ for(const record of records)assert.ok(html.includes(record.title),record.title);
+ assert.ok(html.includes('studio-create-band'));
+ const metrics=html.indexOf('class="studio-stats studio-shell"');
+ assert.ok(metrics>html.indexOf('id="home"') && metrics<html.indexOf('id="about"'));
+ assert.equal(html.split('class="studio-stats studio-shell"').length-1,1);
+ const chapters=html.match(/<nav class="cinematic-chapters"[^>]*>(.*?)<\/nav>/s)?.[1] || '';
+ const order=['home','about','projects','services','journey','skills','background','certificates','playground','contact'];
+ assert.deepEqual([...chapters.matchAll(/href="#([^"]+)"/g)].map(m=>m[1]),order);
+ const primary=html.match(/<nav class="studio-primary-nav"[^>]*>(.*?)<\/nav>/s)?.[1] || '';
+ assert.deepEqual([...primary.matchAll(/href="#([^"]+)"/g)].map(m=>m[1]),['home','about','projects','services','contact']);
 });
-test('navigation stays concise while editorial section titles remain CMS managed',()=>{
- const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:{profile:{...emptyProfile,published:true,name:'Owner',headline:'A long professional headline',section_copy:{projects_title:'Karya pilihan dari perjalanan profesional saya'}},documents:[],records:[]}}));assert.match(html,/href="#projects"[^>]*>Proyek<\/a>/);assert.ok(html.includes('<h2>Karya pilihan dari perjalanan profesional saya'));assert.ok(html.includes('class="hero-role"'));
+test('draft projects, skills, education and credentials stay hidden throughout the studio',()=>{
+ const html=render({...empty,records:['project','skill','education','certificate'].map(kind=>entry(kind,'Private '+kind,{technologies:['Secret technology']},false))});assert.ok(!html.includes('Private '));assert.ok(!html.includes('Secret technology'));assert.ok(!html.includes('id="background"'));assert.ok(!html.includes('id="certificates"'));
 });
-test('home exposes project exhibition and archive link instead of stacked project cards',()=>{
- const content:PublicContent={profile:{...emptyProfile,published:true,name:'Owner'},documents:[],records:[{id:'project',kind:'project',title:'Visible',position:0,published:true,data:{}},{id:'draft',kind:'project',title:'Hidden draft',position:1,published:false,data:{}}]};
- const home=renderToStaticMarkup(React.createElement(Portfolio,{initial:content}));assert.ok(home.includes('Galeri proyek pilihan'));assert.ok(home.includes('href="/projects"'));assert.ok(!home.includes('project-showcase'));assert.ok(!home.includes('Hidden draft'));
- const archive=renderToStaticMarkup(React.createElement(Portfolio,{initial:content,archive:true}));assert.ok(archive.includes('Arsip karya.'));assert.ok(archive.includes('Terbaru'));assert.ok(archive.includes('Terlama'));assert.ok(!archive.includes('Hidden draft'));assert.ok(archive.includes('Tanggal belum diisi'));assert.ok(archive.includes('href="/#about"'));
+test('selected work links to full case studies and a searchable sortable archive',()=>{
+ const records=[entry('project','Visible',{date:'2025',role:'Engineer',technologies:['TypeScript']})];const html=render({...empty,records});assert.ok(html.includes('studio-gallery'));assert.ok(html.includes('href="/projects/project-Visible"'));assert.ok(html.includes('href="/projects"'));
+ const archive=render({...empty,records},{archive:true});for(const value of ['Terbaru','Terlama','2025','href="/#about"'])assert.ok(archive.includes(value),value);
 });
-test('empty archive remains usable and project detail links back to all-project archive',()=>{
- const initial={profile:emptyProfile,records:[],documents:[]};const archive=renderToStaticMarkup(React.createElement(Portfolio,{initial,archive:true}));assert.ok(archive.includes('Belum ada proyek yang cocok.'));
- const detail=renderToStaticMarkup(React.createElement(Portfolio,{initial:{...initial,records:[{id:'p',kind:'project',title:'Case',position:0,published:true,data:{}}]},projectId:'p'}));assert.ok(detail.includes('href="/projects"'));
+test('full project evidence remains accessible in the case study',()=>{
+ const project=entry('project','Actual project',{context:'Actual problem',result:'Actual outcome',bullets:['Actual contribution'],technologies:['TypeScript'],description:'Actual description'});
+ const html=render({...empty,records:[project]},{projectId:project.id});for(const fact of ['Actual problem','Actual outcome','Actual contribution','Actual description','TypeScript','href="/projects"'])assert.ok(html.includes(fact),fact);
 });
-
-test('spatial redesign keeps every published project fact and exposes valid play/navigation anchors',()=>{
- const initial:PublicContent={profile:{...emptyProfile,published:true,name:'AnExtremelyLongUnbrokenProfileName',summary:'Original biography',photo:'owner.png',featured_cv:'cv'},records:[{id:'p',kind:'project',published:true,position:0,title:'Real project',data:{context:'Actual problem',result:'Actual outcome',bullets:['Actual contribution'],technologies:['TypeScript'],media:['cover.png']}},{id:'private',kind:'skill',published:false,position:1,title:'Private skill',data:{}}],documents:[{id:'cv',title:'Published CV',format:'ats',path:'cv.pdf',published:true,created_at:''}]};
- const html=renderToStaticMarkup(React.createElement(Portfolio,{initial}));
- for(const fact of ['Original biography','Actual problem','Actual outcome','Actual contribution','TypeScript','AnExtremelyLongUnbrokenProfileName'])assert.ok(html.includes(fact),fact);
- assert.ok(!html.includes('Private skill'));assert.ok(html.includes('Unduh CV'));assert.ok(html.includes('href="#playground"'));assert.ok(html.includes('id="playground"'));assert.ok(html.includes('href="/projects/p"'));assert.ok(html.includes('portrait-atelier'));
+test('biography keeps every CMS paragraph and exposes only the published featured CV',()=>{
+ const profile={...emptyProfile,name:'Dewi',summary:'First paragraph.\n\nSecond CMS paragraph.',featured_cv:'cv'};
+ const html=render({...empty,profile,documents:[{id:'cv',title:'My CV',path:'uploads/resume.pdf',published:true,format:'ats',created_at:''}]});for(const fact of ['First paragraph.','Second CMS paragraph.','Unduh CV','resume.pdf?download=1'])assert.ok(html.includes(fact),fact);assert.ok(html.includes('studio-biography'));
 });
-
-test('immersive rooms preserve section content and give archive and case-study distinct presentations',()=>{
- const record=(kind:string,title:string,data:Record<string,unknown>={})=>({id:kind,kind,title,data,published:true,position:0});
- const initial:PublicContent={profile:{...emptyProfile,published:true,name:'Owner',summary:'Biography from CMS'},documents:[],records:[record('project','A project',{context:'A real brief',result:'A real result',bullets:['A real contribution']}),record('skill','A tool',{category:'Tools'}),record('service','A service',{description:'A service description'}),record('experience','A role',{description:'A work description'}),record('education','A university'),record('certificate','A credential')]};
- const home=renderToStaticMarkup(React.createElement(Portfolio,{initial}));
- for(const room of ['portrait','education','skills','service','journey','credential','play','contact'])assert.ok(home.includes(`data-room="${room}"`),room);
- for(const content of ['Biography from CMS','A project','A tool','A service description','A work description','A university','A credential'])assert.ok(home.includes(content),content);
- const archive=renderToStaticMarkup(React.createElement(Portfolio,{initial,archive:true}));assert.ok(archive.includes('data-page="gallery"'));assert.ok(archive.includes('data-room="archive"'));assert.ok(archive.includes('Terbaru'));
- const detail=renderToStaticMarkup(React.createElement(Portfolio,{initial,projectId:'project'}));assert.ok(detail.includes('data-page="case-study"'));assert.ok(detail.includes('data-room="case"'));for(const fact of ['A real brief','A real result','A real contribution'])assert.ok(detail.includes(fact),fact);
+test('contact visibility and professional links respect CMS settings',()=>{
+ const profile={...emptyProfile,name:'Owner',email:'private@example.com',phone:'+621234',show_email:false,show_phone:false,socials:[{label:'Code profile',url:'https://example.com/code'}]};const html=render({...empty,profile});assert.ok(!html.includes('private@example.com'));assert.ok(!html.includes('tel:+621234'));assert.ok(html.includes('https://example.com/code'));
+ const publicHtml=render({...empty,profile:{...profile,show_email:true,show_phone:true}});assert.ok(publicHtml.includes('mailto:private@example.com'));assert.ok(publicHtml.includes('tel:+621234'));
+});
+test('playground, chibi characters, guestbook and AI remain available',()=>{
+ const html=render({...empty,profile:{...emptyProfile,name:'Rian',status:'open',location:'CMS city'},records:[entry('skill','TypeScript')]});for(const value of ['skill-blocks','id="playground"','Buka buku tamu','Buka asisten AI','Sapa Spider-Man','Sapa Gwen','Open to work','CMS city'])assert.ok(html.includes(value),value);assert.ok(html.indexOf('class="arcade-lane')>html.indexOf('</main>'));
+});
+test('English studio uses the same CMS content and working page anchors',()=>{
+ const html=renderToStaticMarkup(React.createElement(StudioHome,{content:{...empty,profile:{...emptyProfile,name:'Dewi',headline:'Engineer',summary:'CMS biography'},records:[entry('service','CMS service')]},language:'en',onCertificate:()=>{}}));for(const value of ['Dewi','CMS biography','CMS service','View work','Send message','href="#projects"','id="playground"'])assert.ok(html.includes(value),value);assert.ok(!html.includes('Lumora'));assert.ok(!html.includes('200+ brands'));
+});
+test('empty archive and normal case-study routes remain usable',()=>{
+ assert.ok(render(empty,{archive:true}).includes('Belum ada proyek yang cocok.'));const project=entry('project','Case');const html=render({...empty,records:[project]},{projectId:project.id});assert.ok(html.includes('data-page="case-study"'));assert.ok(html.includes('href="/projects"'));
 });
 
-test('personal opening derives its portrait and positioning from the CMS',()=>{
- const initial:PublicContent={profile:{...emptyProfile,published:true,name:'Dewi Putri',headline:'CMS professional focus',location:'CMS city',photo:'cms-face.png'},records:[],documents:[]};const html=renderToStaticMarkup(React.createElement(Portfolio,{initial}));
- assert.ok(html.includes('data-experience="centered-symbol"'));assert.ok(html.includes('hero-given-name'));assert.ok(html.includes('Simbol identitas RPA'));assert.ok(html.includes('CMS professional focus'));assert.ok(html.includes('CMS city'));assert.ok(html.includes('cms-face.png'));assert.ok(!html.includes('chrome-knot'));assert.ok(!html.includes('>Rian<'));
+test('focused gallery lists every published project and exposes keyboard instructions and case detail',()=>{
+ const records=Array.from({length:6},(_,i)=>entry('project',`Project ${i}`,{description:'Managed summary',role:'Developer',technologies:['TypeScript']}));
+ const html=render({...empty,records});
+ for(const item of records)assert.ok(html.includes(item.title),item.title);
+ for(const value of ['aria-roledescription="karusel"','Gunakan tombol panah kiri dan kanan','Proses, kontribusi &amp; hasil','aria-pressed="true"','Proyek berikutnya','06'])assert.ok(html.includes(value),value);
+ assert.ok(!html.includes('studio-project-grid'));
 });
 
-test('about portrait atelier preserves CMS biography, real photo and published CV',()=>{
- const initial:PublicContent={profile:{...emptyProfile,published:true,name:'Dewi Putri',headline:'Systems developer',summary:'First paragraph.\n\nA separate paragraph from CMS.',photo:'dewi.png',photo_alt:'Dewi at work',featured_cv:'cv'},records:[],documents:[{id:'cv',title:'My CV',path:'resume.pdf',published:true,format:'ats',created_at:''}]};
- const html=renderToStaticMarkup(React.createElement(Portfolio,{initial}));const about=html.slice(html.indexOf('id="about"'),html.indexOf('id="playground"'));
- for(const fact of ['data-experience="portrait-atelier"','First paragraph.','A separate paragraph from CMS.','dewi.png','Dewi at work','Unduh CV','resume.pdf?download=1','atelier-owner'])assert.ok(about.includes(fact),fact);
- assert.ok(!about.includes('hero-details'));assert.ok(!about.includes('portrait-caption'));
-});
-test('about works without a photo, biography or CV and never invents owner facts',()=>{
- const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:{profile:emptyProfile,records:[],documents:[]}}));
- assert.ok(html.includes('Profil sedang disiapkan'));assert.ok(html.includes('portrait-atelier-empty'));assert.ok(!html.includes('Sudut pandang potret'));assert.ok(!html.includes('Unduh CV'));assert.ok(!html.includes('>Rian<'));
+test('about restores the original managed formal photo independently from the hero pair',()=>{
+ const html=render({...empty,profile:{...emptyProfile,name:'Owner',photo:'uploads/original-formal.jpg',photo_alt:'Original formal portrait',hero_photo:'uploads/hero.webp',hero_reveal_photo:'uploads/color.webp',summary:'Full CMS biography'}});
+ const about=html.slice(html.indexOf('id="about"'),html.indexOf('id="projects"'));
+ for(const value of ['studio-formal-frame','/api/media/uploads/original-formal.jpg','Original formal portrait','Full CMS biography','studio-create-band'])assert.ok(about.includes(value),value);
+ assert.ok(!about.includes('uploads/hero.webp'));assert.ok(!about.includes('create-tile'));
 });
 
-test('immersive hero exposes CMS tech tags, CMS contribution scope, bilingual static content and safe play access',()=>{
- const initial:PublicContent={profile:{...emptyProfile,published:true,name:'Rian Pramudya Amanda',headline:'Full Stack Developer',summary:'Machine learning and computer vision',location:'Bandung',photo:'owner.png'},records:[{id:'p',kind:'project',title:'Project',published:true,position:0,data:{technologies:['Python','TypeScript']}},{id:'s',kind:'skill',title:'Python',published:true,position:0,data:{}},{id:'hidden',kind:'project',title:'Secret',published:false,position:0,data:{technologies:['Private tool']}}],documents:[]};
- const html=renderToStaticMarkup(React.createElement(Portfolio,{initial}));const hero=html.slice(html.indexOf('id="home"'),html.indexOf('id="projects"'));
- for(const value of ['hero-floor-grid','hero-film-grain','hero-tech-tags','Python','TypeScript','hero-stats','6.9175° S','hero-avatar','hero-role-location','hero-letter-rise','href="#playground"','ML Engineer','Computer Vision'])assert.ok(hero.includes(value),value);
- assert.ok(!hero.includes('Private tool'));assert.ok(hero.includes('data-quality="static"'));assert.ok(hero.includes('aria-label="Rian Pramudya Amanda"'));assert.ok(hero.includes('Putar objek'));
+test('formal portrait has no empty or invented image when the CMS profile photo is unset',()=>{
+ const html=render({...empty,profile:{...emptyProfile,name:'Owner',hero_photo:'uploads/hero.webp'}});
+ const about=html.slice(html.indexOf('id="about"'),html.indexOf('id="projects"'));
+ assert.ok(about.includes('studio-portrait-empty'));assert.ok(!about.includes('<img'));assert.ok(!about.includes('src=""'));
 });
 
-test('hero English presentation retains the same CMS identity and navigation',async()=>{
- const {HeroExperience}=await import('../src/components/hero-experience');const html=renderToStaticMarkup(React.createElement(HeroExperience,{profile:{...emptyProfile,name:'Dewi Putri',headline:'A CMS headline',location:'Another city',status:'open'},records:[],en:true,sectionCount:7}));
- for(const text of ['RPA identity symbol','Turn the object','View work','Contact','01 / 07','Open to work'])assert.ok(html.includes(text),text);
- assert.ok(!html.includes('6.9175'));assert.ok(!html.includes('ML Engineer'));assert.ok(!html.includes('>Rian<'));
-});
-test('centered hero orders avatar, identity, actions, facts and external scene controls without a polaroid',async()=>{
- const {HeroExperience}=await import('../src/components/hero-experience');
- const html=renderToStaticMarkup(React.createElement(HeroExperience,{profile:{...emptyProfile,name:'Rian Pramudya Amanda',headline:'Full Stack Developer',photo:'actual.png',location:'Bandung'},records:[],en:true,sectionCount:10}));
- const markers=['class="hero-avatar"','class="hero-greeting"','class="hero-name','class="hero-role-location"','class="hero-entry-actions"','class="hero-controls-slot"','class="hero-baseline"'];
- for(let i=1;i<markers.length;i++)assert.ok(html.indexOf(markers[i])>html.indexOf(markers[i-1]),markers[i]);
- assert.ok(html.includes('width="72" height="72"'));
- assert.ok(html.includes('data-controls="external"'));assert.ok(html.includes('/brand/rpa-hero-symbol.svg'));
- assert.ok(!html.includes('polaroid'));assert.ok(!html.includes('hero-photo-note'));
+test('contact renders one usable form inline and all contact entry points remain native anchors',()=>{
+ const html=render({...empty,profile:{...emptyProfile,name:'Owner',email:'hello@example.com',show_email:true}});
+ const section=html.slice(html.indexOf('id="contact"'),html.indexOf('</main>'));
+ assert.equal((section.match(/<form\b/g)||[]).length,1);
+ assert.ok(section.includes('method="post"'));
+ for(const field of ['name','email','subject','message','website'])assert.ok(section.includes(`name="${field}"`),field);
+ for(const text of ['Kirim pesan','mailto:hello@example.com','studio-contact-compose'])assert.ok(section.includes(text),text);
+ assert.ok(!section.includes('<dialog'));assert.ok(!html.includes('Ceritakan yang ingin Anda bangun.'));
+ assert.ok((html.match(/href="#contact"/g)||[]).length>=3);
 });

@@ -10,3 +10,4 @@ test-results/
 .local-backups/
 
 .local-preview/
+next-env.d.ts

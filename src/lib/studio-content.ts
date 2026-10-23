@@ -1,0 +1,6 @@
+import {type Entry,type Profile,textValue,listValue} from './model';
+export function studioContent(profile:Profile,records:Entry[],en:boolean){
+ const published=records.filter(e=>e.published);const by=(kind:string)=>published.filter(e=>e.kind===kind);
+ const projects=by('project').sort((a,b)=>Number(!!b.data.featured)-Number(!!a.data.featured)||a.position-b.position);
+ return {published,projects,services:by('service'),experiences:by('experience'),skills:by('skill'),education:by('education'),certificates:by('certificate'),achievements:by('achievement'),languages:by('language'),technologies:[...new Set([...projects.flatMap(e=>listValue(e.data,'technologies')),...by('skill').map(e=>e.title)])].slice(0,8),organizations:[...new Set(by('experience').map(e=>textValue(e.data,'organization')).filter(Boolean))].slice(0,4),stats:[{value:projects.length,label:en?'Projects in the portfolio':'Proyek dalam portofolio'},{value:by('skill').length,label:en?'Skills & technologies':'Keahlian & teknologi'},{value:by('certificate').length,label:en?'Certificates earned':'Sertifikat diperoleh'},{value:by('experience').length,label:en?'Professional experiences':'Pengalaman profesional'}],photo:profile.hero_photo||profile.photo||'',reveal:profile.hero_reveal_photo||''};
+}

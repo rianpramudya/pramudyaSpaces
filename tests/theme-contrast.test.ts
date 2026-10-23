@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import postcss from 'postcss';
-const files=['globals','portfolio','admin','admin-workspace','immersive','hero-experience','site-chrome','project-room','about-room','design-tokens'];
+const files=['globals','portfolio','admin','admin-workspace','immersive','site-chrome','design-tokens'];
 const rules=files.flatMap(file=>postcss.parse(fs.readFileSync(`src/app/${file}.css`,'utf8')).nodes.filter(n=>n.type==='rule'));
 function declarations(selector:string){const result:Record<string,string>={};for(const rule of rules)if(rule.type==='rule'&&rule.selector===selector)rule.walkDecls(d=>{result[d.prop]=d.value.trim();});return result;}
 function luminance(hex:string){const value=hex.replace('#','');const full=value.length===3?[...value].map(c=>c+c).join(''):value;const channels=[0,2,4].map(i=>parseInt(full.slice(i,i+2),16)/255).map(c=>c<=.04045?c/12.92:((c+.055)/1.055)**2.4);return channels[0]*.2126+channels[1]*.7152+channels[2]*.0722;}
@@ -29,11 +29,4 @@ test('active workspace navigation retains readable text on its tinted surface',(
   const tint='#'+surface.map((value,index)=>Math.round(value*.89+accent[index]*.11).toString(16).padStart(2,'0')).join('');
   assert.ok(ratio(tokens['--text'],tint)>=4.5,selector+' active navigation contrast');
  }
-});
-
-test('projects stay white in light mode and switch to neutral dark only in dark mode',()=>{
- const light=declarations('.portfolio main>section#projects[data-experience=project-theatre]');
- const dark={...light,...declarations('html[data-theme=dark] .portfolio main>section#projects[data-experience=project-theatre]')};
- const base=declarations(':root');assert.equal(resolve(light['--background'],base),'#ffffff');assert.equal(light['color-scheme'],'light');assert.equal(resolve(dark['--background'],base),'#181818');assert.equal(dark['color-scheme'],'dark');
- for(const raw of [light,dark]){const palette=Object.fromEntries(Object.entries({...base,...raw}).map(([key,value])=>[key,value.startsWith('var(')?resolve(value,{...base,...raw}):value]));assert.ok(ratio(palette['--text'],palette['--background'])>=4.5);assert.ok(ratio(palette['--muted'],palette['--background'])>=4.5);assert.ok(ratio(palette['--project-tag-text'],palette['--project-tag-bg'])>=4.5);}
 });

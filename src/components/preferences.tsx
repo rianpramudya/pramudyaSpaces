@@ -1,5 +1,7 @@
 'use client';
-import { useEffect,useState } from 'react';
+import {useEffect,useState,type MouseEvent} from 'react';
+import {flushSync} from 'react-dom';
+import {transitionTheme} from '@/lib/theme-transition';
 export function usePreferences(){
  const [language,setLanguage]=useState<'id'|'en'>('id');const [theme,setTheme]=useState<'light'|'dark'>('light');const [ready,setReady]=useState(false);
  useEffect(()=>{
@@ -9,5 +11,9 @@ export function usePreferences(){
  },[]);
  useEffect(()=>{if(!ready)return;document.documentElement.dataset.theme=theme;try{localStorage.setItem('portfolio-theme',theme);}catch{}},[theme,ready]);
  useEffect(()=>{if(!ready)return;document.documentElement.lang=language;try{localStorage.setItem('portfolio-language',language);}catch{}},[language,ready]);
- return {language,setLanguage,theme,setTheme};
+ function toggleTheme(event:MouseEvent<HTMLButtonElement>){
+  const next=theme==='dark'?'light':'dark';
+  void transitionTheme(()=>{document.documentElement.dataset.theme=next;flushSync(()=>setTheme(next));},event.currentTarget);
+ }
+ return {language,setLanguage,theme,setTheme,toggleTheme,ready};
 }
