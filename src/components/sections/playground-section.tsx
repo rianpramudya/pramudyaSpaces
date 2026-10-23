@@ -1,12 +1,12 @@
 import { Gamepad2 } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/section-heading';
-import { Playground } from '@/components/playground';
+import { RunnerGame } from '@/components/runner-game';
 export function PlaygroundSection({
-  technologies,
   language,
+  onGuestbook,
 }: {
-  technologies: string[];
   language: 'id' | 'en';
+  onGuestbook?: () => void;
 }) {
   const en = language === 'en';
   return (
@@ -20,11 +20,11 @@ export function PlaygroundSection({
           <Gamepad2 size={28} />
           <p>
             {en
-              ? 'Drag, toss, or use your keyboard. This little corner is yours.'
-              : 'Geser, lempar, atau gunakan keyboard. Sudut kecil ini untuk Anda.'}
+              ? 'Jump over errors. Duck under bugs. How far can you go?'
+              : 'Lompati error, tundukkan diri di bawah bug. Seberapa jauh Anda bisa berlari?'}
           </p>
         </div>
-        <Playground skills={technologies} language={language} />
+        <RunnerGame language={language} onGuestbook={onGuestbook} />
       </div>
     </section>
   );

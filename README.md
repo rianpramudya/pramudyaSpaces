@@ -104,3 +104,18 @@ Metadata berbahasa Indonesia berfokus pada Rian Pramudya dan memakai origin cano
 `/sitemap.xml` dibuat dinamis dari halaman home, archive dan proyek terbit melalui `getPublicContent()`; draft, data admin, dokumen/media API dan anchor section tidak dimasukkan sebagai halaman. Tidak ada tanggal modifikasi palsu pada sitemap. `/robots.txt` mengizinkan halaman publik, memblokir `/admin`, `/api`, `/auth`, dan menunjuk sitemap produksi. Robots adalah petunjuk crawler, bukan pengganti otorisasi; admin tetap memiliki metadata noindex dan gate server.
 
 File `public/google2e0088a0eb377ab5.html` adalah verifikasi GSC: jangan diubah, dipindahkan, atau dihapus. Proxy tidak mencakup file tersebut, robots maupun sitemap. Setelah perubahan diterbitkan ke Vercel, submit `sitemap.xml` di GSC dan gunakan URL Inspection untuk halaman utama/proyek; waktu indeks dan peringkat tidak dijamin oleh implementasi metadata.
+
+## Space Run: skor online dan privasi
+
+Game di `#playground` selalu dapat dimainkan tanpa login; skor terbaik perangkat tersimpan lokal. Skor online menggunakan sesi GitHub/Google yang sama dengan buku tamu (owner mengikuti policy buku tamu). Tombol login game membuka panel buku tamu. Tidak ada akun/password game terpisah.
+
+Migrasi pending: [20261023182010_runner_leaderboard.sql](supabase/migrations/20261023182010_runner_leaderboard.sql). File ini berisi SQL lengkap untuk `game_scores`, `game_sessions`, RLS/grants dan tiga RPC service-only. **Belum diterapkan ke Supabase produksi.** Tinjau dan terapkan secara manual pada target yang benar sebelum mengaktifkan skor online; jangan menjalankan fixture tes SQL pada database aktif. Tidak ada environment baru; service key tetap server-only. OAuth GitHub/Google perlu diaktifkan lewat konfigurasi buku tamu yang sudah ada.
+
+- `POST /api/game/session`: sesi server sekali pakai, kedaluwarsa 30 menit.
+- `POST /api/game/score`: autentikasi, validasi integer/durasi, rate limit dan transaksi penguncian sesi; skor tertinggi hanya naik.
+- `GET /api/game/leaderboard`: 10 teratas dan skor/peringkat pribadi; respons private/no-store dan tidak mengirim user ID/email. Urutan skor menurun, waktu pencapaian lalu ID internal menjadi pemecah seri.
+- `PATCH /api/game/privacy`: opt-out tidak menghapus skor dan tidak dapat menurunkan skor. Profil tersembunyi tidak mempunyai peringkat publik, tetapi pemiliknya tetap melihat skor sendiri. Skor pertama secara default tampil publik; UI menjelaskan nama/foto akun dan menyediakan opt-out sebelum bermain online.
+
+Batas anti-curang: validasi skor maksimum 62 poin/detik dihitung dari aturan fisika, batas skor 1.000.000; transaksi menolak replay, sesi pengguna lain, dan sesi kedaluwarsa. Ini batas kewajaran, bukan verifikasi ulang permainan: klien yang dimodifikasi masih dapat mengirim skor palsu di bawah batas waktu. Waktu jeda termasuk durasi server. Sesi lebih tua dari sehari dibersihkan untuk pemain tersebut saat membuat sesi berikutnya; belum ada pekerjaan pembersihan global.
+
+Tanpa migrasi/provider, leaderboard menampilkan keadaan tidak tersedia dan game tetap berjalan lokal. Tidak ada data peringkat dummy atau pengiriman ulang skor lokal ke server tanpa sesi.

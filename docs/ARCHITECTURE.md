@@ -108,3 +108,11 @@ Batas keamanan: [SECURITY](SECURITY.md). Konvensi implementasi: [CODE_STYLE](COD
 ## Penemuan halaman publik
 
 Sitemap dinamis membaca projection publik yang sama dengan halaman proyek, sehingga URL draft tidak dimasukkan. Canonical/OG beranda, archive dan detail memakai origin produksi tetap di `seo.ts`, bukan `SITE_URL` auth yang dapat menunjuk localhost. Section anchor bukan route mandiri. File verifikasi GSC di public harus dipertahankan utuh; matcher proxy tetap hanya admin/auth/API. Tidak ada perubahan izin data atau UI untuk SEO.
+
+## Game runner dan leaderboard (24 Oktober 2026)
+
+`runner-game.ts` adalah fisika murni. `RunnerGame` merender Canvas dan skor lokal; `use-runner-online.ts` menangani sesi/request dengan timeout, `RunnerLeaderboard` menampilkan proyeksi publik dan opt-out. Callback dari Portfolio membuka panel buku tamu existing; logout mengirim event `portfolio-auth-change` untuk menyegarkan status game. Panel Studio lama sudah dihapus.
+
+API game memakai `gameAccount` (verified getUser + policy provider buku tamu), schema `validation.ts`, origin/rate limit/error helper existing. `game-score.ts` memisahkan identity/session policy dan proyeksi publik dari adapter Supabase `game-server.ts`. Type leaderboard pada klien diimpor sebagai type saja; serviceClient tidak boleh masuk bundle klien.
+
+Migrasi `20261023182010_runner_leaderboard.sql` menambahkan dua tabel saja. `submit_runner_score` mengunci sesi dengan FOR UPDATE, memeriksa durasi dalam transaksi DB, menandai used dan meng-upsert greatest(best_score,new_score). `set_runner_privacy` hanya mengubah identitas/visibility, sedangkan submit tidak mengubah visibility. `runner_board` menghasilkan maksimum 10 pemimpin + baris sendiri, lalu API menghapus user_id. Ketiga RPC SECURITY INVOKER, EXECUTE hanya service_role; anon/authenticated hanya SELECT tiga kolom aman pada baris terlihat lewat RLS. Tidak ada policy tulis klien.

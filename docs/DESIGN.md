@@ -49,7 +49,7 @@ Dummy harus tetap terlihat sebagai contoh dan bukan klaim prestasi. Jangan mengg
 
 Header berupa floating bar ringkas dengan identitas, main links, jam, bahasa/tema, dan menu. Popover hamburger tidak memenuhi layar; pada layar pendek ia boleh scroll di dalam batas viewport. State aktif, Escape, klik luar, keyboard dan focus harus konsisten.
 
-Dock Studio/Buku tamu/Tanya Rian adalah satu unit; di mobile tidak boleh hilang atau pecah menjadi tombol bertumpuk. Dock tidak boleh menutup submit form, detail penting, atau area bermain. Drawer/panel harus menyediakan close yang terlihat.
+Dock hanya berisi aksi langsung Buku tamu/Tanya Rian. Tombol dan popover Studio beserta animasi chibi dock dihapus pada 24 Oktober 2026; game runner tetap berada di section Ruang bermain dan kontrol suara ada di game. di mobile tidak boleh hilang atau pecah menjadi tombol bertumpuk. Dock tidak boleh menutup submit form, detail penting, atau area bermain. Drawer/panel harus menyediakan close yang terlihat.
 
 Kontak adalah form langsung, bukan CTA yang memaksa pengunjung membuka form tersembunyi. Desktop dapat dua kolom; ukuran heading dan panjang copy harus seimbang dengan tinggi form. Mobile menyusun vertikal dengan urutan baca yang jelas. Tidak ada klaim keamanan teknis/dekoratif seperti “AES-256” tanpa dasar implementasi.
 

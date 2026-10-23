@@ -8,7 +8,6 @@ import '@fontsource/barlow/latin-800.css';
 import '@fontsource/barlow/latin-900.css';
 import './globals.css';
 import './portfolio.css';
-import './hero-chase.css';
 import './immersive.css';
 import './site-chrome.css';
 import './design-tokens.css';

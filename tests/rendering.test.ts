@@ -57,8 +57,8 @@ test('contact visibility and professional links respect CMS settings',()=>{
  const profile={...emptyProfile,name:'Owner',email:'private@example.com',phone:'+621234',show_email:false,show_phone:false,socials:[{label:'Code profile',url:'https://example.com/code'}]};const html=render({...empty,profile});assert.ok(!html.includes('private@example.com'));assert.ok(!html.includes('tel:+621234'));assert.ok(html.includes('https://example.com/code'));
  const publicHtml=render({...empty,profile:{...profile,show_email:true,show_phone:true}});assert.ok(publicHtml.includes('mailto:private@example.com'));assert.ok(publicHtml.includes('tel:+621234'));
 });
-test('playground, chibi characters, guestbook and AI remain available',()=>{
- const html=render({...empty,profile:{...emptyProfile,name:'Rian',status:'open',location:'CMS city'},records:[entry('skill','TypeScript')]});for(const value of ['skill-blocks','id="playground"','Buka buku tamu','Buka asisten AI','Sapa Spider-Man','Sapa Gwen','Open to work','CMS city'])assert.ok(html.includes(value),value);assert.ok(html.indexOf('class="arcade-lane')>html.indexOf('</main>'));
+test('runner, guestbook and AI remain available after Studio removal',()=>{
+ const html=render({...empty,profile:{...emptyProfile,name:'Rian',status:'open',location:'CMS city'},records:[entry('skill','TypeScript')]});for(const value of ['runner-game','id="playground"','Buka buku tamu','Buka asisten AI','Open to work','CMS city'])assert.ok(html.includes(value),value);assert.ok(!html.includes('arcade-lane'));assert.ok(!html.includes('dock-content'));
 });
 test('English studio uses the same CMS content and working page anchors',()=>{
  const html=renderToStaticMarkup(React.createElement(StudioHome,{content:{...empty,profile:{...emptyProfile,name:'Dewi',headline:'Engineer',summary:'CMS biography'},records:[entry('service','CMS service')]},language:'en',onCertificate:()=>{}}));for(const value of ['Dewi','CMS biography','CMS service','View work','Send message','href="#projects"','id="playground"'])assert.ok(html.includes(value),value);assert.ok(!html.includes('Lumora'));assert.ok(!html.includes('200+ brands'));

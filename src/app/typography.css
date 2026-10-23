@@ -59,8 +59,6 @@ button,input,textarea,select{font-family:var(--font-body);}
 .portfolio .hero-experience .hero-baseline,
 .portfolio .section-disclosure-label{font-family:var(--font-body);font-size:var(--type-small);font-weight:var(--weight-heading);line-height:var(--leading-label);letter-spacing:0;}
 .portfolio .hero-experience .hero-greeting{font:var(--weight-body) var(--type-small)/var(--leading-label) var(--font-body);}
-.portfolio .hero-experience .hero-location,.portfolio .hero-experience .hero-annotations,
-.portfolio .visitor-dock .dock-status p{font:var(--weight-body) var(--type-label)/var(--leading-label) var(--font-body);}
 .portfolio .hero-experience .hero-stats{font-family:var(--font-body);line-height:var(--leading-label);}
 .portfolio .hero-experience .hero-stats dt{font:var(--weight-heading) var(--type-label)/var(--leading-label) var(--font-body);}
 .portfolio .hero-experience .hero-stats dd{font:var(--weight-heading) var(--type-small)/var(--leading-label) var(--font-body);}
@@ -71,7 +69,7 @@ button,input,textarea,select{font-family:var(--font-body);}
 .portfolio .hero-experience .hero-given-name{font-size:var(--type-hero-wordmark);font-weight:var(--weight-display);}
 .portfolio .hero-experience .hero-family-name{font-size:var(--type-hero-family);font-weight:var(--weight-body);}
 .portfolio .hero.hero-experience .hero-role{font-size:var(--type-hero-role);line-height:var(--leading-label);font-weight:var(--weight-body);}
-.portfolio :is(.button,.text-button,.dock-quick-actions>button,.dock-panel-actions>button){font-family:var(--font-body);font-weight:var(--weight-control);line-height:var(--leading-label);letter-spacing:0;}
+.portfolio :is(.button,.text-button,.dock-quick-actions>button){font-family:var(--font-body);font-weight:var(--weight-control);line-height:var(--leading-label);letter-spacing:0;}
 /* Technical labels all resolve to the same locally served font, on every OS. */
 .portfolio :is(.hero-tech-tag>span,.project-theatre-tools>span,.hero-coordinates,.timeline-date,.project-stage-top,.project-stage-bottom,.project-theatre-index button>span,.project-evidence .evidence-todo,.footer-colophon){font-family:var(--font-mono);font-size:var(--type-label);line-height:var(--leading-label);letter-spacing:var(--tracking-label);}
 .portfolio .hero-experience .hero-coordinates{font-family:var(--font-mono);}

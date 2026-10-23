@@ -59,7 +59,7 @@ Viewport: 320, 375/390, 549, 768, 1024, 1440, 1920px, ditambah landscape dan zoo
 3. Urutan: hero → statistik → about; header/hamburger/bab mengikuti section. Anchor tidak tertutup header.
 4. Karya: next/previous/keyboard yang tersedia, archive/filter/sort, link case, draft tersembunyi, proyek tanpa media/bukti, judul dan teknologi panjang.
 5. Section lain: empty/1/banyak entri, disclosure, relasi target draft/dihapus, sertifikat tanpa preview.
-6. Dock/panel: Studio/Buku tamu/Chat tetap terjangkau di mobile, tidak overlap submit; close/Escape/focus/scroll panel benar.
+6. Dock/panel: Buku tamu/Chat tetap terjangkau di mobile, tidak overlap submit; close/Escape/focus/scroll panel benar.
 7. Kontak: required, email salah, batas pesan, pending/sukses/gagal, input tidak hilang saat gagal, tidak double submit. Mock respons atau staging; jangan mengirim ke inbox aktif.
 8. Admin: nonowner ditolak server, owner email/password, save/error/stale refresh, draft/publish, reorder/filter, media/doc visibility dan navigasi dengan input belum tersimpan.
 9. Browser console/network: tidak ada error hydration, request loop, aset rusak atau kegagalan tersembunyi pada alur yang diuji.
@@ -86,3 +86,11 @@ Untuk perubahan akses data, uji pipeline lengkap: input tervalidasi → simpan/f
 Setelah perbaikan bertahap pada 23 Oktober 2026, `npm test` dijalankan ulang dan 129/129 tes lulus. Tes baru mencakup pipeline bukti proyek, dirty tracking balasan, sanitasi error/validasi upload, dan state gerak loader. Tautan lokal pada sembilan dokumen aktif diperiksa tanpa tautan rusak; review pembaca independen mencocokkan kontrak utama dengan kode. Build telah dijalankan pada tugas perbaikan runtime; hasil akhirnya dicatat pada laporan QA. Angka tes bukan syarat tetap: jalankan `npm test` untuk jumlah terbaru. Pengujian browser/integrasi live tidak dilakukan pada tugas dokumentasi ini.
 
 Temuan operasional terdahulu (chat 503, OAuth nonaktif) belum diuji ulang oleh penulisan dokumen ini. Projection bukti dan cakupan guard yang ditemukan sudah diperbaiki; media `no-store` serta boundary client lebar tetap menjadi area evaluasi performa. Interaksi guard/loader di browser belum diverifikasi langsung. [Laporan QA](qa-studio-redesign-2026-10-22.md) berisi detail serta pembaruan kronologis, termasuk patch keamanan Next yang sudah dilakukan.
+
+## Pemeriksaan runner
+
+Unit/render: `node --import tsx --test tests/runner-game.test.ts tests/runner-rendering.test.ts tests/game-score.test.ts tests/runner-leaderboard.test.ts`.
+
+`tests/sql/runner-leaderboard.sql` menulis akun/skor fixture dan memeriksa RLS, replay, umur sesi, skor monotonik, privasi dan peringkat. **Jangan jalankan pada Supabase aktif/produksi.** Gunakan PostgreSQL disposable dengan role anon/authenticated, service_role BYPASSRLS, schema auth dan tabel auth.users(id uuid primary key), lalu terapkan migrasi runner sebelum fixture. Pemeriksaan sesi/skor paralel juga harus memakai database disposable; tes unit tidak menggantikan transaksi DB nyata.
+
+Manual/staging: mulai anonim tanpa request sesi online, login dari CTA membuka buku tamu, mulai login menyiapkan sesi lalu skor disimpan saat game over; uji timeout/migrasi belum ada, logout, spam mulai, jeda 30 menit, hidden-tab/offscreen, opt-out sebelum/sesudah skor dan avatar gagal. Periksa keyboard/touch, light/dark, ID/EN dan reduced motion. Operasi authenticated end-to-end memerlukan migrasi dan provider yang aktif di target uji.

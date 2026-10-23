@@ -18,10 +18,12 @@ export function StudioHome({
   content,
   language,
   onCertificate,
+  onGuestbook,
 }: {
   content: PublicContent;
   language: 'id' | 'en';
   onCertificate: (entry: Entry) => void;
+  onGuestbook?: () => void;
 }) {
   const en = language === 'en',
     p = content.profile,
@@ -88,7 +90,7 @@ export function StudioHome({
         en={en}
         onPreview={onCertificate}
       />
-      <PlaygroundSection technologies={d.technologies} language={language} />
+      <PlaygroundSection language={language} onGuestbook={onGuestbook} />
       <ContactSection
         profile={p}
         documents={content.documents}

@@ -1,3 +1,4 @@
+import { RUNNER_RULES } from './runner-game';
 import { z } from 'zod';
 import { kinds,sectionCopyKeys } from './model';
 const short = z.string().trim().max(240);
@@ -33,3 +34,6 @@ export function validateUpload(bytes: Uint8Array, mime:string, size:number):stri
 }
 
 export const sectionDescriptionSchema=z.object({key:z.enum(['projects_description','services_description','journey_description','skills_description','certificates_description','contact_description']),value:z.string().trim().max(2000)});
+
+export const gameScoreSchema = z.object({session:z.uuid(),score:z.number().int().min(0).max(RUNNER_RULES.maxScore)}).strict();
+export const gamePrivacySchema = z.object({show_on_board:z.boolean()}).strict();

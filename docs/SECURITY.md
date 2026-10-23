@@ -92,3 +92,11 @@ Jika secret terpapar: hentikan distribusi, rotasi/revoke melalui provider berwen
 Laporkan dugaan kerentanan secara privat kepada pemilik melalui kanal yang disepakati; jangan menerbitkan token atau detail eksploit pada issue publik. Belum ada mailbox security khusus yang ditetapkan di repositori.
 
 Verifikasi mengikuti [TESTING](TESTING.md); batas tindakan agent mengikuti [AGENTS](../AGENTS.md). Tidak ada konfigurasi cloud atau data live yang diubah oleh pembuatan dokumentasi ini.
+
+## Skor Space Run
+
+Endpoint game menolak sesi anonim/provider yang tidak didukung policy buku tamu. Identitas berasal dari user terverifikasi, bukan body klien. Score payload strict berisi UUID sesi dan integer skor saja; identity/user_id tambahan ditolak. Rate limit 12 sesi/submit/perubahan privasi per pengguna per menit dan 90 pembacaan leaderboard per IP per menit memakai helper existing.
+
+Sesi 30 menit, sekali pakai, terikat user_id. Pengecekan TypeScript diulang di SQL dengan row lock untuk mencegah replay bersamaan; upsert skor monotonik dan update privasi tidak saling menimpa. Proyeksi API membuang user_id/email, menampilkan hanya profil yang tidak disembunyikan, dan menggunakan private/no-store karena berisi skor pribadi. SELECT langsung dibatasi kolom display_name/avatar_url/best_score; game_sessions dan RPC tidak dapat diakses anon/authenticated.
+
+Validasi laju maksimal bukan anti-cheat penuh. Durasi server mencakup pause; klien jahat tetap dapat menunggu lalu mengirim nilai yang masuk batas. Tidak ada klaim integritas kompetisi setara game yang disimulasikan server. Avatar publik berasal dari URL HTTPS profil; UI memakai no-referrer dan fallback inisial saat gambar gagal. Migrasi hanya ditulis dan diuji di PostgreSQL sementara, belum diterapkan pada Supabase aktif.

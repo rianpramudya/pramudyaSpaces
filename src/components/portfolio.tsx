@@ -236,7 +236,7 @@ export function Portfolio({
           <ProjectDetail project={project} en={en} />
         ) : (
           <>
-            <StudioHome content={content} language={language} onCertificate={setCertificate} />
+            <StudioHome content={content} language={language} onCertificate={setCertificate} onGuestbook={() => setPanel('guestbook')} />
           </>
         )}
       </main>
@@ -244,7 +244,6 @@ export function Portfolio({
       <VisitorDock
         profile={profile}
         language={language}
-        play={!archive && !projectId}
         onPanel={setPanel}
       />
       {panel && (
