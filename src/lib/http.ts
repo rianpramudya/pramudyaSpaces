@@ -1,10 +1,10 @@
 import 'server-only';
 import { NextResponse } from 'next/server';
 import { createHmac } from 'node:crypto';
-import { ZodError } from 'zod';
+import { HttpError,publicFailure } from './http-error';
+export { HttpError } from './http-error';
 import { serviceClient } from './supabase';
 import { allowedOrigin } from './origin-policy';
-export class HttpError extends Error {constructor(public status:number,message:string){super(message);}}
 export function originCheck(request:Request) {
  const origin=request.headers.get('origin');
  if(!allowedOrigin(origin,request.url,process.env.SITE_URL)) throw new HttpError(403,'Permintaan berasal dari situs yang tidak diizinkan.');
@@ -25,10 +25,8 @@ export async function rateLimit(request:Request,scope:string,max:number,seconds:
  if(!data) throw new HttpError(429,'Batas penggunaan tercapai. Silakan coba lagi nanti.');
 }
 export function failure(error:unknown) {
- if(error instanceof ZodError) return NextResponse.json({error:error.issues[0]?.message||'Data tidak valid.'},{status:400});
- if(error instanceof HttpError) return NextResponse.json({error:error.message},{status:error.status});
- const message=error instanceof Error?error.message:'Permintaan gagal.';
- return NextResponse.json({error:message},{status:message.includes('Akses hanya')?403:503});
+ const {status,error:message}=publicFailure(error);
+ return NextResponse.json({error:message},{status,headers:{'Cache-Control':'private, no-store'}});
 }
 export async function api(request:Request,handler:()=>Promise<unknown>) {
  try{originCheck(request);return NextResponse.json(await handler(),{headers:{'Cache-Control':'private, no-store'}});}catch(error){return failure(error);}

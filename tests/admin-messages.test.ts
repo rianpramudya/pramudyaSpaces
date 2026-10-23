@@ -15,3 +15,15 @@ test('message search quotes punctuation rather than introducing additional filte
  const filter=messageSearchFilter('a,b"%_',true);assert.ok(filter.startsWith('name.ilike."'));assert.ok(filter.includes('body.ilike."'));assert.ok(filter.includes('\\"'));assert.ok(!filter.includes('subject.ilike'));
  const inbox=messageSearchFilter('hello',false);assert.ok(inbox.includes('subject.ilike'));assert.ok(inbox.includes('message.ilike'));
 });
+
+test('reply dirty tracking preserves drafts across pages and clears only successfully saved changes', async () => {
+ const { hasReplyChanges } = await import('../src/lib/message-drafts');
+ const saved = { a: 'Original A', b: 'Original B' };
+ const drafts = { a: 'Revised A', b: 'Revised B' };
+ assert.equal(hasReplyChanges(saved, drafts), true);
+ assert.equal(hasReplyChanges({ ...saved, a: 'Revised A' }, drafts), true);
+ assert.equal(hasReplyChanges({ a: 'Revised A', b: 'Revised B' }, drafts), false);
+ assert.equal(hasReplyChanges(saved, { a: ' Original A ' }), false);
+ assert.equal(hasReplyChanges(saved, { c: 'New reply on another page' }), true);
+ assert.equal(hasReplyChanges(saved, { a: '' }), true);
+});

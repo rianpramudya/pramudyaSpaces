@@ -237,3 +237,22 @@ Bukti lokal audit: `/private/tmp/full-audit-tests.log`, `full-audit-dependencies
 - Menghapus pembesaran wadah foto saat scroll yang sebelumnya membuat tepi foto melampaui bingkai; pergeseran vertikal, arch, mask bawah dan interaksi reveal tetap dipertahankan. Tidak mengubah aset CMS atau framing footer.
 - UI lint, TypeScript dan 24 tes rendering/scene/scroll lulus. Pemeriksaan visual browser belum dilakukan.
 - Production build lulus; preview 3100 diperbarui. HTTP 200 memverifikasi CSS inset bersama 40px/20px terkirim dan inset negatif lama sudah hilang.
+
+## Dokumentasi aktif untuk pengembangan agentic — 23 Oktober 2026
+
+- Menyusun AGENTS.md, README.md serta docs/PRD.md, ARCHITECTURE.md, DESIGN_SYSTEM.md, CODE_STYLE.md, DESIGN.md, TESTING.md dan SECURITY.md berdasarkan inspeksi kode/config/schema/test. README lama diselaraskan dengan loading, urutan section dan temuan yang belum selesai; laporan ini tetap sebagai riwayat.
+- Aturan mencakup sumber kebenaran, scope/otorisasi agent, OOP/SOLID melalui komposisi React, pipeline CMS ke projection publik, token desain, keamanan provider/data serta acceptance dan verifikasi. Tidak ada kewajiban memindahkan seluruh React ke class atau klaim fitur gap sudah diperbaiki.
+- Review pembaca independen bersifat read-only; saran guard copy environment diterapkan. Pemeriksaan tautan lokal kesembilan dokumen, code fence, whitespace dan placeholder lulus. npm test dijalankan ulang: 123/123 lulus. Referensi resmi Next.js, React, Supabase, WCAG, OWASP dan Web Vitals ditautkan pada dokumen terkait.
+- Tidak mengubah kode runtime, dependency, konfigurasi remote, data CMS atau secret. Build/browser/integrasi live tidak dijalankan khusus untuk tugas dokumentasi ini.
+
+## Perbaikan bertahap hasil audit kesesuaian — 23 Oktober 2026
+
+1. Bukti karya: menambah `result_source` dan `paper` pada allowlist publik saja, tanpa memasukkannya ke field terjemahan. Tes pipeline schema → projection → translation → detail gagal sebelum fix dan lulus sesudahnya; draft/private note tetap tidak tampil.
+2. Input admin: guard existing dipakai pada SectionIntro, TranslationsPanel, MessagesPanel, DocumentsPanel dan AccountSettings, selain Profil/EntryEditor yang sudah ada. Balasan mempunyai baseline per ID sehingga menyimpan satu balasan tidak menandai balasan lain tersimpan. Form dikunci sesuai proses simpan; snapshot sukses dibedakan dari kegagalan refresh. Generate/muat terjemahan meminta konfirmasi jika ada perubahan lokal.
+3. Error: HttpError dan pemetaan publicFailure dipisah ke modul murni `http-error.ts`. Error tak terduga memberi pesan umum, owner rejection tetap 403 melalui typed error. Validasi unggahan memakai ZodError agar tetap memberi 400 yang jelas. Tes menguji pesan sensitif, error yang menyerupai pesan auth, validasi, rate limit status dan upload invalid.
+4. Gerak: Portfolio dan PageLoader berbagi keputusan motion; loader statis pada SSR sebelum preferensi diketahui, menghormati motion off/reduced motion, dan melepas exit tanpa menunggu animasi ketika dimatikan.
+5. OAuth: pemilik mengonfirmasi aplikasi GitHub/Google belum dibuat. Panduan dan link provider sudah tersedia pada Admin → Pengaturan akun. Tidak membuat credential palsu, menghapus kebutuhan login, atau mengubah konfigurasi cloud. Aktivasi dan uji OAuth tetap menunggu setup provider oleh pemilik.
+
+Verifikasi: 129/129 tes, TypeScript, UI lint dan production build lulus. Preview 3100 direstart. HTTP smoke: home/archive 200, API admin tanpa sesi 403, payload kontak kosong 400 sebelum persistensi; guestbook masih google:false/github:false. Tidak mengirim pesan valid, memanggil AI berbayar, atau mengubah data CMS. Browser runtime masih tidak tersedia sehingga dialog navigasi, animasi dan layout belum diperiksa langsung.
+
+README, PRD, arsitektur, keamanan dan testing diperbarui untuk membedakan perbaikan kode yang selesai dari OAuth/provider, QA visual dan evaluasi performa yang masih terbuka. Utang CSS/boundary client/media tidak dirombak tanpa pengukuran.

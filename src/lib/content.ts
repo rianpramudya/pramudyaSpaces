@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { emptyProfile, type Profile, type Entry, type PublicContent, type CareerDocument, kinds, sectionCopyKeys } from './model';
-export const publicDataKeys = ['description', 'role', 'organization', 'type', 'start', 'end', 'current', 'technologies', 'url', 'repository', 'media', 'alt', 'featured', 'context', 'result', 'bullets', 'category', 'issuer', 'date', 'credential', 'degree', 'gpa', 'level', 'related_project_ids'] as const;
+export const publicDataKeys = ['description', 'role', 'organization', 'type', 'start', 'end', 'current', 'technologies', 'url', 'repository', 'media', 'alt', 'featured', 'context', 'result', 'result_source', 'paper', 'bullets', 'category', 'issuer', 'date', 'credential', 'degree', 'gpa', 'level', 'related_project_ids'] as const;
 const translatedDataKeys = ['description', 'role', 'context', 'result', 'bullets', 'category', 'degree', 'level'];
 export function projectPublicContent(profile: Profile, entries: Entry[], documents: CareerDocument[] = []): PublicContent {
  const clean: Profile = profile.published ? {

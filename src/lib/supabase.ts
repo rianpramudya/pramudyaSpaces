@@ -2,6 +2,7 @@ import 'server-only';
 import { createClient } from '@supabase/supabase-js';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { HttpError } from './http-error';
 export function configured() { return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY && process.env.SUPABASE_SECRET_KEY); }
 export function serviceClient() {
  if(!configured()) throw new Error('Database belum terhubung. Lengkapi konfigurasi Supabase.');
@@ -26,5 +27,5 @@ export async function isOwner(userId?:string) {
  return !error && Boolean(data);
 }
 export async function requireOwner() {
- const user=await currentUser(); if(!user || !await isOwner(user.id)) throw new Error('Akses hanya untuk pemilik.'); return user;
+ const user=await currentUser(); if(!user || !await isOwner(user.id)) throw new HttpError(403,'Akses hanya untuk pemilik.'); return user;
 }

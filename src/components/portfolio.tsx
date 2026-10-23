@@ -31,6 +31,7 @@ export function Portfolio({
   const [fallback, setFallback] = useState(false);
   const [translated, setTranslated] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [motion, setMotion] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const finishLoading = useCallback(() => setRevealed(true), []);
   const finishExit = useCallback(() => setLoaded(true), []);
@@ -45,8 +46,10 @@ export function Portfolio({
       try {
         enabled = localStorage.getItem('portfolio-motion') !== 'off';
       } catch {}
+      const animate = !reduced.matches && enabled;
+      setMotion(animate);
       if (portfolioRoot.current)
-        portfolioRoot.current.dataset.motion = !reduced.matches && enabled ? 'on' : 'off';
+        portfolioRoot.current.dataset.motion = animate ? 'on' : 'off';
     };
     read();
     reduced.addEventListener('change', read);
@@ -198,7 +201,7 @@ export function Portfolio({
   const project = projectId ? projects.find((e) => e.id === projectId) : undefined;
   return (
     <>
-    {!loaded && <PageLoader root={portfolioRoot} contentReady={preferencesReady && (!en || translated)} en={en} onReady={finishLoading} exiting={revealed} onExited={finishExit} />}
+    {!loaded && <PageLoader root={portfolioRoot} contentReady={preferencesReady && (!en || translated)} en={en} onReady={finishLoading} exiting={revealed} onExited={finishExit} motion={motion} />}
     <div
       className="portfolio studio-site cinematic-site"
       data-ready={revealed}

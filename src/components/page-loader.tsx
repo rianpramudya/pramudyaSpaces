@@ -2,13 +2,14 @@
 import { useEffect, type RefObject } from 'react';
 import { waitForPageAssets } from '@/lib/page-readiness';
 
-export function PageLoader({ root, contentReady, en, onReady, exiting, onExited }: {
+export function PageLoader({ root, contentReady, en, onReady, exiting, onExited, motion }: {
   root: RefObject<HTMLDivElement | null>;
   contentReady: boolean;
   en: boolean;
   onReady: () => void;
   exiting: boolean;
   onExited: () => void;
+  motion: boolean;
 }) {
   useEffect(() => {
     const previous = document.body.style.overflow;
@@ -25,10 +26,10 @@ export function PageLoader({ root, contentReady, en, onReady, exiting, onExited 
   useEffect(() => {
     if (!exiting) return;
     // Release even if animationend is interrupted or motion is disabled.
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduced = !motion || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const timeout = window.setTimeout(onExited, reduced ? 0 : 700);
     return () => clearTimeout(timeout);
-  }, [exiting, onExited]);
+  }, [exiting, onExited, motion]);
 
   useEffect(() => {
     if (exiting || !contentReady || !root.current) return;
@@ -39,13 +40,13 @@ export function PageLoader({ root, contentReady, en, onReady, exiting, onExited 
     return () => controller.abort();
   }, [contentReady, exiting, onReady, root]);
 
-  return <LoadingScreen en={en} onContinue={onReady} exiting={exiting} onExited={onExited} />;
+  return <LoadingScreen en={en} onContinue={onReady} exiting={exiting} onExited={onExited} motion={motion} />;
 }
 
-export function LoadingScreen({ en = false, onContinue, exiting = false, onExited }: {
-  en?: boolean; onContinue?: () => void; exiting?: boolean; onExited?: () => void;
+export function LoadingScreen({ en = false, onContinue, exiting = false, onExited, motion = false }: {
+  en?: boolean; onContinue?: () => void; exiting?: boolean; onExited?: () => void; motion?: boolean;
 }) {
-  return <div className="studio-site cinematic-site site-loading-screen" data-exiting={exiting}
+  return <div className="studio-site cinematic-site site-loading-screen" data-exiting={exiting} data-motion={motion ? 'on' : 'off'}
     onAnimationEnd={(event) => {
       if (exiting && event.target === event.currentTarget) onExited?.();
     }}>

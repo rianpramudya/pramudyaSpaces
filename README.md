@@ -1,142 +1,106 @@
-# Pramudya Spaces
+# PramudyaSpaces
 
-Website profil personal dan CMS Pramudya Spaces. Next.js App Router, TypeScript, Supabase Auth/Postgres/Storage. Seluruh fitur dibangun untuk satu peluncuran setelah verifikasi selesai.
+Portofolio Rian Pramudya Amanda dengan CMS pemilik tunggal. Halaman publik menggabungkan fotografi, tipografi editorial, karya, profil, layanan, pengalaman, dan ruang bermain. Data berasal dari Supabase; admin mengelola konten tanpa mengedit kode.
 
-## Menjalankan
+Dokumentasi ini diselaraskan dengan kode pada **23 Oktober 2026**. Kondisi provider dan deployment harus diperiksa pada environment yang dipakai; keberadaan konfigurasi tidak membuktikan layanan operasional.
+
+## Dokumentasi
+
+| Dokumen | Tanggung jawab |
+|---|---|
+| [AGENTS.md](AGENTS.md) | Aturan kerja AI agent dan batas tindakan |
+| [PRD](docs/PRD.md) | Tujuan, fitur, prioritas, acceptance |
+| [Arsitektur](docs/ARCHITECTURE.md) | Modul, route, data, integrasi |
+| [Design system](docs/DESIGN_SYSTEM.md) | Token dan komponen |
+| [Desain](docs/DESIGN.md) | Arah visual, komposisi, interaksi |
+| [Code style](docs/CODE_STYLE.md) | Konvensi implementasi dan OOP/SOLID |
+| [Testing](docs/TESTING.md) | Perintah, skenario, batas pengujian |
+| [Security](docs/SECURITY.md) | Auth, privasi, model ancaman |
+| [Riwayat QA](docs/qa-studio-redesign-2026-10-22.md) | Hasil pemeriksaan historis; baca pembaruan terakhir |
+
+## Teknologi dan prasyarat
+
+Next.js App Router 16.4.2, React 19.3.0, TypeScript 7.0.2, Supabase Auth/Postgres/Storage, Zod, dan `@react-pdf/renderer` pada snapshot ini. `package.json` dan `package-lock.json` adalah sumber versi aktual.
+
+Gunakan Node.js LTS yang kompatibel dengan versi Next.js terpasang dan npm untuk environment baru; validasi sebelum menetapkan pin runtime. Repositori belum memiliki `.nvmrc` atau `engines` sebagai pin runtime. Docker dan Supabase CLI diperlukan hanya untuk database lokal. Tidak ada ORM tambahan, Three.js, atau Lenis pada dependensi saat ini.
 
 ```sh
 npm ci
+test -e .env.local || cp .env.example .env.local
 npm run dev -- --port 3100
 ```
 
-Halaman tamu: `http://127.0.0.1:3100`. Login admin: `/admin/login`. Penyiapan akun tersembunyi: `/admin/register`. Tidak ada tautan admin/pendaftaran di navigasi tamu.
+Salin environment hanya pada setup baru; jangan menimpa `.env.local` yang sudah berisi konfigurasi. Isi nilainya secara lokal, lalu restart server setelah perubahan. Halaman publik: `http://127.0.0.1:3100/`; admin: `/admin/login`.
 
-`.env.local` sudah memuat koneksi proyek `pramudyaSpace` yang diberikan pemilik. `.env.example` menjelaskan variabelnya; semua `.env` diabaikan Git. Untuk environment baru, salin `.env.example` ke `.env.local` dan isi konfigurasi. Server harus dimulai ulang setelah perubahan environment.
+## Konfigurasi
 
-## Membuat akun pemilik
+| Variabel | Penggunaan |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | URL proyek Supabase |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Kunci publik untuk klien sesi; tetap bergantung pada izin/RLS |
+| `SUPABASE_SECRET_KEY` | Server saja; jangan memakai prefix `NEXT_PUBLIC_` |
+| `SITE_URL` | Origin aplikasi; untuk preview ini gunakan `http://127.0.0.1:3100` |
+| `OWNER_EMAIL`, `ADMIN_SETUP_TOKEN` | Setup owner pertama; token acak minimal 32 karakter |
+| `RATE_LIMIT_SECRET` | Secret HMAC pembatasan request; gunakan nilai terpisah yang kuat |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | Chat dan terjemahan; model/kuota harus tersedia pada akun |
+| `RESEND_API_KEY`, `CONTACT_NOTIFICATION_TO`, `CONTACT_NOTIFICATION_FROM` | Notifikasi email opsional; pengirim harus terverifikasi |
 
-1. Buka `/admin/register` secara langsung.
-2. Gunakan email yang disetel pada `OWNER_EMAIL` (saat ini email karier dari CV contoh).
-3. Pilih password minimal 12 karakter.
-4. Salin kode `ADMIN_SETUP_TOKEN` dari `.env.local` ke form. Nilainya hanya digunakan saat penyiapan akun tunggal.
-5. Setelah berhasil, masuk ke CMS. Akun pemilik kedua ditolak oleh constraint singleton database.
+`.env.example` masih memakai port 3000 sebagai contoh. Samakan `SITE_URL`, alamat preview, dan allowlist redirect ketika memakai port 3100. Jangan memasukkan nilai credential ke issue atau dokumen.
 
-Pemulihan password berada pada `/admin/login`. Pengaturan email/password dan keluar akun tersedia di `/admin/settings`. Pemulihan memakai email akun pemilik saat ini, termasuk setelah perubahan email. Supabase Auth perlu konfigurasi redirect dan SMTP yang sesuai agar email pemulihan/konfirmasi dapat diterima.
+## Database dan akun admin
 
-## Mengisi konten
+Migrasi berurutan berada di [supabase/migrations](supabase/migrations). Untuk database uji lokal, jalankan `npm run db:local`, ambil konfigurasi lokal secara privat, lalu terapkan migrasi pending dengan Supabase CLI sesuai target. Untuk remote, periksa project reference dan migration history sebelum menerapkan migrasi; jangan mengulang SQL yang sudah diterapkan atau menjalankan reset pada database aktif.
 
-Konten publik berasal dari CMS. Kelola profil, koleksi, dan status penerbitan melalui dashboard admin.
+1. Pada instalasi baru tanpa owner, isi `OWNER_EMAIL` dan `ADMIN_SETUP_TOKEN`.
+2. Buka `/admin/register` langsung. Gunakan email tersebut, password minimal 12 karakter, dan token setup.
+3. Setelah owner terbentuk, login memakai email/password di `/admin/login`. Owner tambahan ditolak oleh database.
+4. Pengaturan email/password dan pemulihan berada di `/admin/settings` dan `/admin/login`. Alur email membutuhkan konfigurasi Auth/SMTP/redirect yang benar.
 
-- Profil: identitas, ringkasan, foto/alt, status kerja, lokasi, kontak dan visibilitas, tautan profesional, judul/deskripsi setiap bagian publik.
-- Koleksi: proyek, pengalaman kerja/organisasi, pendidikan, layanan, skills, sertifikat, pencapaian, bahasa. Form mendukung draft/published dan urutan.
-- Media: JPEG/PNG/WebP maksimum 5 MB; PDF maksimum 10 MB. Bucket privat, tidak ada URL Storage publik. Endpoint `/api/media/…` memeriksa referensi published atau akun pemilik; hapus media yang masih dipakai ditolak.
-- Dokumen: ATS PDF, CV kreatif PDF, surat lamaran PDF, atau PDF unggahan. Hasil generasi privat; terbitkan secara eksplisit dan pilih CV unggulan untuk tombol unduh publik. PDF merupakan snapshot; hasilkan ulang setelah data CMS diubah.
-- Inbox: form publik menyimpan nama/email/subjek/pesan; admin menandai dibaca, mengarsipkan, menghapus, atau membuka email balasan.
-- Guestbook: semua pengunjung membaca; hanya akun sosial GitHub/Google yang dapat menulis, langsung tampil, satu balasan admin per pesan.
-- Terjemahan: hanya konten published dikirim ke provider. Cache dan koreksi terikat pada versi masing-masing bagian; perubahan satu entri tidak menghapus koreksi entri lain.
+Admin **tidak perlu login Google/GitHub**. OAuth dipakai pengunjung untuk menulis buku tamu; sesi owner juga dapat menulis. Route admin tidak ditautkan pada navigasi tamu, tetapi perlindungannya tetap pemeriksaan server.
 
-## Mengaktifkan AI
+## Alur pengisian
 
-Buat API key di [Google AI Studio](https://aistudio.google.com/api-keys), lalu tambahkan `GEMINI_API_KEY` ke `.env.local`. Model configurable melalui `GEMINI_MODEL`. Kuota dan model perlu diverifikasi menggunakan akun yang digunakan; dokumentasi [API key](https://ai.google.dev/gemini-api/docs/api-key) dan [model](https://ai.google.dev/gemini-api/docs/models).
+Mulai dari **Ringkasan → Peta halaman utama**, isi Profil dan Proyek, lalu hubungkan layanan, keahlian, pengalaman, pendidikan, dan sertifikat dengan proyek yang relevan. Gunakan draft selama penyusunan, preview, lalu terbitkan secara eksplisit.
 
-Chatbot memakai informasi publik dan bahasa pilihan, tidak menyimpan transkrip ke database. Batas: 1000 karakter pertanyaan, 20 request per sesi/hari, 40 per pengunjung/hari, 100 global/hari. Provider gagal menampilkan jalur kontak. Terjemahan gagal menampilkan sumber Indonesia dengan pemberitahuan. Prompt/jawaban mengikuti kebijakan data provider.
+- Foto hero utama dan foto sapuan warna harus memiliki komposisi sama; foto formal profil dikelola terpisah.
+- Relasi manual memakai `related_project_ids`. Pilihan manual kosong tidak menampilkan proyek; proyek draft/tidak tersedia disaring dari publik. Layanan/skills lama dapat memakai pencocokan otomatis.
+- Kontak mempunyai form inline yang menyimpan ke Inbox. Notifikasi email gagal tidak membatalkan pesan yang sudah tersimpan.
+- Dokumen PDF merupakan snapshot: hasilkan ulang setelah data sumber berubah, periksa isinya, lalu terbitkan/pilih CV unggulan jika diperlukan.
+- Media melalui `/api/media/…` dari bucket privat. Gambar JPEG/PNG/WebP maksimal 5 MB; PDF maksimal 10 MB.
+- Loading awal menunggu preferensi, konten awal/bahasa, font, dan gambar viewport pertama. Skip dan timeout 8 detik tersedia, lalu transisi keluar 600 ms. Aset offscreen tetap lazy-load.
 
-## Mengaktifkan login sosial
+## OAuth dan AI
 
-Di Supabase **Authentication → URL Configuration**, atur Site URL dan tambahkan callback aplikasi untuk development: `http://127.0.0.1:3100/auth/callback`. Setelah deployment, gunakan URL final dan callback HTTPS-nya.
+Di Supabase Auth atur Site URL dan redirect aplikasi `/auth/callback` untuk setiap environment. Callback pada OAuth App provider adalah `https://<project-ref>.supabase.co/auth/v1/callback`, berbeda dari callback aplikasi. Ikuti panduan resmi [GitHub](https://supabase.com/docs/guides/auth/social-login/auth-github) dan [Google](https://supabase.com/docs/guides/auth/social-login/auth-google); jangan menaruh client secret pada browser.
 
-Callback provider untuk proyek ini: `https://clmxldzygmczmyawyhel.supabase.co/auth/v1/callback`.
+AI hanya menerima proyeksi konten publik. Masukkan key/model Gemini yang valid, lalu uji respons nyata dengan memperhatikan kuota dan biaya. Jangan menganggap chat atau terjemahan aktif hanya karena key terisi. Rincian kontrol dan temuan berada di [SECURITY](docs/SECURITY.md) dan [TESTING](docs/TESTING.md).
 
-- **GitHub:** buat OAuth App di GitHub Developer Settings, gunakan callback provider di atas, lalu isi Client ID/Secret dan aktifkan GitHub di Supabase Auth Providers. [Panduan resmi](https://supabase.com/docs/guides/auth/social-login/auth-github).
-- **Google:** buat OAuth client jenis Web application, konfigurasi consent screen, origin aplikasi dan callback provider di atas. Isi Client ID/Secret dan aktifkan Google di Supabase Auth Providers. [Panduan resmi](https://supabase.com/docs/guides/auth/social-login/auth-google).
-
-Provider belum aktif saat pemeriksaan awal. Dashboard admin menunjukkan status konfigurasi. Jangan menandai guestbook OAuth terverifikasi sebelum login nyata berhasil.
-
-## Notifikasi email opsional
-
-Inbox tetap berfungsi tanpa email. Isi `RESEND_API_KEY`, `CONTACT_NOTIFICATION_TO`, dan `CONTACT_NOTIFICATION_FROM` (alamat/domain yang diverifikasi Resend) untuk notifikasi. Kegagalan notifikasi tidak menggagalkan pesan yang sudah tersimpan.
-
-## Database
-
-Migrasi `supabase/migrations/20261011101347_portfolio_cms.sql` sudah diterapkan pada proyek `pramudyaSpace`. Semua tabel memiliki RLS; fungsi admin memakai membership pemilik, bukan user_metadata. Tabel rate limit tidak memiliki policy pengguna karena hanya server yang boleh memakainya. Info linter tersebut disengaja.
-
-Pada proyek baru, jalankan migrasi melalui Supabase CLI/MCP. Jangan mengulang SQL pada proyek yang sudah memiliki migrasi. `supabase/config.toml` tersedia untuk pengembangan lokal; Docker lokal belum berhasil dijalankan pada mesin ini karena kesalahan penyimpanan image.
-
-## Pemeriksaan
+## Pemeriksaan dan produksi
 
 ```sh
 npm test
 npm run typecheck
+npm run lint
 npm run build
-node --import tsx scripts/check-pdf.tsx
+npm run start -- --port 3100
 ```
 
-Tes unit mencakup proyeksi publik, validasi input/unggahan, pemetaan CV, judul terjemahan, pemeliharaan override, pemulihan akun, dan SSR halaman tamu.
+Jalankan dev dan start produksi secara bergantian pada port yang sama. Saat build selesai, restart proses preview yang benar agar tidak menyajikan aset lama. `npm run lint` saat ini adalah pemeriksaan CSS/token UI khusus, **bukan ESLint umum**.
 
-Tes integrasi yang telah dijalankan terhadap Supabase: RLS, sesi login, form CMS/publikasi, media privat/publik, Inbox, PDF, rate limit atomik, dan penyiapan pemilik tunggal. `scripts/integration-check.ts` dan `scripts/bootstrap-check.ts` memerlukan database tanpa akun pemilik dan membuat akun/data QA sementara; jangan menjalankannya setelah pemilik mulai mengelola konten. File environment tidak dicetak.
+Skrip bootstrap, integrasi, import, dan fill dapat menulis atau menghapus data sementara. Jangan menjalankannya di database pemilik aktif untuk smoke test. Lihat klasifikasi skrip dan matriks QA di [TESTING](docs/TESTING.md).
 
-Respons Gemini nyata, chatbot ID/EN, terjemahan/cache/koreksi telah diuji melalui `scripts/ai-integration-check.ts`. Skrip membuat konten QA sementara lalu membersihkannya. Verifikasi UI browser dan OAuth nyata masih memerlukan penyelesaian konfigurasi/pengujian. Belum ada deployment publik. Untuk Vercel, impor project Next.js, masukkan environment server, dan atur `SITE_URL` serta redirect Supabase sesuai URL deployment. Jangan mengirim secret key melalui variabel `NEXT_PUBLIC_`.
+Perbaikan bertahap setelah audit sudah mempertahankan URL bukti/paper proyek pada proyeksi publik, melengkapi guard input admin, menyaring pesan error internal, dan menyelaraskan motion off pada loader. Temuan operasional yang belum dibuktikan selesai mencakup chat 503 dan provider OAuth pengunjung yang belum aktif; pemilik mengonfirmasi aplikasi OAuth belum dibuat. Riwayat pemeriksaan visual juga terbatas karena browser pengujian tidak tersedia. Lihat laporan QA; jangan menganggap dokumentasi baru ini menyelesaikan temuan tersebut.
 
-## Revisi dan pemeriksaan terbaru
+Untuk deployment, gunakan runtime yang cocok, konfigurasi environment secara privat, terapkan migrasi pending dengan benar, sesuaikan `SITE_URL`/redirect, lalu uji staging. Dokumentasi ini tidak menerbitkan deployment atau mengubah CMS.
 
-Catatan UI terbaru: [Redesign studio, 22 Oktober 2026](docs/qa-studio-redesign-2026-10-22.md). Dokumen rencana dan laporan revisi lama telah dibersihkan.
+## Lisensi aset
 
-Setelah penggabungan arah sinematik, 121 tes aktif, lint, TypeScript, dan build produksi lolos. Pemeriksaan HTTP halaman tamu, proyek, login admin, dan logo aktif berhasil. Audit menyeluruh terbaru menemukan chatbot 503, OAuth pengunjung belum aktif, dan field bukti proyek terbuang saat projection publik. Temuan dependency Next.js sudah ditangani dengan upgrade keamanan 16.4.0 → 16.4.2; instalasi dan audit dependency melaporkan 0 kerentanan. Lihat laporan QA untuk prioritas perbaikan. Verifikasi visual browser masih belum dilakukan karena sesi browser pengujian tidak tersedia.
+Font UI publik: [Onest](src/assets/fonts/Onest-LICENSE.txt) dan [Italiana](src/assets/fonts/Italiana-LICENSE.txt), dimuat lokal. Label teknis dapat memakai [IBM Plex Mono](src/assets/fonts/IBM-Plex-Mono-LICENSE.txt). Barlow masih dimuat untuk gaya dasar/legacy; font Inter dipakai pada jalur PDF. Pertahankan lisensi dan izin foto/aset ketika mengganti atau membersihkan file.
 
-## Aset font
+## SEO dan Google Search Console
 
-Halaman tamu memakai Onest untuk teks isi dan Italiana untuk judul editorial, keduanya di-host lokal sesuai [lisensi Onest](src/assets/fonts/Onest-LICENSE.txt) dan [lisensi Italiana](src/assets/fonts/Italiana-LICENSE.txt). UI admin memakai Onest untuk pengisian dan Italiana pada judul editorial; IBM Plex Mono tetap tersedia untuk label teknis. IBM Plex Mono Latin bobot 400/600 berasal dari [Fontsource](https://github.com/fontsource/font-files/tree/main/fonts/google/ibm-plex-mono), proyek asli [IBM Plex](https://github.com/IBM/plex), dengan lisensi [SIL Open Font License 1.1](src/assets/fonts/IBM-Plex-Mono-LICENSE.txt). Font dimuat melalui `src/app/typography.css` dengan `font-display: swap`. Font Inter di `public/fonts` tetap digunakan untuk generasi PDF.
+Metadata berbahasa Indonesia berfokus pada Rian Pramudya dan memakai origin canonical `https://pramudyaspaces.vercel.app` dari `src/lib/seo.ts`, terpisah dari `SITE_URL` untuk callback auth lokal. Bila domain produksi diganti, perbarui origin SEO tersebut secara sengaja.
 
-## Desain studio dan foto hero
+`/sitemap.xml` dibuat dinamis dari halaman home, archive dan proyek terbit melalui `getPublicContent()`; draft, data admin, dokumen/media API dan anchor section tidak dimasukkan sebagai halaman. Tidak ada tanggal modifikasi palsu pada sitemap. `/robots.txt` mengizinkan halaman publik, memblokir `/admin`, `/api`, `/auth`, dan menunjuk sitemap produksi. Robots adalah petunjuk crawler, bukan pengganti otorisasi; admin tetap memiliki metadata noindex dan gate server.
 
-Halaman tamu mengikuti arah desain studio fotografis dengan aksen tembaga. Kedua foto hero dikelola di **Admin → Profil → Foto latar hero**. Pilih foto utama hitam-putih, foto sapuan berwarna dengan komposisi yang sama, lalu isi deskripsi foto dan simpan profil. Foto profil untuk dokumen tetap terpisah. Field hero ditambahkan oleh migrasi `supabase/migrations/20261022103644_studio_hero_portraits.sql`.
-
-Kartu karya memakai proyek CMS yang diterbitkan; rincian proses dan hasil tetap tersedia pada studi kasus. Statistik dihitung dari koleksi yang terbit. CTA kontak memakai form inbox yang sebenarnya. Foto statis menjadi fallback untuk sentuhan, reduced motion, serta perangkat berdaya rendah. Scroll memakai perilaku native. Lenis dan Three.js tidak menjadi dependensi aplikasi. Lapisan sinematik memakai shader WebGL ringan yang dimuat saat terlihat, dengan batas 800 ribu piksel per permukaan. Foto dan latar CSS tetap tampil jika WebGL tidak tersedia.
-
-Arah Laocoön digabungkan dengan identitas PramudyaSpaces: pencahayaan tembaga menuju biru dingin, tipografi editorial, progress bab berbasis anchor asli, serta panggung foto/karya. Konten tetap mengikuti CMS dan seluruh section berada dalam alur dokumen biasa. Pengaturan kualitas renderer berada pada `src/lib/cinematic-scene.ts`. Tidak ada loader yang menahan pengunjung sebelum membaca konten.
-
-
-## Alur pengisian studio konten
-
-Buka **Admin → Ringkasan → Peta halaman utama** untuk menuju sumber data setiap section. Isi **Profil** dan **Proyek** terlebih dahulu, kemudian lengkapi layanan, keahlian, pengalaman, pendidikan, sertifikat, dan pencapaian. Di editor konten pendukung, gunakan **Hubungkan dengan karya → Pilih proyek sendiri** untuk menentukan referensi yang tampil. Layanan dan keahlian lama tetap memakai pencocokan otomatis sampai Anda memilih mode manual; pilihan manual yang kosong tidak menampilkan referensi. Proyek draft, dihapus, atau tidak tersedia tidak ditampilkan kepada tamu. Relasi disimpan di JSON konten melalui API admin yang sama; tidak memerlukan migrasi database.
-
-
-## Struktur komponen halaman publik
-
-`src/app` berisi route Next.js. `components/portfolio.tsx` mengelola preferensi, navigasi dan panel pengunjung; `components/studio-home.tsx` menyiapkan data CMS dan menyusun urutan section.
-
-```text
-src/components/
-  layout/
-    site-header.tsx
-    site-footer.tsx
-    types.ts
-  sections/
-    hero-section.tsx
-    about-section.tsx
-    projects-section.tsx
-    services-section.tsx
-    experience-section.tsx
-    skills-section.tsx
-    background-section.tsx
-    certificates-section.tsx
-    stats-section.tsx
-    playground-section.tsx
-    contact-section.tsx
-    services-studio.tsx
-    skills-workspace.tsx
-    education-folio.tsx
-    credential-gallery.tsx
-  projects/
-    project-detail.tsx
-    project-archive.tsx
-    project-gallery.tsx
-    project-cover.tsx
-    project-evidence.tsx
-  ui/
-    section-heading.tsx
-    studio-button.tsx
-  admin/
-```
-
-Komponen section menerima data dan callback melalui props eksplisit. Pemilahan konten terbit dan statistik tetap berada di `lib/studio-content.ts`, sementara komponen interaksi bersama (motion, portrait, dock, form dan permainan) tetap dapat dipakai lintas section. JSX pada file yang dipisahkan sudah diformat konsisten. CSS tetap memakai sistem selector dan token yang sama agar struktur DOM, responsivitas, dan tampilan tetap terjaga.
+File `public/google2e0088a0eb377ab5.html` adalah verifikasi GSC: jangan diubah, dipindahkan, atau dihapus. Proxy tidak mencakup file tersebut, robots maupun sitemap. Setelah perubahan diterbitkan ke Vercel, submit `sitemap.xml` di GSC dan gunakan URL Inspection untuk halaman utama/proyek; waktu indeks dan peringkat tidak dijamin oleh implementasi metadata.

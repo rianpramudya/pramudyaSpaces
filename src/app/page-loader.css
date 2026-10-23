@@ -17,3 +17,5 @@ html[data-theme=dark] .site-loading-screen .site-loading-identity img{filter:inv
 .site-loading-screen[data-exiting=true]>:not(noscript){transition:opacity 200ms ease,transform 300ms ease;opacity:0;transform:translateY(-12px);}
 @keyframes page-loading-exit{from{transform:translateY(0);opacity:1;}to{transform:translateY(-100%);opacity:0;}}
 @media(prefers-reduced-motion:reduce){.site-loading-screen[data-exiting=true]{animation:none;}.site-loading-screen[data-exiting=true]>:not(noscript){transition:none;transform:none;}}
+.site-loading-screen[data-motion=off],.site-loading-screen[data-motion=off]>:not(noscript){animation:none;transition:none;transform:none;}
+.site-loading-screen[data-motion=off] .site-loading-track i{animation:none;width:100%;opacity:.65;}

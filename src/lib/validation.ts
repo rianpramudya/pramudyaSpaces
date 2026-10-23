@@ -27,8 +27,8 @@ export function validateUpload(bytes: Uint8Array, mime:string, size:number):stri
  if(mime==='image/png' && b.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]))) extension='png';
  if(mime==='image/jpeg' && b[0]===255 && b[1]===216 && b[2]===255) extension='jpg';
  if(mime==='image/webp' && b.subarray(0,4).toString()==='RIFF' && b.subarray(8,12).toString()==='WEBP') extension='webp';
- if(!extension) throw new Error('Berkas harus JPEG, PNG, WebP, atau PDF asli.');
- if(size>(extension==='pdf'?10:5)*1024*1024 || size<1) throw new Error('Ukuran maksimum gambar 5 MB dan PDF 10 MB.');
+ if(!extension) throw new z.ZodError([{code:'custom',path:[],message:'Berkas harus JPEG, PNG, WebP, atau PDF asli.'}]);
+ if(size>(extension==='pdf'?10:5)*1024*1024 || size<1) throw new z.ZodError([{code:'custom',path:[],message:'Ukuran maksimum gambar 5 MB dan PDF 10 MB.'}]);
  return extension;
 }
 
