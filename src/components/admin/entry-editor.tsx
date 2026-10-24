@@ -1,6 +1,7 @@
 'use client';
 import { useEffect,useRef,useState } from 'react';
 import { useUnsavedChanges } from './use-unsaved-changes';
+import { lockBodyScroll } from '@/lib/scroll-lock';
 import { X,Save } from 'lucide-react';
 import { kindLabels,type Kind,type Entry,textValue,listValue } from '@/lib/model';
 import { requestJSON } from '@/lib/client-api';
@@ -11,7 +12,7 @@ export function EntryEditor({kind,entry,onClose,onSaved,notify,skills=[],project
  const initialSnapshot=useRef(JSON.stringify({title:entry?.title||'',data:entry?.data||{},published:entry?.published||false}));
  const dirty=JSON.stringify({title,data,published})!==initialSnapshot.current;const mayClose=useUnsavedChanges(dirty,busy||mediaBusy);
  function close(){if(!busy&&!mediaBusy&&mayClose())onClose();}
- useEffect(()=>{const focus=document.activeElement as HTMLElement;const dialog=ref.current;dialog?.showModal();const overflow=document.body.style.overflow;document.body.style.overflow='hidden';return()=>{dialog?.close();document.body.style.overflow=overflow;focus?.focus();};},[]);
+ useEffect(()=>{const focus=document.activeElement as HTMLElement;const dialog=ref.current;dialog?.showModal();const unlock=lockBodyScroll();return()=>{dialog?.close();unlock();focus?.focus();};},[]);
  const set=(key:string,value:unknown)=>setData(d=>({...d,[key]:value}));
  const field=(key:string,label:string,area=false,hint?:string)=><Field key={key} label={label} value={textValue(data,key)} onChange={v=>set(key,v)} area={area} hint={hint}/>;
  return <dialog ref={ref} className="admin-modal" aria-labelledby="entry-editor-title" onCancel={e=>{e.preventDefault();close();}}><div className="modal-title"><h2 id="entry-editor-title">{entry?'Edit':'Tambah'} {kindLabels[kind].toLowerCase()}</h2><button type="button" className="icon-button" aria-label="Tutup" disabled={busy||mediaBusy} onClick={close}><X/></button></div>

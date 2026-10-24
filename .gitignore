@@ -11,3 +11,6 @@ test-results/
 
 .local-preview/
 next-env.d.ts
+
+# Keep Markdown documentation local.
+*.[mM][dD]

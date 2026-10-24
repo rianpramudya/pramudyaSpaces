@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, type RefObject } from 'react';
+import { lockBodyScroll } from '@/lib/scroll-lock';
 import { waitForPageAssets } from '@/lib/page-readiness';
 
 export function PageLoader({ root, contentReady, en, onReady, exiting, onExited, motion }: {
@@ -11,11 +12,7 @@ export function PageLoader({ root, contentReady, en, onReady, exiting, onExited,
   onExited: () => void;
   motion: boolean;
 }) {
-  useEffect(() => {
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = previous; };
-  }, []);
+  useEffect(() => lockBodyScroll(), []);
 
   useEffect(() => {
     if (exiting) return;

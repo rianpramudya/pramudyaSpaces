@@ -61,10 +61,11 @@ export function Portfolio({
   }, []);
 
   useEffect(() => {
+    if (!loaded) return;
     const result = oauthOutcome(location.search);
     if (result.openGuestbook) setPanel('guestbook');
     setAuthError(result.authError);
-  }, []);
+  }, [loaded]);
   useEffect(() => {
     let active = true;
     if (language === 'id') {
