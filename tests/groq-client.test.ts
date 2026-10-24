@@ -20,7 +20,7 @@ test('Groq maps existing history and public system prompt to chat completions; k
     assert.equal(body.stream, false);
     assert.equal(body.reasoning_effort, 'low');
     assert.equal(body.include_reasoning, false);
-    assert.equal(body.max_completion_tokens, 2048);
+    assert.equal(body.max_completion_tokens, 1024);
     assert.deepEqual(body.messages.map((m: {role:string;content:string}) => [m.role,m.content]), [['system','Public facts only'],['user','First'],['assistant','Answer'],['user','Skills?']]);
     return Response.json(answer);
   }, async () => { assert.equal(await requestGroq(input), 'Public answer'); });
@@ -66,4 +66,12 @@ test('model-specific reasoning effort is omitted for other Groq models', async (
     assert.equal(JSON.parse(String(init?.body)).reasoning_effort, undefined);
     return Response.json(answer);
   }, async () => { await requestGroq({...input,model:'qwen/qwen3.8-27b'}); });
+});
+test('Groq rate limits show a bounded wait from Retry-After without exposing raw provider details', async () => {
+  await withFetch(async()=>Response.json({error:{message:'PRIVATE'}},{status:429,headers:{'retry-after':'12.2','x-ratelimit-remaining-tokens':'0'}}),async()=>{
+    await assert.rejects(()=>requestGroq(input),error=>error instanceof HttpError&&error.status===429&&/13 detik/.test(error.message)&&!error.message.includes('PRIVATE'));
+  });
+  await withFetch(async()=>Response.json({},{status:429,headers:{'retry-after':'PRIVATE_INVALID_HEADER'}}),async()=>{
+    await assert.rejects(()=>requestGroq(input),error=>error instanceof HttpError&&error.status===429&&!error.message.includes('PRIVATE'));
+  });
 });

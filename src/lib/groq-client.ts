@@ -26,7 +26,7 @@ export async function requestGroq({ key, model, system, contents }: {
           { role: 'system', content: system },
           ...contents.map(turn => ({ role: turn.role === 'model' ? 'assistant' : 'user', content: turn.parts.map(part => part.text).join('\n') })),
         ],
-        max_completion_tokens: 2048,
+        max_completion_tokens: 1024,
         stream: false,
         include_reasoning: false,
         ...(/^openai\/gpt-oss-(20b|120b)$/.test(model) ? { reasoning_effort: 'low' } : {}),
@@ -36,9 +36,18 @@ export async function requestGroq({ key, model, system, contents }: {
     });
     phase = 'response-body';
     if (!response.ok) {
-      console.warn('Groq request rejected', { model, status: response.status, elapsedMs: Date.now() - startedAt });
-      await response.body?.cancel();
-      if (response.status === 429) throw new HttpError(429, 'Batas penggunaan atau kuota Groq tercapai. Silakan coba lagi nanti.');
+      const safeNumber=(name:string)=>{
+        const raw=response.headers.get(name);
+        const value=raw===null?NaN:Number(raw);
+        return Number.isFinite(value)&&value>=0?value:undefined;
+      };
+      const retryAfter=safeNumber('retry-after');
+      const waitSeconds=retryAfter!==undefined&&retryAfter>0&&retryAfter<=86400?Math.ceil(retryAfter):undefined;
+      console.warn('Groq request rejected', { model, status: response.status, elapsedMs: Date.now() - startedAt,
+        retryAfterSeconds:waitSeconds,remainingRequests:safeNumber('x-ratelimit-remaining-requests'),remainingTokens:safeNumber('x-ratelimit-remaining-tokens'),
+      });
+      await response.body?.cancel().catch(()=>{});
+      if (response.status === 429) throw new HttpError(429, `Batas penggunaan Groq tercapai.${waitSeconds?` Coba lagi dalam sekitar ${waitSeconds} detik.`:' Silakan coba lagi nanti; batas dapat berlaku per menit atau harian.'}`);
       if (response.status === 401 || response.status === 403) throw new HttpError(503, 'Akses Groq ditolak. Pemilik perlu memeriksa API key dan izin model.');
       if (response.status === 400 || response.status === 404) throw new HttpError(503, 'Konfigurasi permintaan atau model Groq perlu diperiksa oleh pemilik.');
       throw new HttpError(503, 'Layanan Groq sedang tidak tersedia. Silakan coba lagi nanti.');
