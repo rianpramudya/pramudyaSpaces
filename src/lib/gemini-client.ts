@@ -9,6 +9,7 @@ const outputSchema = z.object({
 });
 const providerErrorSchema = z.object({ error: z.object({ details: z.array(z.object({ reason: z.string().optional() })).optional() }) });
 const invalidKeyReasons = new Set(['API_KEY_INVALID', 'API_KEY_EXPIRED']);
+const requestTimeoutMs = 60000;
 function upstreamError(status: number, invalidKey = false): HttpError {
   if (invalidKey) return new HttpError(503, 'API key Gemini tidak valid atau kedaluwarsa. Pemilik perlu memeriksa konfigurasi AI.');
   if (status === 429) return new HttpError(429, 'Kuota Gemini untuk proyek atau model ini tercapai atau belum tersedia. Pemilik perlu memeriksa kuota di Google AI Studio.');
@@ -26,6 +27,8 @@ export async function requestGemini({ key, model, system, contents, json = false
 }): Promise<string> {
   if (!key) throw new HttpError(503, 'AI belum dikonfigurasi. Silakan gunakan form kontak.');
   if (!/^[a-zA-Z0-9._-]{1,128}$/.test(model)) throw new HttpError(503, 'Konfigurasi model AI tidak valid.');
+  const startedAt = Date.now();
+  let phase = 'response-headers';
   try {
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
       method: 'POST',
@@ -38,8 +41,9 @@ export async function requestGemini({ key, model, system, contents, json = false
           ...(json ? { responseMimeType: 'application/json' } : {}),
         },
       }),
-      signal: AbortSignal.timeout(25000),
+      signal: AbortSignal.timeout(requestTimeoutMs),
     });
+    phase = 'response-body';
     if (!response.ok) {
       // Inspect only allowlisted reason codes; never log or return upstream bodies.
       const details = providerErrorSchema.safeParse(await response.json().catch(() => null));
@@ -58,7 +62,7 @@ export async function requestGemini({ key, model, system, contents, json = false
   } catch (error) {
     if (error instanceof HttpError) throw error;
     if (error instanceof Error && ['TimeoutError', 'AbortError'].includes(error.name)) {
-      console.warn('Gemini request timed out', { model });
+      console.warn('Gemini request timed out', { model, phase, elapsedMs: Date.now() - startedAt, timeoutMs: requestTimeoutMs });
       throw new HttpError(504, 'Gemini terlalu lama merespons. Silakan coba lagi atau gunakan form kontak.');
     }
     if (error instanceof SyntaxError) throw new HttpError(502, 'Format jawaban Gemini tidak valid. Silakan coba lagi.');

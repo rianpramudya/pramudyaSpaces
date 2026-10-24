@@ -8,6 +8,16 @@ async function withFetch(mock: typeof fetch, work: () => Promise<void>) {
   const original = globalThis.fetch; globalThis.fetch = mock;
   try { await work(); } finally { globalThis.fetch = original; }
 }
+test('Gemini has a bounded 60 second deadline covering headers and response body', async (t) => {
+  const controller = new AbortController();
+  const timeout = t.mock.method(AbortSignal, 'timeout', () => controller.signal);
+  await withFetch(async (_url, init) => {
+    assert.equal(init?.signal, controller.signal);
+    return Response.json(answer);
+  }, async () => { assert.equal(await requestGemini(input), 'Public answer'); });
+  assert.equal(timeout.mock.calls.length, 1);
+  assert.equal(timeout.mock.calls[0].arguments[0], 60000);
+});
 test('Gemini 3 chat uses low thinking, sufficient output budget, no deprecated sampling and never returns thoughts', async () => {
   await withFetch(async (url, init) => {
     assert.equal(String(url), 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent');
