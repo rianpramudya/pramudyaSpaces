@@ -1,10 +1,11 @@
 'use client';
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { ArrowRight, Award, Plus, Expand } from 'lucide-react';
 import { type Entry, textValue, listValue } from '@/lib/model';
 import { mediaURL } from '@/lib/client-api';
 import { hasConceptMedia } from '@/lib/presentation';
 import { RelatedWorkLinks } from '@/components/related-work-links';
+import {certificateFromHash} from '@/lib/certificate-relations';
 export function CredentialGallery({
   certificates,
   en,
@@ -18,6 +19,18 @@ export function CredentialGallery({
 }) {
   const [selection, setSelection] = useState(''),
     uid = useId();
+  useEffect(()=>{
+    const selectFromHash=()=>{const target=certificateFromHash(window.location.hash,certificates);if(target)setSelection(target.id);};
+    selectFromHash();window.addEventListener('hashchange',selectFromHash);
+    return()=>window.removeEventListener('hashchange',selectFromHash);
+  },[certificates]);
+  useEffect(()=>{
+    if(selection&&window.location.hash===`#certificate-${selection}`){
+      const target=document.getElementById(`certificate-${selection}`);
+      target?.scrollIntoView({block:'center',behavior:'instant'});
+      target?.focus({preventScroll:true});
+    }
+  },[selection]);
   const index = Math.max(
       0,
       certificates.findIndex((e) => e.id === selection),
@@ -97,7 +110,7 @@ export function CredentialGallery({
         <p className="studio-eyebrow">{en ? 'Learning archive' : 'Arsip pembelajaran'}</p>
         <div aria-label={en ? 'Choose a certificate' : 'Pilih sertifikat'}>
           {certificates.map((item, i) => (
-            <article className="credential-index-item" key={item.id} data-active={i === index}>
+            <article id={`certificate-${item.id}`} tabIndex={-1} className="credential-index-item" key={item.id} data-active={i === index}>
               <button
                 type="button"
                 aria-pressed={i === index}

@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { emptyProfile, type Profile, type Entry, type PublicContent, type CareerDocument, kinds, sectionCopyKeys } from './model';
-export const publicDataKeys = ['description', 'role', 'organization', 'type', 'start', 'end', 'current', 'technologies', 'url', 'repository', 'media', 'alt', 'featured', 'context', 'result', 'result_source', 'paper', 'bullets', 'category', 'issuer', 'date', 'credential', 'degree', 'gpa', 'level', 'related_project_ids'] as const;
+export const publicDataKeys = ['description', 'role', 'organization', 'type', 'start', 'end', 'current', 'technologies', 'url', 'repository', 'media', 'alt', 'featured', 'context', 'result', 'result_source', 'paper', 'bullets', 'category', 'issuer', 'date', 'credential', 'degree', 'gpa', 'level', 'related_project_ids', 'related_certificate_ids'] as const;
 const translatedDataKeys = ['description', 'role', 'context', 'result', 'bullets', 'category', 'degree', 'level'];
 export function projectPublicContent(profile: Profile, entries: Entry[], documents: CareerDocument[] = []): PublicContent {
  const clean: Profile = profile.published ? {
@@ -12,9 +12,11 @@ export function projectPublicContent(profile: Profile, entries: Entry[], documen
   socials: profile.socials, featured_cv: profile.featured_cv, section_copy: profile.section_copy||{},
  } : { ...emptyProfile };
  const visibleProjects=new Set(entries.filter(e=>e.published&&e.kind==='project').map(e=>e.id));
+ const visibleCertificates=new Set(entries.filter(e=>e.published&&e.kind==='certificate').map(e=>e.id));
  const records = entries.filter(e => e.published && kinds.includes(e.kind as typeof kinds[number])).sort((a,b) => a.position - b.position).map(e => {
   const data=Object.fromEntries(publicDataKeys.filter(key=>e.data[key]!==undefined).map(key=>[key,e.data[key]]));
   if(data.related_project_ids!==undefined){const ids=data.related_project_ids;data.related_project_ids=Array.isArray(ids)?[...new Set(ids.filter(id=>typeof id==='string'&&visibleProjects.has(id)))]:[];}
+  if(data.related_certificate_ids!==undefined){const ids=data.related_certificate_ids;data.related_certificate_ids=Array.isArray(ids)?[...new Set(ids.filter(id=>typeof id==='string'&&visibleCertificates.has(id)))]:[];}
   return {id:e.id,kind:e.kind,title:e.title,position:e.position,published:true,data};
  });
  return { profile: clean, records, documents: documents.filter(d => d.published).map(d => ({ id:d.id, title:d.title, format:d.format, path:d.path, published:true, created_at:d.created_at })) };

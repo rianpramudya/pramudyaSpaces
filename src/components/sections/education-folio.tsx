@@ -1,14 +1,17 @@
 import { GraduationCap, ArrowUpRight, Award, Plus } from 'lucide-react';
 import { type Entry, textValue, listValue } from '@/lib/model';
 import { RelatedWorkLinks } from '@/components/related-work-links';
+import { RelatedCertificates } from '@/components/related-certificates';
 export function EducationFolio({
   education,
   languages,
   achievements,
   en,
   projects = [],
+  certificates = [],
 }: {
   projects?: Entry[];
+  certificates?: Entry[];
   education: Entry[];
   languages: Entry[];
   achievements: Entry[];
@@ -55,6 +58,7 @@ export function EducationFolio({
                     </details>
                   )}
                   <RelatedWorkLinks entry={entry} projects={projects} en={en} />
+                  <RelatedCertificates entry={entry} certificates={certificates} en={en} />
                 </div>
               </article>
             ))}
@@ -70,6 +74,7 @@ export function EducationFolio({
                   <span>{textValue(entry.data, 'level')}</span>
                 </div>
                 <p>{textValue(entry.data, 'description')}</p>
+                <RelatedCertificates entry={entry} certificates={certificates} en={en} />
               </article>
             ))}
           </aside>

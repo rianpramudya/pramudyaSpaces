@@ -15,7 +15,7 @@ test('draft shortcut opens its actual record and excludes published entries',()=
 });
 test('complete portfolio offers maintenance rather than repeatedly requesting setup',()=>{
  const html=renderToStaticMarkup(React.createElement(Overview,{content:{profile:{...emptyProfile,name:'Owner',headline:'Developer',summary:'Bio',photo:'photo.png',published:true,featured_cv:'cv'},documents:[{id:'cv',title:'CV',format:'ats',path:'cv.pdf',published:true,created_at:''}],records:[{id:'p',kind:'project',title:'Project',position:0,published:true,data:{}}]}}));
- assert.ok(html.includes('Kelola karya'));assert.ok(html.includes('Ruang Anda, siap menerima pengunjung.'));
+ assert.ok(html.includes('Kelola karya'));assert.ok(html.includes('Ada karya baru?'));
 });
 test('edit guard cancels logout before session mutation and protects pending uploads',()=>{
  const names=['window','document','location','history'] as const;const descriptors=names.map(name=>Object.getOwnPropertyDescriptor(globalThis,name));

@@ -57,6 +57,7 @@ export function StudioHome({
       />
       <ExperienceSection
         experiences={d.experiences}
+        certificates={d.certificates}
         projects={d.projects}
         title={copy('journey_title', en ? 'Learning by doing.' : 'Belajar lewat perjalanan.')}
         description={copy('journey_description')}
@@ -74,6 +75,7 @@ export function StudioHome({
       />
       <BackgroundSection
         education={d.education}
+        certificates={d.certificates}
         languages={d.languages}
         achievements={d.achievements}
         projects={d.projects}

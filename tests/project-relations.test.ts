@@ -44,7 +44,7 @@ test('public related work links and learning sections expose only published sele
 });
 test('admin content map leads to source editors and project picker exposes drafts without publishing them',()=>{
  const html=renderToStaticMarkup(React.createElement(ContentMap,{content:{profile:emptyProfile,records:projects,documents:[]}}));for(const value of ['/admin/profile','/admin/project','/admin/service','/admin/skill','1 terbit','1 draft'])assert.ok(html.includes(value),value);
- const picker=renderToStaticMarkup(React.createElement(ProjectPicker,{data:{related_project_ids:[a]},projects,automatic:true,onChange:()=>{}}));for(const value of ['Hubungkan dengan karya','Pilih proyek sendiri','Private · Draft','checked=""','1/30 dipilih'])assert.ok(picker.includes(value),value);
+ const picker=renderToStaticMarkup(React.createElement(ProjectPicker,{data:{related_project_ids:[a]},projects,automatic:true,onChange:()=>{}}));for(const value of ['Hubungkan dengan karya','Pilih sendiri','Private · Draft','checked=""','1/30 dipilih'])assert.ok(picker.includes(value),value);
  const guide=renderToStaticMarkup(React.createElement(CollectionGuide,{kind:'service',records:[entry('s','service','Build',{related_project_ids:[a]})]}));assert.ok(guide.includes('/#services'));assert.ok(guide.includes('1 konten'));
 });
 

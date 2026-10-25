@@ -14,6 +14,7 @@ export const profileSchema = z.object({
 });
 export const dataSchema = z.object({
  related_project_ids:z.array(z.uuid()).max(30).transform(ids=>[...new Set(ids)]).optional(),
+ related_certificate_ids:z.array(z.uuid()).max(30).transform(ids=>[...new Set(ids)]).optional(),
  description:text.optional(),role:short.optional(),organization:short.optional(),type:z.enum(['work','organization']).optional(),start:short.optional(),end:short.optional(),current:z.boolean().optional(),
  technologies:z.array(short).max(50).transform(values=>[...new Set(values.filter(Boolean))]).optional(),url:url.optional(),repository:url.optional(),media:z.array(path).max(10).optional(),alt:short.optional(),featured:z.boolean().optional(),
  context:text.optional(),result:text.optional(),result_source:url.optional(),paper:url.optional(),bullets:z.array(z.string().trim().max(2000)).max(30).optional(),category:short.optional(),issuer:short.optional(),date:short.optional(),credential:short.optional(),degree:short.optional(),gpa:short.optional(),level:short.optional(),

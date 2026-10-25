@@ -222,3 +222,5 @@ html[data-theme-transition=reveal]::view-transition{pointer-events:none;}
 .cinematic-site .related-work-links>a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;font-size:14px;text-decoration:none;}
 .cinematic-site .related-work-links>a:hover{text-decoration:underline;text-underline-offset:4px;}
 .cinematic-site .related-work-links svg{flex-shrink:0;}
+.studio-site .learning-languages>article>.certificate-links{display:grid;gap:8px;}
+.studio-site .credential-index-item[id]{scroll-margin-block:120px 40px;}

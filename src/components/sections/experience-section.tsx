@@ -3,15 +3,18 @@ import { SectionHeading } from '@/components/ui/section-heading';
 import { Plus } from 'lucide-react';
 import { textValue, listValue } from '@/lib/model';
 import { RelatedWorkLinks } from '@/components/related-work-links';
+import { RelatedCertificates } from '@/components/related-certificates';
 export function ExperienceSection({
   experiences,
   projects,
+  certificates = [],
   title,
   description,
   en,
 }: {
   experiences: Entry[];
   projects: Entry[];
+  certificates?: Entry[];
   title: string;
   description?: string;
   en: boolean;
@@ -51,6 +54,7 @@ export function ExperienceSection({
                 </details>
               )}
               <RelatedWorkLinks entry={entry} projects={projects} en={en} />
+              <RelatedCertificates entry={entry} certificates={certificates} en={en} />
             </div>
           </article>
         ))}

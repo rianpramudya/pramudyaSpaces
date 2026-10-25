@@ -6,12 +6,14 @@ export function BackgroundSection({
   languages,
   achievements,
   projects,
+  certificates = [],
   en,
 }: {
   education: Entry[];
   languages: Entry[];
   achievements: Entry[];
   projects: Entry[];
+  certificates?: Entry[];
   en: boolean;
 }) {
   if (!education.length && !languages.length && !achievements.length) return null;
@@ -23,6 +25,7 @@ export function BackgroundSection({
       />
       <EducationFolio
         projects={projects}
+        certificates={certificates}
         education={education}
         languages={languages}
         achievements={achievements}

@@ -20,5 +20,5 @@ html[data-theme=dark] .studio-site{--studio-paper:#141310;--studio-text:#f1f0ee;
 html[data-theme=dark] .studio-site.cinematic-site{--studio-paper:#0c0b0a;--studio-text:#f5efe7;--studio-muted:#b9aea3;--studio-line:#3b3229;--studio-surface:#171410;--studio-surface-2:#28221c;}
 
 /* Editorial admin workspace shares the public studio's paper and bronze material. */
-.admin-shell{--background:#f6f2ec;--bg:#f6f2ec;--text:#211c18;--fg:#211c18;--muted:#6d6259;--border:#d9cfc3;--surface:#fffaf4;--surface-muted:#eee7de;--accent:#211c18;--positive:#211c18;--input-border:#8c7d6f;--font-body:var(--font-studio);}
-html[data-theme=dark] .admin-shell{--background:#0c0b0a;--bg:#0c0b0a;--text:#f5efe7;--fg:#f5efe7;--muted:#b9aea3;--border:#3b3229;--surface:#171410;--surface-muted:#28221c;--accent:#f5efe7;--positive:#f5efe7;--input-border:#8c7d6f;}
+.admin-shell{--admin-bronze:#965124;--background:#f6f2ec;--bg:#f6f2ec;--text:#211c18;--fg:#211c18;--muted:#6d6259;--border:#d9cfc3;--surface:#fffaf4;--surface-muted:#eee7de;--accent:#211c18;--positive:#211c18;--input-border:#8c7d6f;--font-body:var(--font-studio);}
+html[data-theme=dark] .admin-shell{--admin-bronze:#d0a67e;--background:#0c0b0a;--bg:#0c0b0a;--text:#f5efe7;--fg:#f5efe7;--muted:#b9aea3;--border:#3b3229;--surface:#171410;--surface-muted:#28221c;--accent:#f5efe7;--positive:#f5efe7;--input-border:#8c7d6f;}
