@@ -1,10 +1,12 @@
 'use client';
 import { useEffect, useState, useRef, useId, type MouseEvent } from 'react';
 import Link from 'next/link';
+import {pageHref} from '@/lib/portfolio-pages';
 import { ArrowUpRight, Menu, Sun, Moon, X } from 'lucide-react';
 import type { SiteChromeProps } from './types';
 export function SiteHeader({
   profile,
+  pageMode = false,
   nav,
   en,
   away,
@@ -12,9 +14,13 @@ export function SiteHeader({
   theme,
   onLanguage,
   onTheme,
+  motion,
+  onMotion,
 }: SiteChromeProps & {
   activeSection: string;
   theme: 'light' | 'dark';
+  motion: boolean;
+  onMotion: () => void;
   onLanguage: () => void;
   onTheme: (event: MouseEvent<HTMLButtonElement>) => void;
 }) {
@@ -65,7 +71,7 @@ export function SiteHeader({
       document.removeEventListener('keydown', escape);
     };
   }, [menu]);
-  const href = (id: string) => `${away ? '/' : ''}#${id}`,
+  const href = (id: string) => pageMode ? pageHref(id) : `${away ? '/' : ''}#${id}`,
     primary = new Set(['home', 'projects', 'services', 'about', 'contact']);
 
   return (
@@ -78,7 +84,7 @@ export function SiteHeader({
       >
         <div className="studio-header-inner">
           <Link
-            href="/"
+            href={pageMode ? '/portofolio' : '/'}
             className="wordmark studio-brand"
             aria-label={profile.wordmark || profile.name || 'PramudyaSpaces'}
           >
@@ -173,6 +179,14 @@ export function SiteHeader({
                   ),
                 )}
               </nav>
+              <a className="studio-reading-mode" href={pageMode ? `/#${activeSection}` : pageHref(activeSection)}>
+                <span>{en ? 'Reading mode' : 'Cara menjelajah'}</span>
+                <strong>{pageMode ? (en ? 'Switch to scroll' : 'Ganti ke scroll') : (en ? 'Open page mode' : 'Buka mode per halaman')}</strong>
+              </a>
+              <button type="button" className="studio-motion-toggle" aria-pressed={!motion} onClick={onMotion}>
+                <span>{en ? 'Reduce animation' : 'Kurangi animasi'}</span>
+                <span aria-hidden="true">{!motion ? (en ? 'On' : 'Aktif') : (en ? 'Off' : 'Nonaktif')}</span>
+              </button>
               <small>
                 {profile.location}
                 {clock && ` · ${clock} WIB`}

@@ -1,6 +1,6 @@
 'use client';
 import { useEffect,useState } from 'react';
-import { Languages,RefreshCw,Save } from 'lucide-react';
+import { RefreshCw,Save } from 'lucide-react';
 import { requestJSON } from '@/lib/client-api';
 import { Field,LinesField } from './fields';
 import { useUnsavedChanges } from './use-unsaved-changes';

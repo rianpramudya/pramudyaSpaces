@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { timingSafeEqual } from 'node:crypto';
 import { z } from 'zod';
 import { oauthProviders } from '@/lib/oauth-providers';

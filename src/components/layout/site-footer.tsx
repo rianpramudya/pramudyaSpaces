@@ -16,7 +16,7 @@ export function SiteFooter({ profile, nav, en, away }: SiteChromeProps) {
       aria-labelledby="footer-heading"
       data-photographic={!!photo}
     >
-      <CinematicSurface />
+      <CinematicSurface themeAware />
       {photo && (
         <LiquidPortrait
           base={mediaURL(photo)}

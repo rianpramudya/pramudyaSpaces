@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createClient } from '@supabase/supabase-js';
-import { sourceFingerprint,translationInput } from '../src/lib/content';
 const env=Object.fromEntries((await readFile('.env.local','utf8')).split('\n').filter(line=>line.includes('=')).map(line=>{const at=line.indexOf('=');return [line.slice(0,at),line.slice(at+1)];}));
 const base=env.SITE_URL;
 const db=createClient(env.NEXT_PUBLIC_SUPABASE_URL,env.SUPABASE_SECRET_KEY,{auth:{persistSession:false}});

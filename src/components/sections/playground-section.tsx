@@ -15,8 +15,9 @@ export function PlaygroundSection({
         label={en ? 'A little play goes a long way' : 'Main sebentar juga boleh'}
         title={en ? 'Serious work. Playful mind.' : 'Serius berkarya. Tetap bermain.'}
       />
-      <div className="studio-play-panel">
-        <div>
+      <details className="studio-play-panel">
+        <summary><span>{en ? 'Take a play break' : 'Istirahat sambil bermain'}</span><span className="playground-disclosure-mark" aria-hidden="true">+</span></summary>
+        <div className="studio-play-intro">
           <Gamepad2 size={28} />
           <p>
             {en
@@ -25,7 +26,7 @@ export function PlaygroundSection({
           </p>
         </div>
         <RunnerGame language={language} onGuestbook={onGuestbook} />
-      </div>
+      </details>
     </section>
   );
 }

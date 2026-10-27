@@ -14,6 +14,7 @@ import './design-tokens.css';
 import './typography.css';
 import './studio.css';
 import './cinematic.css';
+import './studio-layout.css';
 import './page-loader.css';
 export const metadata: Metadata = {
   ...publicPageMetadata('/', SEO_TITLE, SEO_DESCRIPTION),

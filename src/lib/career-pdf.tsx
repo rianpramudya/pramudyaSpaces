@@ -1,5 +1,4 @@
 import {sceneTheme} from './visual-theme';
-import React from 'react';
 import path from 'node:path';
 import { Document,Page,Text,View,StyleSheet,Font,renderToBuffer,Link } from '@react-pdf/renderer';
 import { buildCareerSections } from './career-data';

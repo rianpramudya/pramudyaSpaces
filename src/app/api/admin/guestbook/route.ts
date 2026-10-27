@@ -3,7 +3,7 @@ import { api,HttpError,readJson } from '@/lib/http';
 import { requireOwner,sessionClient } from '@/lib/supabase';
 import { z } from 'zod';
 export async function GET(request:Request){return api(request,async()=>{
- await requireOwner();const params=new URL(request.url).searchParams;const {page,search,status}=adminMessageQuerySchema.parse(Object.fromEntries(params));
+ await requireOwner();const params=new URL(request.url).searchParams;const {page,search}=adminMessageQuerySchema.parse(Object.fromEntries(params));
  let query=(await sessionClient()).from('guestbook').select('*',{count:'exact'}).order('created_at',{ascending:false}).order('id',{ascending:false});
  if(search)query=query.or(messageSearchFilter(search,true));
  

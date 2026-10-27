@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireOwner,sessionClient,serviceClient } from '@/lib/supabase';
+import { requireOwner,sessionClient } from '@/lib/supabase';
 import { api,failure,originCheck,HttpError,readJson } from '@/lib/http';
 import { validateUpload } from '@/lib/validation';
 import { getContent } from '@/lib/repository';

@@ -1,0 +1,68 @@
+/* Public layout owner: shared edges and rhythm for scroll and page modes.
+   Component skins stay in studio.css/cinematic.css. */
+.studio-site.cinematic-site{
+ --studio-content-max:1160px;
+ --studio-gutter:32px;
+ --studio-section-space:clamp(40px,5vw,64px);
+ --studio-column-gap:clamp(28px,4vw,56px);
+ --studio-heading-space:32px;
+ --studio-header-clearance:120px;
+}
+.cinematic-site .studio-shell,
+.cinematic-site #main>section.studio-shell,
+.cinematic-site .studio-header[data-experience=studio-navigation] .studio-header-inner,
+.cinematic-site :is(.project-archive,.project-detail){
+ width:min(calc(100% - var(--studio-gutter)*2),var(--studio-content-max));
+ max-width:var(--studio-content-max);
+ margin-inline:auto;
+}
+.cinematic-site #main>section.studio-shell{padding-block:var(--studio-section-space);}
+.cinematic-site #main>.studio-stats{padding-block:32px;}
+.cinematic-site #main>.studio-contact{padding-bottom:calc(var(--studio-section-space) + 32px);}
+.cinematic-site #main>section{scroll-margin-top:var(--studio-header-clearance);}
+.cinematic-site .portfolio-pager{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding-block:24px;}
+.cinematic-site .studio-section-heading{margin:0 0 var(--studio-heading-space);}
+.cinematic-site :is(.studio-section-heading h2,.studio-about-statement h2,.studio-contact-copy h2){
+ font-size:clamp(32px,3.6vw,48px);
+ line-height:1.12;
+ margin-top:0;
+ text-wrap:balance;
+}
+.cinematic-site .studio-section-heading .studio-eyebrow{margin-bottom:14px;}
+.cinematic-site .studio-description{margin-top:18px;max-width:60ch;line-height:1.75;}
+.cinematic-site #main>.studio-about{
+ grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);
+ align-items:center;
+ gap:var(--studio-column-gap);
+}
+.cinematic-site .studio-about-portrait{max-width:330px;margin-inline:auto;}
+.cinematic-site .studio-about-statement>.studio-about-summary{font-size:16px;line-height:1.8;letter-spacing:0;}
+.cinematic-site .studio-about-bottom{margin-top:24px;padding-top:20px;}
+.cinematic-site .studio-gallery-story,.cinematic-site .experience-spread{gap:var(--studio-column-gap);}
+/* Flat section surfaces keep every heading on the same visible left edge. */
+.cinematic-site #main>:is(.studio-services,.studio-skills,.studio-certificates)::before,
+.cinematic-site .studio-contact::before{display:none;}
+.cinematic-site :is(.project-archive,.project-detail){padding-block:40px 100px;}
+.cinematic-site[data-page-mode=pages] #main{min-height:calc(100svh - 220px);}
+.cinematic-site[data-page-mode=pages]:not([data-active-section=home]) #main{padding-top:var(--studio-header-clearance);}
+.cinematic-site[data-page-mode=pages] #main>section.studio-shell{padding-top:0;padding-bottom:40px;}
+.cinematic-site[data-page-mode=pages] #main>.studio-stats{padding-top:32px;}
+.cinematic-site[data-page-mode=pages] .portfolio-page-footer{padding-top:16px;}
+@media(max-width:1023px){
+ .studio-site.cinematic-site{--studio-gutter:28px;--studio-column-gap:28px;}
+ .cinematic-site #main>.studio-about{grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);}
+}
+@media(max-width:767px){
+ .studio-site.cinematic-site{--studio-gutter:20px;--studio-heading-space:24px;--studio-header-clearance:100px;}
+ .cinematic-site #main>.studio-about{grid-template-columns:1fr;gap:28px;}
+ .cinematic-site .studio-about-portrait{max-width:240px;}
+ .cinematic-site .studio-section-heading .studio-eyebrow{margin-bottom:12px;}
+ .cinematic-site .studio-description{font-size:15px;margin-top:16px;}
+ .cinematic-site #main>.studio-stats{padding-block:24px;}
+ .cinematic-site[data-page-mode=pages] #main>section.studio-shell{padding-bottom:28px;}
+ .cinematic-site[data-page-mode=pages] #main>.studio-stats{padding-top:24px;}
+ .cinematic-site .portfolio-pager{grid-template-columns:repeat(2,minmax(0,1fr));padding-block:20px;gap:12px;}
+ .cinematic-site .portfolio-pager>p{grid-column:1/-1;grid-row:1;flex-direction:row;align-items:center;justify-content:center;gap:12px;}
+ .cinematic-site .portfolio-pager>div:first-child{grid-column:1;grid-row:2;}
+ .cinematic-site .portfolio-pager>div:last-child{grid-column:2;grid-row:2;}
+}

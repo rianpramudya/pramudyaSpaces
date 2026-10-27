@@ -11,7 +11,10 @@ export function StatsSection({
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = root.current;
-    if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!el) return;
+    const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+    const disabled=()=>{try{return reduced.matches||localStorage.getItem('portfolio-motion')==='off';}catch{return reduced.matches;}};
+    if(disabled())return;
     let frame = 0;
     const observer = new IntersectionObserver(
       (entries) => {
@@ -31,8 +34,11 @@ export function StatsSection({
       },
       { threshold: 0.2 },
     );
+    const stop=()=>{if(!disabled())return;observer.disconnect();cancelAnimationFrame(frame);el.querySelectorAll<HTMLElement>('[data-count]').forEach((node,i)=>{node.textContent=String(stats[i].value);});};
+    window.addEventListener('portfolio-play-change',stop);reduced.addEventListener('change',stop);
     observer.observe(el);
     return () => {
+      window.removeEventListener('portfolio-play-change',stop);reduced.removeEventListener('change',stop);
       observer.disconnect();
       cancelAnimationFrame(frame);
     };

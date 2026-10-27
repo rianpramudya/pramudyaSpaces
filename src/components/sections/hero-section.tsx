@@ -59,6 +59,7 @@ export function HeroSection({
   projects,
   technologies,
   en,
+  pageMode = false,
 }: {
   profile: Profile;
   photo: string;
@@ -66,13 +67,14 @@ export function HeroSection({
   projects: Entry[];
   technologies: string[];
   en: boolean;
+  pageMode?: boolean;
 }) {
   const name = p.name.split(' ')[0] || p.wordmark || 'SPACES',
     headline =
       p.headline || (en ? 'Ideas, thoughtfully built.' : 'Ide, dibangun dengan sepenuh hati.');
   return (
     <section id="home" className="studio-hero" data-experience="liquid-portrait">
-      <CinematicSurface />
+      <CinematicSurface themeAware />
       {photo && (
         <LiquidPortrait
           base={mediaURL(photo)}
@@ -92,7 +94,7 @@ export function HeroSection({
             {p.status !== 'hidden' && (
               <span className="hero-availability">
                 {p.status === 'open'
-                  ? 'Open to work'
+                  ? (en ? 'Open to work' : 'Terbuka untuk bekerja')
                   : en
                     ? 'Currently building'
                     : 'Sedang berkarya'}
@@ -123,6 +125,10 @@ export function HeroSection({
               </span>
             </a>
           </div>
+          <a className="hero-reading-mode" href={pageMode ? '/' : '/portofolio'}>
+            {pageMode ? (en ? 'Explore the full scrolling site' : 'Jelajahi versi scroll') : (en ? 'Prefer one page at a time?' : 'Ingin menjelajah per halaman?')}
+            <ArrowUpRight size={14} aria-hidden="true" />
+          </a>
         </div>
         <div className="studio-hero-aside">
           <HeroFeature projects={projects.slice(0, 3)} en={en} />
@@ -149,8 +155,8 @@ export function HeroSection({
             : 'Sedikit rasa ingin tahu. Banyak hal untuk dibangun.'}
         </span>
         <a href="#about">
-          {en ? 'Scroll to explore' : 'Scroll untuk menjelajah'}
-          <ArrowDown size={15} />
+          {pageMode ? (en ? 'Next: About' : 'Berikutnya: Tentang') : (en ? 'Scroll to explore' : 'Gulir untuk menjelajah')}
+          {pageMode ? <ArrowRight size={15} /> : <ArrowDown size={15} />}
         </a>
       </div>
     </section>

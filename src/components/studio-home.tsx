@@ -1,6 +1,7 @@
 'use client';
-import { useMemo } from 'react';
+import { Fragment, useMemo, type ReactNode } from 'react';
 import type { PublicContent, Entry } from '@/lib/model';
+import { siteNavigation } from '@/lib/site-navigation';
 import { studioContent } from '@/lib/studio-content';
 import { StudioMotion } from './studio-motion';
 import { HeroSection } from './sections/hero-section';
@@ -19,20 +20,22 @@ export function StudioHome({
   language,
   onCertificate,
   onGuestbook,
+  page,
 }: {
   content: PublicContent;
   language: 'id' | 'en';
   onCertificate: (entry: Entry) => void;
   onGuestbook?: () => void;
+  page?: string;
 }) {
   const en = language === 'en',
     p = content.profile,
     d = useMemo(() => studioContent(p, content.records, en), [p, content.records, en]),
     copy = (key: string, fallback = '') => p.section_copy?.[key] || fallback;
-  return (
-    <>
-      <StudioMotion version={`${language}:${content.records.length}`} />
+  const sections: Record<string, ReactNode> = {
+    home: (<>
       <HeroSection
+        pageMode={!!page}
         profile={p}
         photo={d.photo}
         reveal={d.reveal}
@@ -41,20 +44,21 @@ export function StudioHome({
         en={en}
       />
       <StatsSection stats={d.stats} en={en} />
+    </>),
+    about: (<>
       <AboutSection profile={p} documents={content.documents} en={en} />
-      <ProjectsSection
+    </>),
+    background: (<>
+      <BackgroundSection
+        education={d.education}
+        certificates={d.certificates}
+        languages={d.languages}
+        achievements={d.achievements}
         projects={d.projects}
-        title={copy('projects_title', en ? 'Selected work' : 'Karya pilihan')}
-        description={copy('projects_description')}
         en={en}
       />
-      <ServicesSection
-        services={d.services}
-        projects={d.projects}
-        title={copy('services_title', en ? 'What we can build' : 'Yang bisa kita bangun')}
-        description={copy('services_description')}
-        en={en}
-      />
+    </>),
+    journey: (<>
       <ExperienceSection
         experiences={d.experiences}
         certificates={d.certificates}
@@ -63,6 +67,16 @@ export function StudioHome({
         description={copy('journey_description')}
         en={en}
       />
+    </>),
+    projects: (<>
+      <ProjectsSection
+        projects={d.projects}
+        title={copy('projects_title', en ? 'Selected work' : 'Karya pilihan')}
+        description={copy('projects_description')}
+        en={en}
+      />
+    </>),
+    skills: (<>
       <SkillsSection
         skills={d.skills}
         projects={d.projects}
@@ -73,14 +87,8 @@ export function StudioHome({
         description={copy('skills_description')}
         en={en}
       />
-      <BackgroundSection
-        education={d.education}
-        certificates={d.certificates}
-        languages={d.languages}
-        achievements={d.achievements}
-        projects={d.projects}
-        en={en}
-      />
+    </>),
+    certificates: (<>
       <CertificatesSection
         certificates={d.certificates}
         projects={d.projects}
@@ -92,7 +100,20 @@ export function StudioHome({
         en={en}
         onPreview={onCertificate}
       />
+    </>),
+    services: (<>
+      <ServicesSection
+        services={d.services}
+        projects={d.projects}
+        title={copy('services_title', en ? 'What we can build' : 'Yang bisa kita bangun')}
+        description={copy('services_description')}
+        en={en}
+      />
+    </>),
+    playground: (<>
       <PlaygroundSection language={language} onGuestbook={onGuestbook} />
+    </>),
+    contact: (<>
       <ContactSection
         profile={p}
         documents={content.documents}
@@ -105,6 +126,12 @@ export function StudioHome({
         )}
         language={language}
       />
+    </>),
+  };
+  return (
+    <>
+      <StudioMotion version={`${language}:${content.records.length}:${page || 'scroll'}`} />
+      {page ? sections[page] : siteNavigation(content.records,en).map(([id]) => <Fragment key={id}>{sections[id]}</Fragment>)}
     </>
   );
 }

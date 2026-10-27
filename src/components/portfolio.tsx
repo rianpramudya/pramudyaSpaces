@@ -1,4 +1,6 @@
 'use client';
+import {siteNavigation} from '@/lib/site-navigation';
+import {focusChapterHeading} from '@/lib/portfolio-pages';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PublicContent, Entry } from '@/lib/model';
 import { textValue, listValue } from '@/lib/model';
@@ -14,15 +16,18 @@ import { ProjectDetail } from './projects/project-detail';
 import { ProjectArchive } from './projects/project-archive';
 import { Drawer } from './drawer';
 import { SiteHeader } from './layout/site-header';
+import { PortfolioPager } from './layout/portfolio-pager';
 import { SiteFooter } from './layout/site-footer';
 export function Portfolio({
   initial,
   projectId,
   archive = false,
+  page,
 }: {
   initial: PublicContent;
   projectId?: string;
   archive?: boolean;
+  page?: string;
 }) {
   const portfolioRoot = useRef<HTMLDivElement>(null);
   const { language, setLanguage, theme, toggleTheme, ready: preferencesReady } = usePreferences();
@@ -37,7 +42,7 @@ export function Portfolio({
   const finishExit = useCallback(() => setLoaded(true), []);
   const [panel, setPanel] = useState<'guestbook' | 'chat' | null>(null);
   const [authError, setAuthError] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState(page || 'home');
   const [certificate, setCertificate] = useState<Entry | null>(null);
   useEffect(() => {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -95,35 +100,13 @@ export function Portfolio({
     };
   }, [language, initial]);
   const profile = content.profile;
-  const copy = (key: string, fallback = '') => profile.section_copy?.[key] || fallback;
   const by = (kind: string) => content.records.filter((e) => e.kind === kind && e.published);
   const projects = by('project');
-  const services = by('service');
-  const experiences = by('experience');
-  const skills = by('skill');
-  const certificates = by('certificate');
-  const education = by('education');
-  const languages = by('language');
-  const achievements = by('achievement');
-  const cv = content.documents.find((d) => d.id === profile.featured_cv && d.format !== 'letter');
   const owner = profile.name.split(' ')[0] || '';
-  const nav = [
-    ['home', en ? 'Home' : 'Beranda'],
-    ['about', en ? 'About' : 'Tentang'],
-    ['projects', en ? 'Projects' : 'Proyek'],
-    ...(services.length ? [['services', en ? 'Services' : 'Layanan']] : []),
-    ...(experiences.length ? [['journey', en ? 'Experience' : 'Pengalaman']] : []),
-    ...(skills.length ? [['skills', en ? 'Skills' : 'Keahlian']] : []),
-    ...(education.length || languages.length || achievements.length
-      ? [['background', en ? 'Background' : 'Latar belakang']]
-      : []),
-    ...(certificates.length ? [['certificates', en ? 'Certificates' : 'Sertifikat']] : []),
-    ['playground', en ? 'Playground' : 'Ruang bermain'],
-    ['contact', en ? 'Contact' : 'Kontak'],
-  ];
+  const nav = siteNavigation(content.records,en);
 
   useEffect(() => {
-    if (archive || projectId) return;
+    if (archive || projectId || page) return;
     const observer = new IntersectionObserver(
       (entries) => {
         const entered = entries
@@ -137,7 +120,7 @@ export function Portfolio({
       .querySelectorAll('#main > section[id]')
       .forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, [archive, projectId, content.records.length]);
+  }, [archive, projectId, content.records.length, page]);
   useEffect(() => {
     if (archive || projectId) return;
     const root = portfolioRoot.current;
@@ -198,7 +181,16 @@ export function Portfolio({
       root.removeEventListener('click', click);
       window.removeEventListener('hashchange', change);
     };
-  }, [archive, projectId]);
+  }, [archive, projectId, page]);
+  useEffect(() => {
+    if(!page||!loaded)return;
+    setActiveSection(page);
+    let target:HTMLElement|null=null;
+    try{target=location.hash?document.getElementById(decodeURIComponent(location.hash.slice(1))):null;}catch{}
+    const section=target||document.getElementById(page);
+    if(section)focusChapterHeading(section);
+    if(!target)window.scrollTo({top:0,behavior:'instant'});
+  },[page,loaded]);
   const project = projectId ? projects.find((e) => e.id === projectId) : undefined;
   return (
     <>
@@ -208,7 +200,8 @@ export function Portfolio({
       data-ready={revealed}
       inert={!loaded && preferencesReady}
       aria-hidden={(!loaded && preferencesReady) || undefined}
-      data-active-section={activeSection}
+      data-active-section={page || activeSection}
+      data-page-mode={page ? 'pages' : 'scroll'}
       ref={portfolioRoot}
     >
       <a className="skip-link" href="#main">
@@ -219,7 +212,13 @@ export function Portfolio({
         nav={nav}
         en={en}
         away={!!projectId || archive}
-        activeSection={activeSection}
+        activeSection={page || activeSection}
+        pageMode={!!page}
+        motion={motion}
+        onMotion={() => {
+          try { localStorage.setItem('portfolio-motion',motion?'off':'on'); } catch {}
+          window.dispatchEvent(new Event('portfolio-play-change'));
+        }}
         theme={theme}
         onLanguage={() => setLanguage(en ? 'id' : 'en')}
         onTheme={toggleTheme}
@@ -229,7 +228,7 @@ export function Portfolio({
           English translation is temporarily unavailable. Showing the Indonesian source.
         </div>
       )}
-      {!archive && !projectId && <CinematicChapters nav={nav} active={activeSection} en={en} />}
+      {!page && !archive && !projectId && <CinematicChapters nav={nav} active={activeSection} en={en} />}
       <main id="main">
         {archive ? (
           <ProjectArchive projects={projects} en={en} />
@@ -237,11 +236,11 @@ export function Portfolio({
           <ProjectDetail project={project} en={en} />
         ) : (
           <>
-            <StudioHome content={content} language={language} onCertificate={setCertificate} onGuestbook={() => setPanel('guestbook')} />
+            <StudioHome page={page} content={content} language={language} onCertificate={setCertificate} onGuestbook={() => setPanel('guestbook')} />
           </>
         )}
       </main>
-      <SiteFooter profile={profile} nav={nav} en={en} away={!!projectId || archive} />
+      {page ? <PortfolioPager nav={nav} page={page} en={en}/> : <SiteFooter profile={profile} nav={nav} en={en} away={!!projectId || archive} />}
       <VisitorDock
         profile={profile}
         language={language}

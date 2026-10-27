@@ -26,14 +26,14 @@ test('hero falls back to the managed profile photo when a dedicated hero is not 
 test('studio order places metrics between hero and about and navigation follows the page',()=>{
  const records=['project','experience','skill','education','language','achievement','certificate','service'].map(kind=>entry(kind,'CMS '+kind,{description:'Description '+kind,category:'Tools'}));
  const html=render({...empty,records});let previous=-1;
- for(const id of ['home','about','projects','services','journey','skills','background','certificates','playground','contact']){const current=html.indexOf(`id="${id}"`);assert.ok(current>previous,id);previous=current;}
+ for(const id of ['home','about','background','journey','projects','skills','certificates','services','playground','contact']){const current=html.indexOf(`id="${id}"`);assert.ok(current>previous,id);previous=current;}
  for(const record of records)assert.ok(html.includes(record.title),record.title);
  assert.ok(html.includes('studio-create-band'));
  const metrics=html.indexOf('class="studio-stats studio-shell"');
  assert.ok(metrics>html.indexOf('id="home"') && metrics<html.indexOf('id="about"'));
  assert.equal(html.split('class="studio-stats studio-shell"').length-1,1);
  const chapters=html.match(/<nav class="cinematic-chapters"[^>]*>(.*?)<\/nav>/s)?.[1] || '';
- const order=['home','about','projects','services','journey','skills','background','certificates','playground','contact'];
+ const order=['home','about','background','journey','projects','skills','certificates','services','playground','contact'];
  assert.deepEqual([...chapters.matchAll(/href="#([^"]+)"/g)].map(m=>m[1]),order);
  const primary=html.match(/<nav class="studio-primary-nav"[^>]*>(.*?)<\/nav>/s)?.[1] || '';
  assert.deepEqual([...primary.matchAll(/href="#([^"]+)"/g)].map(m=>m[1]),['home','about','projects','services','contact']);
@@ -58,7 +58,7 @@ test('contact visibility and professional links respect CMS settings',()=>{
  const publicHtml=render({...empty,profile:{...profile,show_email:true,show_phone:true}});assert.ok(publicHtml.includes('mailto:private@example.com'));assert.ok(publicHtml.includes('tel:+621234'));
 });
 test('runner, guestbook and AI remain available after Studio removal',()=>{
- const html=render({...empty,profile:{...emptyProfile,name:'Rian',status:'open',location:'CMS city'},records:[entry('skill','TypeScript')]});for(const value of ['runner-game','id="playground"','Buka buku tamu','Buka asisten AI','Open to work','CMS city'])assert.ok(html.includes(value),value);assert.ok(!html.includes('arcade-lane'));assert.ok(!html.includes('dock-content'));
+ const html=render({...empty,profile:{...emptyProfile,name:'Rian',status:'open',location:'CMS city'},records:[entry('skill','TypeScript')]});for(const value of ['runner-game','id="playground"','Buka buku tamu','Buka asisten AI','Terbuka untuk bekerja','CMS city'])assert.ok(html.includes(value),value);assert.match(html,/<details class="studio-play-panel"><summary>/);assert.ok(html.includes('Istirahat sambil bermain'));assert.ok(!html.includes('arcade-lane'));assert.ok(!html.includes('dock-content'));
 });
 test('English studio uses the same CMS content and working page anchors',()=>{
  const html=renderToStaticMarkup(React.createElement(StudioHome,{content:{...empty,profile:{...emptyProfile,name:'Dewi',headline:'Engineer',summary:'CMS biography'},records:[entry('service','CMS service')]},language:'en',onCertificate:()=>{}}));for(const value of ['Dewi','CMS biography','CMS service','View work','Send message','href="#projects"','id="playground"'])assert.ok(html.includes(value),value);assert.ok(!html.includes('Lumora'));assert.ok(!html.includes('200+ brands'));
