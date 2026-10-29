@@ -1,0 +1,5 @@
+/* Same paper, ink, bronze and blue as the public photographic theme. */
+.portfolio-mode-experience{--pm-warm-rgb:208 166 126;--pm-paper:#f6f2ec;--pm-paper-rgb:246 242 236;--pm-ink:#211c18;--pm-muted:#51453b;--pm-accent-rgb:150 81 36;--pm-secondary-rgb:155 178 196;}
+.portfolio-mode-experience:is([data-chapter=background],[data-chapter=projects],[data-chapter=skills],[data-chapter=playground]){--pm-accent-rgb:155 178 196;--pm-secondary-rgb:208 166 126;}
+html[data-theme=dark] .portfolio-mode-experience{--pm-paper:#0c0b0a;--pm-paper-rgb:12 11 10;--pm-ink:#f5efe7;--pm-muted:#b9aea3;--pm-accent-rgb:208 166 126;--pm-secondary-rgb:155 178 196;}
+html[data-theme=dark] .portfolio-mode-experience:is([data-chapter=background],[data-chapter=projects],[data-chapter=skills],[data-chapter=playground]){--pm-accent-rgb:155 178 196;--pm-secondary-rgb:208 166 126;}

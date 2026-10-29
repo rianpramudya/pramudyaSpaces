@@ -16,6 +16,7 @@ import './studio.css';
 import './cinematic.css';
 import './studio-layout.css';
 import './page-loader.css';
+import './studio-motion.css';
 export const metadata: Metadata = {
   ...publicPageMetadata('/', SEO_TITLE, SEO_DESCRIPTION),
   metadataBase: new URL(PUBLIC_SITE_URL),

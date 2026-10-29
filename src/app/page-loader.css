@@ -13,7 +13,7 @@ html[data-theme=dark] .site-loading-screen .site-loading-identity img{filter:inv
 .site-loading-screen .site-loading-skip:focus-visible{outline:2px solid var(--studio-text);outline-offset:4px;}
 @keyframes page-loading-pass{0%{transform:translateX(-100%);}100%{transform:translateX(350%);}}
 @media(prefers-reduced-motion:reduce){.site-loading-screen .site-loading-track i{animation:none;width:100%;opacity:.65;}}
-.site-loading-screen[data-exiting=true]{animation:page-loading-exit 600ms cubic-bezier(.22,1,.36,1) both;will-change:transform,opacity;}
+.site-loading-screen[data-exiting=true]{animation:page-loading-exit var(--ux-loader,600ms) var(--ux-ease,cubic-bezier(.22,1,.36,1)) both;will-change:transform,opacity;}
 .site-loading-screen[data-exiting=true]>:not(noscript){transition:opacity 200ms ease,transform 300ms ease;opacity:0;transform:translateY(-12px);}
 @keyframes page-loading-exit{from{transform:translateY(0);opacity:1;}to{transform:translateY(-100%);opacity:0;}}
 @media(prefers-reduced-motion:reduce){.site-loading-screen[data-exiting=true]{animation:none;}.site-loading-screen[data-exiting=true]>:not(noscript){transition:none;transform:none;}}

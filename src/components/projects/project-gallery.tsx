@@ -37,7 +37,7 @@ export function StudioProjectGallery({ projects, en }: { projects: Entry[]; en: 
       <div className="studio-gallery-toolbar">
         <span>{en ? 'Work in focus' : 'Karya dalam sorotan'}</span>
         <span aria-live="polite">
-          {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+          <span className="studio-gallery-count" key={entry.id}>{String(index + 1).padStart(2, '0')}</span> / {String(projects.length).padStart(2, '0')}
         </span>
         <div>
           <button
@@ -121,7 +121,7 @@ export function StudioProjectGallery({ projects, en }: { projects: Entry[]; en: 
         })}
       </div>
       <div className="studio-gallery-story" id={storyId}>
-        <div>
+        <div className="studio-gallery-reading" key={entry.id}>
           <p className="studio-eyebrow">
             {textValue(entry.data, 'role') || textValue(entry.data, 'category')}
           </p>

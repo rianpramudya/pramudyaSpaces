@@ -104,7 +104,7 @@ export function HeroSection({
           <h1 aria-label={headline}>
             {headline.split(/\s+/).map((word, i) => (
               <span className="studio-title-word" aria-hidden="true" key={i}>
-                {[...word].map((char, j) => (
+                <span className="hero-word-inner">{[...word].map((char, j) => (
                   <span
                     className="cinematic-letter"
                     key={j}
@@ -112,7 +112,7 @@ export function HeroSection({
                   >
                     {char}
                   </span>
-                ))}{' '}
+                ))}</span>{' '}
               </span>
             ))}
           </h1>

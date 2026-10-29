@@ -71,6 +71,7 @@ export function SiteHeader({
       document.removeEventListener('keydown', escape);
     };
   }, [menu]);
+  useEffect(() => { if(pageMode)setMenu(false); }, [activeSection,pageMode]);
   const href = (id: string) => pageMode ? pageHref(id) : `${away ? '/' : ''}#${id}`,
     primary = new Set(['home', 'projects', 'services', 'about', 'contact']);
 
@@ -179,7 +180,7 @@ export function SiteHeader({
                   ),
                 )}
               </nav>
-              <a className="studio-reading-mode" href={pageMode ? `/#${activeSection}` : pageHref(activeSection)}>
+              <a className="studio-reading-mode" href={pageMode ? `/#${activeSection}` : pageHref(activeSection==='playground'?'home':activeSection)}>
                 <span>{en ? 'Reading mode' : 'Cara menjelajah'}</span>
                 <strong>{pageMode ? (en ? 'Switch to scroll' : 'Ganti ke scroll') : (en ? 'Open page mode' : 'Buka mode per halaman')}</strong>
               </a>

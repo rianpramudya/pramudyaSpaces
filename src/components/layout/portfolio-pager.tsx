@@ -3,6 +3,11 @@ import {pageHref} from '@/lib/portfolio-pages';
 export function PortfolioPager({nav,page,en}:{nav:string[][];page:string;en:boolean}){
  const index=nav.findIndex(([id])=>id===page),previous=nav[index-1],next=nav[index+1];
  return <footer className="portfolio-page-footer studio-shell">
+  <nav className="portfolio-chapter-index" aria-label={en?'Jump to a chapter':'Langsung ke bab'}>
+   {nav.map(([id,label],chapter)=><a key={id} href={pageHref(id)} aria-current={id===page?'page':undefined} aria-label={`${String(chapter+1).padStart(2,'0')} · ${label}`}>
+    <span aria-hidden="true">{String(chapter+1).padStart(2,'0')}</span><span className="portfolio-chapter-hint" aria-hidden="true">{label}</span>
+   </a>)}
+  </nav>
   <nav className="portfolio-pager" aria-label={en?'Portfolio pages':'Halaman portofolio'}>
    <div>{previous&&<a href={pageHref(previous[0])} rel="prev"><ArrowLeft size={18} aria-hidden="true"/><span><small>{en?'Previous':'Sebelumnya'}</small>{previous[1]}</span></a>}</div>
    <p aria-live="polite"><span>{String(index+1).padStart(2,'0')} / {String(nav.length).padStart(2,'0')}</span><strong>{nav[index]?.[1]}</strong></p>

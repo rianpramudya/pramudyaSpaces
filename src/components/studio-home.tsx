@@ -131,7 +131,7 @@ export function StudioHome({
   return (
     <>
       <StudioMotion version={`${language}:${content.records.length}:${page || 'scroll'}`} />
-      {page ? sections[page] : siteNavigation(content.records,en).map(([id]) => <Fragment key={id}>{sections[id]}</Fragment>)}
+      {page ? (page==='playground'?null:sections[page]) : siteNavigation(content.records,en).map(([id]) => <Fragment key={id}>{sections[id]}</Fragment>)}
     </>
   );
 }

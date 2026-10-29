@@ -1,0 +1,44 @@
+/* Motion enhances visible content; no CSS hides sections if JavaScript fails. */
+/* This controller owns scroll entrances; legacy reveal CSS must not run a second time. */
+.cinematic-site[data-page-mode=scroll][data-scroll-reveal=managed][data-ready=true] [data-reveal]{opacity:1;transform:none;transition:none;}
+@media(prefers-reduced-motion:no-preference){
+ .cinematic-site[data-page-mode=scroll][data-scroll-reveal=managed][data-motion=on] [data-scroll-reveal=pending]{opacity:0;}
+}
+.cinematic-site .studio-hero[data-entrance=managed] :is(.cinematic-letter,.studio-title-word,.studio-hero-feature){animation:none!important;}
+.cinematic-site .hero-word-inner{display:inline-block;}
+.cinematic-site .studio-hero[data-entrance=managed] .studio-title-word{overflow:clip;vertical-align:bottom;}
+.cinematic-site[data-page-mode=scroll] .studio-footer-opening{overflow:clip;}
+.cinematic-site[data-motion=on] :is(.studio-button,.studio-gallery-frame,.service-work-cover,.service-selector>article>button>svg){transition:transform var(--ux-micro) var(--ux-ease),opacity var(--ux-micro) var(--ux-ease);}
+@media(hover:hover){
+ .cinematic-site[data-motion=on] .studio-button:hover{transform:translateY(-2px);}
+ .cinematic-site[data-motion=on] .service-work-cover:hover{transform:perspective(1000px) rotateY(0deg) translateY(-3px);}
+ .cinematic-site[data-motion=on] .service-selector>article>button:hover>svg{transform:translate(2px,-2px);}
+ .cinematic-site[data-motion=on] .studio-gallery-frame:hover img{transform:scale(1.03);}
+}
+.cinematic-site .studio-gallery-frame img{transition:transform var(--ux-micro) var(--ux-ease);}
+.cinematic-site[data-motion=on] .studio-button:active{transform:scale(.98);}
+@supports(animation-timeline:view()){
+ @media(prefers-reduced-motion:no-preference){
+  .cinematic-site[data-page-mode=scroll][data-motion=on] .academic-period>i{transform-origin:top;animation:academic-draw var(--ux-reveal) both linear;animation-timeline:view();animation-range:entry 0% cover 45%;}
+ }
+}
+@keyframes academic-draw{from{transform:scaleY(0);}to{transform:scaleY(1);}}
+.cinematic-site .contact-form label{transition:transform var(--ux-micro) var(--ux-ease);}
+.cinematic-site[data-motion=on] .contact-form label:focus-within{transform:translateY(-2px);}
+@media(prefers-reduced-motion:reduce){.cinematic-site :is(.studio-button,.studio-gallery-frame img,.service-work-cover,.contact-form label){transition:none!important;}.cinematic-site .hero-word-inner{transform:none!important;}}
+
+.cinematic-site[data-page-mode=scroll] .experience-index{position:relative;}
+@supports(animation-timeline:view()){
+ @media(prefers-reduced-motion:no-preference){
+  .cinematic-site[data-page-mode=scroll][data-motion=on] .experience-index::before{content:'';position:absolute;left:-1px;top:0;bottom:0;width:2px;pointer-events:none;background:var(--studio-copper);transform-origin:top;animation:academic-draw var(--ux-reveal) both linear;animation-timeline:view();animation-range:entry 0% cover 50%;}
+ }
+}
+
+@media(prefers-reduced-motion:no-preference){
+ .cinematic-site[data-motion=on] .studio-gallery-count{display:inline-block;animation:ux-slot-in var(--ux-micro) var(--ux-ease) both;}
+ .cinematic-site[data-motion=on] .studio-gallery-reading> :is(p,h3){animation:ux-content-in var(--ux-reveal) var(--ux-ease) both;}
+ .cinematic-site[data-motion=on] .studio-gallery-reading>h3{animation-delay:var(--ux-stagger);}
+ .cinematic-site[data-motion=on] .studio-gallery-reading>p:not(:first-child){animation-delay:calc(var(--ux-stagger)*2);}
+}
+@keyframes ux-slot-in{from{opacity:0;transform:translateY(45%);}to{opacity:1;transform:translateY(0);}}
+@keyframes ux-content-in{from{opacity:0;transform:translateY(var(--ux-distance));}to{opacity:1;transform:translateY(0);}}

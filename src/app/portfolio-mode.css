@@ -1,0 +1,95 @@
+/* Everything in this file belongs to /portofolio. No scrolling-mode selectors. */
+.portfolio-mode-experience{position:relative;isolation:isolate;overflow-x:clip;min-height:100svh;background:var(--pm-paper);color:var(--pm-ink);}
+.portfolio-mode-experience .pm-scene{position:relative;z-index:1;}
+.portfolio-mode-experience .cinematic-site[data-page-mode=pages]{background:transparent;--studio-muted:var(--pm-muted);}
+.portfolio-mode-experience .pm-atmosphere{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.portfolio-mode-experience .pm-parallax{position:absolute;inset:-32px;transition:transform var(--ux-reveal) var(--ux-ease);}
+.portfolio-mode-experience .pm-orbit{position:absolute;display:block;width:min(48vw,640px);aspect-ratio:1;border-radius:50%;filter:blur(56px);}
+.portfolio-mode-experience .pm-orbit-primary{top:8%;right:0;background:radial-gradient(ellipse,rgb(var(--pm-accent-rgb) / .14),transparent 68%);}
+.portfolio-mode-experience .pm-orbit-secondary{bottom:-12%;left:-6%;background:radial-gradient(ellipse,rgb(var(--pm-secondary-rgb) / .08),transparent 70%);}
+.portfolio-mode-experience .pm-lines{position:absolute;inset:12% 6%;border:1px solid rgb(var(--pm-accent-rgb) / .1);border-radius:44% 44% 12px 12px;transform:rotate(-12deg);mask-image:linear-gradient(transparent,var(--black) 25%,transparent 85%);}
+.portfolio-mode-experience .pm-grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.portfolio-mode-experience .pm-continuity{position:fixed;inset:0 0 auto;height:3px;z-index:110;pointer-events:none;}
+.portfolio-mode-experience .pm-continuity>i{display:block;height:100%;background:rgb(var(--pm-accent-rgb));transform-origin:left;transition:transform var(--ux-reveal) var(--ux-ease);}
+.portfolio-mode-experience .pm-curtain{position:fixed;inset:0;z-index:121;pointer-events:none;display:flex;gap:8px;align-items:center;justify-content:center;background:transparent;opacity:0;transition:opacity var(--ux-micro) var(--ux-ease);}
+.portfolio-mode-experience .pm-curtain>i{width:5px;height:5px;border-radius:50%;background:rgb(var(--pm-accent-rgb));}
+.portfolio-mode-experience[data-pm-phase=waiting] .pm-curtain{opacity:1;}
+.portfolio-mode-experience[data-pm-phase=waiting] #main,.portfolio-mode-experience[data-pm-phase=enter] #main{opacity:0;}
+.portfolio-mode-experience .pm-status{position:fixed;left:24px;bottom:24px;z-index:90;max-width:min(48ch,calc(100% - 48px));padding:16px 20px;border:1px solid rgb(var(--pm-accent-rgb) / .3);border-radius:16px;background:var(--pm-paper);color:var(--pm-ink);font:14px/1.6 var(--font-studio);}
+/* WAAPI owns the entrance timeline, avoiding competing scroll/letter animations. */
+.portfolio-mode-experience .cinematic-site[data-page-mode=pages][data-ready] #main>section{animation:none;}
+.portfolio-mode-experience .cinematic-site[data-page-mode=pages][data-ready] [data-reveal]{opacity:1;transform:none;transition:none;}
+.portfolio-mode-experience .cinematic-site[data-page-mode=pages] .cinematic-letter{animation:none!important;filter:none;transform:none;}
+.portfolio-mode-experience .cinematic-site[data-page-mode=pages] :is(.studio-section-heading h2,.studio-about-statement h2,.studio-contact-copy h2){font-size:clamp(36px,4.8vw,64px);line-height:1.06;letter-spacing:-.03em;max-width:22ch;}
+.portfolio-mode-experience .studio-section-heading .studio-eyebrow{letter-spacing:.08em;font-size:12px;text-transform:uppercase;}
+.portfolio-mode-experience .studio-section-heading .studio-eyebrow::before{content:'';width:24px;height:1px;background:rgb(var(--pm-accent-rgb));}
+.portfolio-mode-experience .cinematic-site .studio-description{max-width:58ch;font-size:16px;line-height:1.8;}
+.portfolio-mode-experience .cinematic-site[data-page-mode=pages] #main>section:not(.studio-hero){padding-bottom:56px;}
+.portfolio-mode-experience .cinematic-site .portfolio-pager{border-color:rgb(var(--pm-accent-rgb) / .22);}
+.portfolio-mode-experience .cinematic-site .portfolio-pager>p>span{color:var(--studio-text);}
+/* Distinct compositions and materials, rather than repeating one card grid. */
+.portfolio-mode-experience[data-chapter=about] .pm-lines{inset:10% 48% 6% 3%;border-radius:50%;transform:rotate(16deg);}
+.portfolio-mode-experience[data-chapter=about] .studio-formal-frame{box-shadow:0 24px 72px -38px rgb(var(--pm-accent-rgb) / .4);}
+.portfolio-mode-experience[data-chapter=about] .studio-about-statement{border-left:1px solid rgb(var(--pm-accent-rgb) / .22);padding-left:clamp(24px,3vw,40px);}
+.portfolio-mode-experience[data-chapter=background] .pm-lines{inset:18% 4%;border-radius:4px;transform:rotate(0deg);background:repeating-linear-gradient(0deg,transparent 0 47px,rgb(var(--pm-accent-rgb) / .05) 47px 48px);}
+.portfolio-mode-experience[data-chapter=background] .academic-pages{box-shadow:0 30px 60px -46px rgb(var(--pm-accent-rgb) / .45);}
+.portfolio-mode-experience[data-chapter=background] .learning-languages{padding:24px;border:1px solid rgb(var(--pm-accent-rgb) / .16);border-radius:20px;background:rgb(var(--pm-paper-rgb) / .7);backdrop-filter:blur(12px);}
+.portfolio-mode-experience[data-chapter=journey] .pm-orbit-primary{right:4%;top:20%;width:60vw;}
+.portfolio-mode-experience[data-chapter=journey] .experience-reading{padding:28px;border-block:1px solid rgb(var(--pm-accent-rgb) / .25);background:linear-gradient(120deg,rgb(var(--pm-accent-rgb) / .06),transparent 75%);}
+.portfolio-mode-experience[data-chapter=journey] .experience-choice[aria-pressed=true]{border-left-color:rgb(var(--pm-accent-rgb));background:rgb(var(--pm-accent-rgb) / .1);}
+.portfolio-mode-experience[data-chapter=journey] .experience-page-number{color:rgb(var(--pm-accent-rgb) / .3);}
+.portfolio-mode-experience[data-chapter=projects] .pm-lines{inset:28% 8% 2%;border-radius:50%;transform:perspective(700px) rotateX(50deg);}
+.portfolio-mode-experience[data-chapter=projects] .studio-gallery-stage{box-shadow:0 34px 80px -55px rgb(var(--pm-accent-rgb) / .6);border:1px solid rgb(var(--pm-accent-rgb) / .2);}
+.portfolio-mode-experience[data-chapter=skills] .pm-lines{inset:12% 8%;border-radius:50%;transform:rotate(25deg);border-style:dashed;}
+.portfolio-mode-experience[data-chapter=skills] .workspace-stage{background:linear-gradient(145deg,rgb(var(--pm-paper-rgb) / .94),rgb(var(--pm-accent-rgb) / .08));box-shadow:0 30px 70px -50px rgb(var(--pm-accent-rgb) / .4);}
+.portfolio-mode-experience[data-chapter=certificates] .pm-lines{inset:14% 12%;border-radius:28px;transform:rotate(8deg);}
+.portfolio-mode-experience[data-chapter=certificates] .credential-sheet{box-shadow:0 28px 60px -38px rgb(var(--pm-accent-rgb) / .5);}
+.portfolio-mode-experience[data-chapter=certificates] .credential-index-item[data-active=true]::before{background:rgb(var(--pm-accent-rgb));}
+.portfolio-mode-experience[data-chapter=services] .pm-orbit-primary{top:24%;right:-12%;width:70vw;border-radius:35%;}
+.portfolio-mode-experience[data-chapter=services] .service-work-stage{background:linear-gradient(145deg,rgb(var(--pm-accent-rgb) / .09),rgb(var(--pm-paper-rgb) / .88));box-shadow:0 26px 64px -42px rgb(var(--pm-accent-rgb) / .4);}
+.portfolio-mode-experience[data-chapter=playground] .pm-lines{inset:15% 5%;transform:none;border-radius:20px;background:repeating-linear-gradient(90deg,transparent 0 63px,rgb(var(--pm-accent-rgb) / .04) 63px 64px);}
+.portfolio-mode-experience[data-chapter=playground] .studio-play-panel{background:rgb(var(--pm-paper-rgb) / .8);border-color:rgb(var(--pm-accent-rgb) / .3);box-shadow:0 30px 80px -55px rgb(var(--pm-accent-rgb) / .5);}
+.portfolio-mode-experience[data-chapter=playground] .runner-stage{border-color:rgb(var(--pm-accent-rgb) / .35);}
+.portfolio-mode-experience[data-chapter=contact] .pm-lines{inset:10% 5% 10% 53%;border-radius:50% 50% 12px 12px;transform:rotate(8deg);}
+.portfolio-mode-experience[data-chapter=contact] .studio-contact-compose{background:rgb(var(--pm-paper-rgb) / .72);border-color:rgb(var(--pm-accent-rgb) / .23);border-radius:20px;box-shadow:0 30px 80px -54px rgb(var(--pm-accent-rgb) / .5);backdrop-filter:blur(16px);}
+/* Interaction states retain visible keyboard focus and stable geometry. */
+.portfolio-mode-experience .cinematic-site :is(.studio-button,.experience-choice,.workspace-categories button,.credential-index-item button,.service-selector>article>button,.portfolio-pager a){transition:transform var(--ux-micro) var(--ux-ease),opacity var(--ux-micro) var(--ux-ease);}
+@media(hover:hover){.portfolio-mode-experience .cinematic-site :is(.studio-button,.experience-choice,.workspace-categories button,.portfolio-pager a):hover{transform:translateY(-2px);}}
+.portfolio-mode-experience .cinematic-site :is(.studio-button,.experience-choice,.workspace-categories button,.credential-index-item button,.service-selector>article>button,.portfolio-pager a):active{transform:scale(.98);}
+.portfolio-mode-experience .cinematic-site :is(a,button,summary,input,textarea,select):focus-visible{outline-color:var(--pm-ink);}
+@media(max-width:900px){.portfolio-mode-experience[data-chapter=journey] .experience-reading{padding:24px 16px;}.portfolio-mode-experience[data-chapter=about] .studio-about-statement{padding-left:24px;}}
+@media(max-width:767px){
+ .portfolio-mode-experience .pm-orbit{width:90vw;max-width:420px;filter:blur(36px);}
+ .portfolio-mode-experience .pm-lines{inset:12% 3%;}
+ .portfolio-mode-experience .cinematic-site[data-page-mode=pages] :is(.studio-section-heading h2,.studio-about-statement h2,.studio-contact-copy h2){font-size:clamp(34px,9vw,44px);}
+ .portfolio-mode-experience[data-chapter=about] .studio-about-statement{padding-left:0;border-left:0;}
+ .portfolio-mode-experience[data-chapter=background] .learning-languages{padding:20px;}
+ .portfolio-mode-experience[data-chapter=journey] .experience-reading{padding:24px 0;background:transparent;}
+ .portfolio-mode-experience[data-chapter=contact] .studio-contact-compose,.portfolio-mode-experience[data-chapter=background] .learning-languages{backdrop-filter:none;}
+ .portfolio-mode-experience .cinematic-site[data-page-mode=pages] #main>section:not(.studio-hero){padding-bottom:36px;}
+}
+.portfolio-mode-experience[data-pm-reduced=true] .pm-parallax,.portfolio-mode-experience[data-pm-reduced=true] .pm-continuity>i{transition:none;}
+@media(prefers-reduced-motion:reduce){.portfolio-mode-experience .pm-parallax,.portfolio-mode-experience .pm-continuity>i,.portfolio-mode-experience .cinematic-site :is(a,button,summary){transition:none!important;}}
+
+/* Exposure and light continue the existing photographic atmosphere across chapters. */
+.portfolio-mode-experience .pm-transition-veil{position:fixed;inset:0;z-index:120;pointer-events:none;opacity:0;overflow:hidden;background:var(--pm-paper);}
+.portfolio-mode-experience .pm-transition-light{position:absolute;inset:-35%;display:block;opacity:0;background:radial-gradient(ellipse at 35% 45%,rgb(var(--pm-warm-rgb) / .6),transparent 50%),radial-gradient(ellipse at 70% 60%,rgb(var(--pm-secondary-rgb) / .35),transparent 55%);}
+.portfolio-mode-experience[data-pm-phase=waiting]:not([data-pm-reduced=true]) .pm-transition-veil{opacity:1;}
+.portfolio-mode-experience[data-pm-phase=enter] #main{overflow:clip;}
+.portfolio-mode-experience .cinematic-site[data-page-mode=pages] :is(.studio-section-heading h2,.studio-about-statement h2,.studio-contact-copy h2){font-size:clamp(44px,6.3vw,80px);}
+.portfolio-mode-experience[data-pm-reduced=true] .pm-transition-veil{display:none;}
+@media(max-width:767px){.portfolio-mode-experience .cinematic-site[data-page-mode=pages] :is(.studio-section-heading h2,.studio-about-statement h2,.studio-contact-copy h2){font-size:clamp(36px,10vw,48px);}}
+@media(prefers-reduced-motion:reduce){.portfolio-mode-experience .pm-transition-veil{display:none;}}
+
+.portfolio-mode-experience[data-pm-phase=enter] .cinematic-site :is(.workspace-stage,.credential-sheet,.experience-chapter,.studio-gallery-reading>p,.studio-gallery-reading>h3){animation:none!important;}
+
+
+/* A compact chapter index gives reviewers direct access to the evidence they need. */
+.portfolio-mode-experience .portfolio-chapter-index{display:flex;gap:4px;max-width:100%;overflow-x:auto;padding:8px 4px 20px;scrollbar-width:thin;}
+.portfolio-mode-experience .portfolio-chapter-index>a{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;flex:0 0 auto;min-width:44px;min-height:44px;padding:8px 12px;border:1px solid transparent;border-radius:12px;color:var(--pm-muted);text-decoration:none;font-size:12px;font-variant-numeric:tabular-nums;transition:transform var(--ux-micro) var(--ux-ease);}
+.portfolio-mode-experience .portfolio-chapter-index>a[aria-current=page]{border-color:var(--studio-line);background:var(--studio-surface);color:var(--pm-ink);}
+.portfolio-mode-experience .portfolio-chapter-hint{white-space:nowrap;color:inherit;}
+.portfolio-mode-experience .portfolio-chapter-index>a:is(:hover,:focus-visible){transform:translateY(-2px);}
+
+.portfolio-mode-experience[data-pm-reduced=true] .portfolio-chapter-index>a,.portfolio-mode-experience[data-pm-reduced=true] .portfolio-chapter-hint{transition:none;}
+@media(prefers-reduced-motion:reduce){.portfolio-mode-experience .portfolio-chapter-index>a,.portfolio-mode-experience .portfolio-chapter-hint{transition:none;}}

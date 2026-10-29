@@ -12,3 +12,14 @@ test('optional sections exclude drafts and include background for languages or a
  for(const kind of ['language','achievement'])assert.ok(siteNavigation([entry(kind)],false).some(([id])=>id==='background'));
  assert.equal(siteNavigation([],false).find(([id])=>id==='about')?.[1],'Tentang');
 });
+
+
+test('portfolio mode excludes the game from every navigation order in both languages',()=>{
+ const records=['project','education','service','experience','skill','certificate'].map(kind=>entry(kind));
+ for(const en of [false,true]){
+  const nav=siteNavigation(records,en,'pages');
+  assert.deepEqual(nav.map(([id])=>id),['home','about','background','journey','projects','skills','certificates','services','contact']);
+  assert.equal(nav.at(-2)?.[0],'services');
+  assert.ok(siteNavigation(records,en).some(([id])=>id==='playground'));
+ }
+});

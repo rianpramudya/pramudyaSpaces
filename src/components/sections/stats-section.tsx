@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef } from 'react';
+import { MOTION } from '@/lib/motion-tokens';
 import { ArrowUpRight } from 'lucide-react';
 export function StatsSection({
   stats,
@@ -15,15 +16,17 @@ export function StatsSection({
     const reduced=matchMedia('(prefers-reduced-motion: reduce)');
     const disabled=()=>{try{return reduced.matches||localStorage.getItem('portfolio-motion')==='off';}catch{return reduced.matches;}};
     if(disabled())return;
-    let frame = 0;
+    let frame = 0, started = false;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (!entries[0]?.isIntersecting) return;
+        if (started || disabled() || !entries[0]?.isIntersecting) return;
+        if(el.closest<HTMLElement>('.portfolio')?.inert)return;
+        started = true;
         observer.disconnect();
         const nodes = el.querySelectorAll<HTMLElement>('[data-count]'),
           start = performance.now();
         function tick(now: number) {
-          const t = Math.min(1, (now - start) / 1100),
+          const t = Math.min(1, (now - start) / MOTION.count),
             progress = 1 - Math.pow(1 - t, 3);
           nodes.forEach(
             (node, i) => (node.textContent = String(Math.round(stats[i].value * progress))),
@@ -36,9 +39,13 @@ export function StatsSection({
     );
     const stop=()=>{if(!disabled())return;observer.disconnect();cancelAnimationFrame(frame);el.querySelectorAll<HTMLElement>('[data-count]').forEach((node,i)=>{node.textContent=String(stats[i].value);});};
     window.addEventListener('portfolio-play-change',stop);reduced.addEventListener('change',stop);
+    const readiness = new MutationObserver(() => { if(!started&&!disabled()){ observer.unobserve(el); observer.observe(el); } });
+    const site = el.closest('.portfolio');
+    if(site)readiness.observe(site,{attributes:true,attributeFilter:['inert']});
     observer.observe(el);
     return () => {
       window.removeEventListener('portfolio-play-change',stop);reduced.removeEventListener('change',stop);
+      readiness.disconnect();
       observer.disconnect();
       cancelAnimationFrame(frame);
     };

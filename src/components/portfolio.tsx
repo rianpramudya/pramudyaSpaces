@@ -1,4 +1,5 @@
 'use client';
+import {motionStyle} from '@/lib/motion-tokens';
 import {siteNavigation} from '@/lib/site-navigation';
 import {focusChapterHeading} from '@/lib/portfolio-pages';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -23,11 +24,13 @@ export function Portfolio({
   projectId,
   archive = false,
   page,
+  transitionManaged = false,
 }: {
   initial: PublicContent;
   projectId?: string;
   archive?: boolean;
   page?: string;
+  transitionManaged?: boolean;
 }) {
   const portfolioRoot = useRef<HTMLDivElement>(null);
   const { language, setLanguage, theme, toggleTheme, ready: preferencesReady } = usePreferences();
@@ -103,7 +106,7 @@ export function Portfolio({
   const by = (kind: string) => content.records.filter((e) => e.kind === kind && e.published);
   const projects = by('project');
   const owner = profile.name.split(' ')[0] || '';
-  const nav = siteNavigation(content.records,en);
+  const nav = siteNavigation(content.records,en,page?'pages':'scroll');
 
   useEffect(() => {
     if (archive || projectId || page) return;
@@ -183,20 +186,21 @@ export function Portfolio({
     };
   }, [archive, projectId, page]);
   useEffect(() => {
-    if(!page||!loaded)return;
+    if(!page||!loaded||transitionManaged)return;
     setActiveSection(page);
     let target:HTMLElement|null=null;
     try{target=location.hash?document.getElementById(decodeURIComponent(location.hash.slice(1))):null;}catch{}
     const section=target||document.getElementById(page);
     if(section)focusChapterHeading(section);
     if(!target)window.scrollTo({top:0,behavior:'instant'});
-  },[page,loaded]);
+  },[page,loaded,transitionManaged]);
   const project = projectId ? projects.find((e) => e.id === projectId) : undefined;
   return (
     <>
     {!loaded && <PageLoader root={portfolioRoot} contentReady={preferencesReady && (!en || translated)} en={en} onReady={finishLoading} exiting={revealed} onExited={finishExit} motion={motion} />}
     <div
       className="portfolio studio-site cinematic-site"
+      style={motionStyle}
       data-ready={revealed}
       inert={!loaded && preferencesReady}
       aria-hidden={(!loaded && preferencesReady) || undefined}

@@ -26,7 +26,7 @@ import {emptyProfile,type Entry} from '../src/lib/model';
 const records=['education','experience','project','skill','certificate','service'].map((kind):Entry=>({id:kind,kind,title:`Public ${kind}`,published:true,position:0,data:{category:'Tools'}}));
 const content={profile:{...emptyProfile,name:'Owner'},records,documents:[]};
 test('page mode mounts just the requested chapter while scroll mode retains the complete ordered page',()=>{
- for(const page of ['home','about','background','journey','projects','skills','certificates','services','playground','contact']){
+ for(const page of ['home','about','background','journey','projects','skills','certificates','services','contact']){
   const html=renderToStaticMarkup(React.createElement(StudioHome,{content,language:'id',page,onCertificate:()=>{}}));
   assert.deepEqual([...html.matchAll(/<section id="([^"]+)"/g)].map(match=>match[1]),[page],page);
  }
@@ -53,4 +53,26 @@ test('chapter navigation focuses its heading rather than outlining the entire se
  assert.ok(headingFocused);
  assert.equal(sectionFocused,false);
  assert.doesNotThrow(()=>focusChapterHeading({querySelector:()=>null} as unknown as HTMLElement));
+});
+
+
+import {PortfolioPager} from '../src/components/layout/portfolio-pager';
+test('reviewers can jump directly to each public chapter with a labeled current position',()=>{
+ const html=renderToStaticMarkup(React.createElement(PortfolioPager,{nav,page:'projects',en:false}));
+ const index=html.split('aria-label="Langsung ke bab"')[1]?.split('</nav>')[0]||'';
+ assert.equal([...index.matchAll(/<a /g)].length,nav.length);
+ assert.equal([...index.matchAll(/aria-current="page"/g)].length,1);
+ assert.ok(index.includes('href="/portofolio?page=projects" aria-current="page"'));
+ assert.ok(index.includes('aria-label="04 · Proyek"'));
+ assert.ok(!index.includes('admin'));
+});
+
+
+test('game stays available in scroll mode and cannot mount as a portfolio chapter',()=>{
+ const paged=renderToStaticMarkup(React.createElement(StudioHome,{content,language:'id',page:'playground',onCertificate:()=>{}}));
+ assert.ok(!paged.includes('id="playground"'));
+ const html=renderToStaticMarkup(React.createElement(Portfolio,{initial:content,page:'home'}));
+ assert.ok(!html.includes('href="/portofolio?page=playground"'));
+ const scroll=renderToStaticMarkup(React.createElement(StudioHome,{content,language:'id',onCertificate:()=>{}}));
+ assert.ok(scroll.includes('id="playground"'));
 });

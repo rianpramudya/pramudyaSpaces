@@ -1,6 +1,6 @@
 import type {Entry} from './model';
 // Keep anchor navigation in the same reading order as StudioHome.
-export function siteNavigation(records:Entry[],en:boolean):string[][]{
+export function siteNavigation(records:Entry[],en:boolean,mode:'scroll'|'pages'='scroll'):string[][]{
  const kinds=new Set(records.filter(entry=>entry.published).map(entry=>entry.kind));
  return [
   ['home',en?'Home':'Beranda'],
@@ -11,7 +11,7 @@ export function siteNavigation(records:Entry[],en:boolean):string[][]{
   ...(kinds.has('skill')?[['skills',en?'Skills & competencies':'Keahlian & kompetensi']]:[]),
   ...(kinds.has('certificate')?[['certificates',en?'Certificates':'Sertifikat']]:[]),
   ...(kinds.has('service')?[['services',en?'Services':'Layanan']]:[]),
-  ['playground',en?'Playground':'Ruang bermain'],
+  ...(mode==='scroll'?[['playground',en?'Playground':'Ruang bermain']]:[]),
   ['contact',en?'Contact':'Kontak'],
  ];
 }
